@@ -1,0 +1,113 @@
+/* About Section */
+#about {
+    @apply bg-primary text-white flex flex-row justify-center items-center min-h-[70vh];
+  }
+  
+  /* Container */
+  #about .container {
+    @apply px-10 py-12 rounded-4xl flex flex-row gap-10;
+  }
+  
+  /* Left Section */
+  #about .left {
+    @apply w-1/2;
+  }
+  
+  /* Right Section */
+  #about .right {
+    @apply w-1/2 min-h-[300px] rounded-4xl;
+  }
+  
+  /* Circle Container (opened/closed) */
+  #about .circle {
+    @apply bg-amber-300 rounded-full w-[400px] h-[400px] flex justify-center items-center cursor-pointer transition-all duration-1000 ease-in-out;
+  }
+  
+  #about .circle h2 {
+    @apply text-black text-3xl;
+  }
+  
+  /* About Me Card */
+  #about .absolute {
+    @apply w-64 h-64 z-2 bg-blue-900 transition-all duration-1000 ease-in-out clip-path-custom rounded-tr-2xl rounded-bl-2xl flex flex-col p-4;
+  }
+  
+  #about .absolute .w-20 {
+    @apply w-20 h-20 bg-white rounded-lg mx-auto;
+  }
+  
+  #about .absolute span {
+    @apply font-bold text-white text-center text-lg mt-2;
+  }
+  
+  #about .absolute p {
+    @apply font-normal text-white text-center text-sm mt-2;
+  }
+  
+  #about .absolute .flex {
+    @apply justify-center gap-4 mt-4;
+  }
+  
+  #about .absolute a {
+    @apply text-white transition duration-400 hover:text-red-500;
+  }
+  
+  #about .absolute button {
+    @apply px-6 py-2 mt-4 mx-auto rounded-full border-none font-bold bg-white text-black transition duration-400 hover:bg-red-500 hover:text-white cursor-pointer;
+  }
+  
+  /* Skills List */
+  #about .about-list {
+    @apply relative w-[300px] h-[300px] flex justify-center items-center;
+  }
+  
+  #about .about-list li {
+    @apply absolute w-[220px] h-[220px] flex justify-center items-center;
+  }
+  
+  #about .about-list li .absolute {
+    @apply w-[2px] h-[320px] bg-amber-500;
+  }
+  
+  #about .about-list li span {
+    @apply bg-amber-500 text-black px-4 py-2 rounded-md shadow-lg transition duration-1000 ease-in-out rounded-tr-2xl rounded-bl-2xl;
+  }
+  
+  /* Item Component */
+  .text-4xl {
+    @apply text-4xl text-black flex flex-col items-center transition duration-1000 ease-in-out clip-path-custom rounded-tr-2xl rounded-bl-2xl;
+  }
+  
+  .text-3xl {
+    @apply text-white text-3xl;
+  }
+  
+  .text-sm {
+    @apply text-white text-sm;
+  }
+  
+  .text-lg {
+    @apply text-white text-center text-lg mt-2;
+  }
+  
+  /* Developer Model */
+  #about .right .Canvas {
+    @apply min-h-[300px];
+  }
+  
+  #about .right .ambientLight {
+    @apply intensity: 7;
+  }
+  
+  #about .right .spotLight {
+    @apply position: [10, 10, 10] angle: 0.15 penumbra: 1;
+  }
+  
+  #about .right .directionalLight {
+    @apply position: [10, 10, 10] intensity: 1;
+  }
+  
+  #about .right .OrbitControls {
+    @apply enableZoom: false maxPolarAngle: Math.PI / 2;
+  }
+  
