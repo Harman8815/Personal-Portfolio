@@ -11,8 +11,6 @@ import {
   usePrevNextButtons,
 } from "./EmblaCarouselArrowButtons";
 import ProjectCard from "../ProjectCard.jsx";
-import MP1 from "../../../assets/MP1.png";
-import MP2 from "../../../assets/MP2.png";
 import "../css/base.css";
 import "../css/embla.css";
 import certificatesData from "../../../data/certificates.js";
@@ -36,21 +34,20 @@ const EmblaCarousel = (props) => {
 
   useEffect(() => {
     if (!emblaApi || !certificates) return;
-  
+
     const emblaNode = emblaApi.containerNode();
-  
+
     const handleMouseEnter = () => emblaApi.plugins().autoScroll?.stop();
     const handleMouseLeave = () => emblaApi.plugins().autoScroll?.play();
-  
+
     emblaNode.addEventListener("mouseenter", handleMouseEnter);
     emblaNode.addEventListener("mouseleave", handleMouseLeave);
-  
+
     return () => {
       emblaNode.removeEventListener("mouseenter", handleMouseEnter);
       emblaNode.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [emblaApi, certificates]);
-  
 
   const {
     prevBtnDisabled,
@@ -63,7 +60,8 @@ const EmblaCarousel = (props) => {
     useAutoplay(emblaApi);
 
   const { showAutoplayProgress } = useAutoplayProgress(emblaApi, progressNode);
-
+const MP1='assets/MP1.png';
+const MP2=MP1;
   const data = certificates
     ? certificatesData
     : [
@@ -95,7 +93,10 @@ const EmblaCarousel = (props) => {
 
   return (
     <div className={clsx("embla", certificates && "embla-certificate")}>
-      <div className={clsx("embla__viewport",certificates && "mb-20")} ref={emblaRef}>
+      <div
+        className={clsx("embla__viewport", certificates && "mb-20")}
+        ref={emblaRef}
+      >
         <div className="embla__container">
           {data.map((item, index) => (
             <div className="embla__slide" key={index}>
@@ -117,35 +118,32 @@ const EmblaCarousel = (props) => {
         </div>
       </div>
       {!certificates && (
-        <div className="embla__controls">
-          <div className="embla__buttons">
-            <PrevButton
-              onClick={() => onAutoplayButtonClick(onPrevButtonClick)}
-              disabled={prevBtnDisabled}
-            />
-            <NextButton
-              onClick={() => onAutoplayButtonClick(onNextButtonClick)}
-              disabled={nextBtnDisabled}
-            />
-          </div>
-
-          <div
-            className={`embla__progress`.concat(
-              showAutoplayProgress ? "" : " embla__progress--hidden"
-            )}
-          >
-            <div className="embla__progress__bar" ref={progressNode} />
-          </div>
-
-          <button
-            className="embla__play"
-            onClick={toggleAutoplay}
-            type="button"
-          >
-            {autoplayIsPlaying ? "Stop" : "Start"}
-          </button>
+      <div className="embla__controls">
+        <div className="embla__buttons">
+          <PrevButton
+            onClick={() => onAutoplayButtonClick(onPrevButtonClick)}
+            disabled={prevBtnDisabled}
+          />
+          <NextButton
+            onClick={() => onAutoplayButtonClick(onNextButtonClick)}
+            disabled={nextBtnDisabled}
+          />
         </div>
-      )}
+
+        <div
+          className={`embla__progress`.concat(
+            showAutoplayProgress ? "" : " embla__progress--hidden"
+          )}
+        >
+         
+            <div className="embla__progress__bar" ref={progressNode} />
+        
+        </div>
+
+        <button className="embla__play" onClick={toggleAutoplay} type="button">
+          {autoplayIsPlaying ? "Stop" : "Start"}
+        </button>
+      </div>  )}
     </div>
   );
 };

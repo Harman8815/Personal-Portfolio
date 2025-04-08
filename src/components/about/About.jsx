@@ -53,7 +53,7 @@ const About = () => {
     <section
       ref={aboutRef}
       id="about"
-      className="bg-linear-to-b from-[#000026]  to-[#030303]  text-white flex flex-row justify-center items-center laptop:min-h-[150vh] min-h-[70vh] cursor-pointer select-none pb-30"
+      className="bg-linear-to-b from-[#000026]  to-[#030303]  text-white flex flex-row justify-center items-center laptop:min-h-[100vh] min-h-[70vh] cursor-pointer select-none"
       onClick={handleClick}
     >
       <div className="container px-10 py-12 rounded-4xl flex flex-row gap-10">

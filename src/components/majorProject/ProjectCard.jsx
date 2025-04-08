@@ -1,6 +1,4 @@
 import React from "react";
-import MP1 from "../../assets/MP1.png";
-import MP2 from "../../assets/MP2.png";
 
 const ProjectCard = ({ index, title, description, link,backgroundImage  }) => {
   return (

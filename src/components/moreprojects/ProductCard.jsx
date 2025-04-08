@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import image from "../../assets/MP1.png";
+// import image from "../../assets/MP1.png";
 
-const ProductCard = () => {
+const ProductCard = ({project}) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-
+  const image='/assets/MP1.png'
   const handleMouseMove = (e) => {
     const card = e.currentTarget;
     const { left, top, width, height } = card.getBoundingClientRect();
@@ -39,21 +39,19 @@ const ProductCard = () => {
         <img src={image} alt="" className="aspectratio-rectangle" />
       </div>
       <div className="info space-y-4">
-        <h3 className="text-2xl font-bold">Project Name</h3>
+        <h3 className="text-2xl font-bold">{project.title}</h3>
         <p className="text-gray-300">
-          <span>Description</span>Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. In iste, ducimus, aliquam, unde quisquam similique
-          impedit voluptate deserunt distinctio quaerat nam! Possimus
-          consequatur commodi nulla.
+          {project.desc}
         </p>
-        <div className="flex justify-around">
-          <ul className="flex justify-between gap-1">
-            <li>hii</li>
-            <li>hii</li>
-            <li>hii</li>
-            <li>hii</li>
-          </ul>
-          <a href="#" className="text-white-500 hover:text-blue-400">
+        <div className="flex flex-col items-center gap-10 justify-around ">
+        <div className="flex items-center gap-3">
+              {project.tags.map((tag, index) => (
+                <div key={index} className="tech-logo">
+                  <img src={tag.path} alt={tag.name} />
+                </div>
+              ))}
+            </div>
+          <a href="/project" className="text-white-500 hover:text-blue-400">
             Read More
           </a>
         </div>

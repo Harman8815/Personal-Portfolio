@@ -26,7 +26,7 @@ const ThankYou = () => {
   return (
     <section
       ref={vantaRef}
-      className="flex justify-center items-center w-full h-screen bg-gray-900 text-white pointer-events-none"
+      className="flex justify-center items-center w-full h-screen bg-gray-900 text-white pointer-events-none overflow-x-hidden"
     >
       <div className="text-[180px] ">
       <TypeAnimation

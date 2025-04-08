@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import ProductCard from "./ProductCard.jsx";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
+import { myProjects } from "../../data/index.js";
 gsap.registerPlugin(ScrollTrigger);
 
 const MoreProjects = () => {
@@ -85,8 +85,8 @@ const MoreProjects = () => {
     >
       <h2 className="text-6xl font-bold laptop:text-5xl desktop:text-6xl">All Projects</h2>
       <div className="grid grid-cols-1 laptop:grid-cols-3 gap-8 w-full justify-center justify-items-center">
-        {Array.from({ length: 9 }).map((_, index) => (
-          <ProductCard key={index} className="product-card" />
+        {myProjects.map((data, index) => (
+          <ProductCard key={index} project={data} className="product-card" />
         ))}
       </div>
     </section>
