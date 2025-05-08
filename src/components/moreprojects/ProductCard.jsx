@@ -35,8 +35,12 @@ const ProductCard = ({project}) => {
           transform: `perspective(200px) rotateX(${-0.3 * tilt.x}deg)`,
         }}
         
-      >
-        <img src={image} alt="" className="aspectratio-rectangle" />
+      ><img
+      src={project.image ? project.image : image}
+      alt=""
+      className="w-full aspect-[16/9] bg-black object-fit"
+    />
+    
       </div>
       <div className="info space-y-4">
         <h3 className="text-2xl font-bold">{project.title}</h3>
@@ -47,7 +51,7 @@ const ProductCard = ({project}) => {
         <div className="flex items-center gap-3">
               {project.tags.map((tag, index) => (
                 <div key={index} className="tech-logo">
-                  <img src={tag.path} alt={tag.name} />
+                  <img src={tag.path} alt={tag.name} className="max-w-10" />
                 </div>
               ))}
             </div>

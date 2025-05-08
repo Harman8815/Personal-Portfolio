@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { achievements } from '../data/achievementsData';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
+import {Link} from 'react-router-dom'
 gsap.registerPlugin(ScrollTrigger);
 
 const hexToRgb = (hex) => {
@@ -86,6 +86,15 @@ const Achievements = () => {
           </li>
         ))}
       </ul>
+      <div className="text-center">
+  <Link
+    to="/achievements"
+    className="inline-block px-8 py-3 text-white bg-gradient-to-r from-blue-500 to-blue-700 rounded-full shadow-lg hover:from-blue-400 hover:to-blue-600 transition-all duration-300 text-lg font-semibold"
+  >
+    View All Achievements
+  </Link>
+</div>
+
     </section>
   );
 };

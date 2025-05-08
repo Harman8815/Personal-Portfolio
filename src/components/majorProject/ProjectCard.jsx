@@ -15,7 +15,7 @@ const ProjectCard = ({ index, title, description, link,backgroundImage  }) => {
       </div>
 
       {/* Content */}
-      <div className="content w-[100%] p-6 flex flex-col justify-center items-end">
+      <div className="content w-[100%] p-6 flex flex-col justify-center items-end ">
         <div className="w-[80%] space-y-4 transform scale-100 group-hover:scale-105 transition-transform duration-500">
           <h3 className="text-4xl font-bold text-white">{title}</h3>
           <p className="text-lg text-white">{description}</p>

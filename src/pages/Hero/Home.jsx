@@ -3,8 +3,6 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Laptop from "./Laptop";
 import { Center } from "@react-three/drei";
-// import star from '../../assets/starsky1.jpg'
-// import blackwhole from "../../assets/blackhole.webm";
 const Home = () => {
   return (
     <section
@@ -17,24 +15,28 @@ const Home = () => {
         muted
         playsInline
         className="rotate-180 z-1 w-full h-auto absolute -top-133
-        laptop:-top-105 desktop:-top-133  left-0"
+        laptop:-top-109 desktop:-top-135  left-0"
       >
-        <source src='/assets/blackhole.webm' type="video/webm" />
+        <source src="/assets/blackhole.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
       <div className="image z-3 max-h-screen overflow-hidden absolute top-0 left-0 w-[100%] mix-blend-exclusion ">
-        <img src='/assets/starsky1.jpg' alt="" className="object-cover w-[100%] opacity-30" />
+        <img
+          src="/assets/starsky1.jpg"
+          alt=""
+          className="object-cover w-[100%] opacity-30"
+        />
       </div>
-      <div className="z-6 info text-center mb-10 absolute top-[40%] left-10">
-        <h1 className="text-4xl font-bold text-white">
-          Welcome to My Portfolio
+      <div className="z-6 info text-left mb-10 desktop:mx-10 absolute top-[30%] left-10">
+        <h1 className="desktop:text-6xl laptop:text-5xl font-extrabold text-white leading-tight tracking-wide">
+          Hi, I'm Harman
         </h1>
-        <p className="text-white mt-2">
-          I'm a Full Stack Developer, UI/UX Designer, and Web Developer
+        <p className="desktop:text-xl laptop:text-lg text-gray-200 mt-4">
+          Full Stack Developer crafting seamless web experiences
         </p>
         <a
           href="#About"
-          className="mt-4 inline-block bg-white text-gray-900 px-6 py-2 rounded-lg shadow-md hover:bg-gray-300 transition"
+          className="mt-6 inline-block bg-white text-gray-900 px-8 py-3 rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300"
         >
           Discover More
         </a>
@@ -42,7 +44,6 @@ const Home = () => {
 
       <div className="z-6 laptopmodel w-full h-screen overflow-hidden">
         <Canvas camera={{ position: [0, 1, 3], fov: 50 }}>
-
           <hemisphereLight
             skyColor="skyblue"
             groundColor="darkblue"
@@ -54,7 +55,12 @@ const Home = () => {
             color="blue"
             castShadow
           />
-          <directionalLight position={[0, 10, 2]} color="mediumblue" intensity={0.6} castShadow />
+          <directionalLight
+            position={[0, 10, 2]}
+            color="mediumblue"
+            intensity={0.6}
+            castShadow
+          />
 
           <OrbitControls
             enableZoom={false}
