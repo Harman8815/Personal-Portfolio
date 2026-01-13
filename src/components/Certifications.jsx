@@ -20,7 +20,7 @@ const Certifications = () => {
       id="certifications"
       className=" major-projects-section bg-primary w-full text-white  py-12"
     >
-      <h2 className=" section-title text-center text-6xl font-bold mb-10">
+     <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
         Certifications
       </h2>
 
