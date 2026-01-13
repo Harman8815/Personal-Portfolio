@@ -10,16 +10,17 @@ import { SiHiveBlockchain, SiOpensourceinitiative } from "react-icons/si";
 
 const Experience = () => {
   return (
-    <section id="experience" className="bg-primary text-white py-12">
-      <h2 className="section-title text-center text-6xl font-bold mb-10">
-        Experiences
+    <section id="experience" className="bg-primary text-white py-12 px-4">
+      {" "}
+     <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
+         Experiences
       </h2>
       <VerticalTimeline>
         {/* Winter of Blockchain */}
         <VerticalTimelineElement
           className="vertical-timeline-element--work"
           date="Sep 2024 - Nov 2024"
-          iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff",  }}
+          iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
           icon={
             <img
               src="../assets/images/experiences/WOB.jpg"
@@ -49,16 +50,18 @@ const Experience = () => {
           className="vertical-timeline-element--work"
           date="Aug 2024"
           iconStyle={{ background: "rgb(255, 255, 255)", color: "#fff" }}
-          icon={<img
-            src="../assets/images/experiences/IIIT.png"
-            alt="Custom Icon"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              borderRadius: "50%",
-            }}
-          />}
+          icon={
+            <img
+              src="../assets/images/experiences/IIIT.png"
+              alt="Custom Icon"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                borderRadius: "50%",
+              }}
+            />
+          }
         >
           <h3 className="vertical-timeline-element-title">Research Intern</h3>
           <h4 className="vertical-timeline-element-subtitle">
@@ -75,16 +78,18 @@ const Experience = () => {
           className="vertical-timeline-element--work"
           date="May 2024 - Aug 2024"
           iconStyle={{ background: "rgb(16, 204, 82)", color: "#fff" }}
-          icon={<img
-            src="../assets/images/experiences/GSSOC.jpg"
-            alt="Custom Icon"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              borderRadius: "50%",
-            }}
-          />}
+          icon={
+            <img
+              src="../assets/images/experiences/GSSOC.jpg"
+              alt="Custom Icon"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                borderRadius: "50%",
+              }}
+            />
+          }
         >
           <h3 className="vertical-timeline-element-title">Contributor</h3>
           <h4 className="vertical-timeline-element-subtitle">
@@ -103,16 +108,18 @@ const Experience = () => {
           className="vertical-timeline-element--work"
           date="Sep 2023"
           iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-          icon={<img
-            src="../assets/images/experiences/oasis_infobyte.jpg"
-            alt="Custom Icon"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              borderRadius: "50%",
-            }}
-          />}
+          icon={
+            <img
+              src="../assets/images/experiences/oasis_infobyte.jpg"
+              alt="Custom Icon"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                borderRadius: "50%",
+              }}
+            />
+          }
         >
           <h3 className="vertical-timeline-element-title">Summer Intern</h3>
           <h4 className="vertical-timeline-element-subtitle">
