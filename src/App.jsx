@@ -1,54 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Home from "./pages/Hero/Home";
-import About from "./components/About/About";
-import Skills from "./components/skills/Skills";
-import Experience from "./components/Experience";
-import Education from "./components/Education";
-import Links from "./components/Links";
-import MoreProject from "./components/MoreProjects/MoreProjects";
-import MajorProjects from "./components/MajorProject/MajorProjects";
-import Contact_me from "./components/Contact/Contact_me";
 import Footer from "./components/Footer";
-import Achievements from "./components/Achievements";
-import Certifications from "./components/Certifications";
-import ThankYou from "./components/ThankYou";
 import Error from "./components/Error";
+import ThankYou from "./components/ThankYou";
 import Project from "./pages/Project/Projects";
-import Temo from "./components/Temo";
+import Home from "./pages/Hero/Home";
+import LandingSections from "./components/LandingSections";
+import MainLoader from "./components/MainLoader";
 
 const App = () => {
+  const [isMainLoading, setIsMainLoading] = useState(true);
+
+  useEffect(() => {
+    const handleLoad = () => setIsMainLoading(false);
+
+    // Listen for all page assets to be loaded
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad);
+    };
+  }, []);
+
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Home />
-              <div className="relative" id="bg">
-                <About />
-                <Skills />
-                <MajorProjects />
-                <Achievements />
-                <MoreProject />
-                <Certifications />
-                <Experience />
-                <Education />
-                <Links />
-                <Contact_me />
-                <ThankYou />
-              </div>
-            </>
-          }
-        />
-        <Route path="/project" element={<Project />} />
-        <Route path="*" element={<Error />} />
-      </Routes>
-      <Footer />
+      {isMainLoading ? (
+        <MainLoader />
+      ) : (
+        <>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<><Home /><LandingSections /></>} />
+            <Route path="/projects" element={<Project />} />
+            <Route path="*" element={<Error />} />
+          </Routes>
+          <Footer />
+        </>
+      )}
     </Router>
   );
 };

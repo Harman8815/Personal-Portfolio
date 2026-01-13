@@ -15,20 +15,40 @@ function Laptop(props) {
   const { nodes, materials } = useGLTF("/models/laptop.glb");
   const laptopRef = useRef();
   // console.log(materials["8th_gen_core_i5_logo"]);
-  const [targetRotation, setTargetRotation] = useState(Math.PI / 2);
-  const [currentRotation, setCurrentRotation] = useState(0);
-  const coretexture = useLoader(THREE.TextureLoader, "models/textures/8th_gen_core_i5_logo_diffuse.png"); // Load image
-  const delltexture = useLoader(THREE.TextureLoader, "models/textures/delllogo3_diffuse.png"); // Load image
+  const [targetRotation, setTargetRotation] = useState(0);
+  const [currentRotation, setCurrentRotation] = useState(Math.PI / 2);
+
+  const coretexture = useLoader(
+    THREE.TextureLoader,
+    "models/textures/8th_gen_core_i5_logo_diffuse.png"
+  );
+  const delltexture = useLoader(
+    THREE.TextureLoader,
+    "models/textures/delllogo3_diffuse.png"
+  );
+  const screenRef = useRef();
+  const backpanelRef = useRef();
+  const [showScreen, setShowScreen] = useState(false);
 
   useFrame(() => {
-    if (laptopRef.current) {
-      const rotationSpeed = 0.01;
-      if (currentRotation < targetRotation) {
-        setCurrentRotation((prev) =>
-          Math.min(prev + rotationSpeed, targetRotation)
-        );
-      }
-      laptopRef.current.rotation.y = currentRotation;
+    const rotationSpeed = 0.01;
+
+    if (currentRotation > targetRotation) {
+      setCurrentRotation((prev) =>
+        Math.max(prev - rotationSpeed, targetRotation)
+      );
+    }
+
+    if (backpanelRef.current) {
+      backpanelRef.current.rotation.z = currentRotation;
+    }
+
+    if (!showScreen && currentRotation === targetRotation) {
+      setShowScreen(true);
+    }
+
+    if (screenRef.current && showScreen) {
+      screenRef.current.rotation.z = currentRotation;
     }
   });
 
@@ -38,6 +58,7 @@ function Laptop(props) {
       ref={laptopRef}
       dispose={null}
       position={[0.5, -2.5, -1.7]}
+      rotation={[0, Math.PI / 2, 0]}
     >
       <group
         position={[0.29150194, 0.36141503, -0.5051024]}
@@ -70,67 +91,69 @@ function Laptop(props) {
         />
       </group>
       <group
+        ref={backpanelRef}
         position={[1.25290799, 0.40563738, -0.55241054]}
-        rotation={[0, 0, 2.89662926]}
-        scale={[-0.06722913, 0.06578676, 0.14393996]}
       >
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Object_360.geometry}
-          material={materials["Material.010"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Object_361.geometry}
-          material={materials["Material.009"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Object_362.geometry}
-          material={materials.dell_logo2edited}
-          
-          onUpdate={(self) => {
-            self.material.metalness = 1.2;   // Higher metalness for a shiny effect
-            self.material.roughness = 0.2;   // Low roughness for a smooth finish
-          }}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Object_363.geometry}
-          material={materials["Material.006"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Object_364.geometry}
-          material={materials.delllogo3}
-          onUpdate={(self) => {
-        
-            self.material.metalness = 2;
-            self.material.map = delltexture;  // Overlay image on top of existing material
-            self.material.needsUpdate = true;  // Ensure the update applies
-          }}
-        />
+        <group
+          position={[0, 0.01, 0]} // adjust this value depending on the model height
+          rotation={[0, 0, 2.89662926]}
+          scale={[-0.06722913, 0.06578676, 0.14393996]}
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Object_360.geometry}
+            material={materials["Material.010"]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Object_361.geometry}
+            material={materials["Material.009"]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Object_362.geometry}
+            material={materials.dell_logo2edited}
+            onUpdate={(self) => {
+              self.material.metalness = 1.2; // Higher metalness for a shiny effect
+              self.material.roughness = 0.2; // Low roughness for a smooth finish
+            }}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Object_363.geometry}
+            material={materials["Material.006"]}
+          />
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Object_364.geometry}
+            material={materials.delllogo3}
+            onUpdate={(self) => {
+              self.material.metalness = 2;
+              self.material.map = delltexture; // Overlay image on top of existing material
+              self.material.needsUpdate = true; // Ensure the update applies
+            }}
+          />
+        </group>
       </group>
       <mesh
-      castShadow
-      receiveShadow
-      geometry={nodes.Object_4.geometry}
-      material={materials["8th_gen_core_i5_logo"]} // Keep existing material
-      position={[-0.57604873, 0.43941298, 0.64202666]}
-      rotation={[0, -Math.PI / 2, 0]}
-      scale={0.1316313}
-      onUpdate={(self) => {
-        
-        self.material.metalness = 1.20;
-        self.material.map = coretexture;  // Overlay image on top of existing material
-        self.material.needsUpdate = true;  // Ensure the update applies
-      }}
-    />
+        castShadow
+        receiveShadow
+        geometry={nodes.Object_4.geometry}
+        material={materials["8th_gen_core_i5_logo"]} // Keep existing material
+        position={[-0.57604873, 0.43941298, 0.64202666]}
+        rotation={[0, -Math.PI / 2, 0]}
+        scale={0.1316313}
+        onUpdate={(self) => {
+          self.material.metalness = 1.2;
+          self.material.map = coretexture; // Overlay image on top of existing material
+          self.material.needsUpdate = true; // Ensure the update applies
+        }}
+      />
       <mesh
         castShadow
         receiveShadow
@@ -1908,15 +1931,21 @@ function Laptop(props) {
         rotation={[0, 0, 3.12194068]}
         scale={[0.03697229, 0.00346681, 0.04197053]}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Object_450.geometry}
-        material={materials["Material.026"]}
-        position={[1.50639784, 1.35246623, -0.53393549]}
-        rotation={[0, 0, 2.89662926]}
-        scale={[-0.06722913, 0.06578676, 0.14393996]}
-      />
+      {showScreen && (
+        <group ref={screenRef} position={[1.50639784, 1.35246623, -0.53393549]}>
+          <group position={[0, 0.01, 0]}>
+            <mesh
+              castShadow
+              receiveShadow
+              geometry={nodes.Object_450.geometry}
+              material={materials["Material.026"]}
+              rotation={[0, 0, 2.89662926]}
+              scale={[-0.06722913, 0.06578676, 0.14393996]}
+            />
+          </group>
+        </group>
+      )}
+
       <mesh
         castShadow
         receiveShadow

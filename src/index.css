@@ -13,6 +13,10 @@
   --color-text-secondary: #6272a4; /* Muted gray-blue text */
 }
 /* Custom utility classes */
+html, body {
+  background-color: black; /* or dark color of your design */
+}
+
 .bg-primary {
   background-color: var(--color-primary);
 }

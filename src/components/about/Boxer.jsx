@@ -1,50 +1,41 @@
-import React, { useRef, useState } from 'react'
-import { RoundedBox, Text } from '@react-three/drei'
-import { a, useSpring, useSpringValue } from '@react-spring/three'
+import React, { useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import { RoundedBox, Text } from "@react-three/drei";
+import { a } from "@react-spring/three";
 
-export default function Boxer(props) {
-  const [interacting, setInteracting] = useState(false)
+export default function Boxer({ position, scale = 1, rotation, tilt }) {
+  const [interacting, setInteracting] = useState(false);
+  const meshRef = useRef();
 
-  // Infinite color transition using useSpringValue loop
-  const color = useSpringValue('orange', {
-    loop: { reverse: true },
-    from: { color: 'orange' },
-    to: { color: 'hotpink' },
-    config: { duration: 500 },
-  })
+  useFrame(() => {
+    if (meshRef.current && tilt) {
+      meshRef.current.rotation.x = -tilt.y * (Math.PI / 180);
+      meshRef.current.rotation.y = tilt.x * (Math.PI / 180);
+    }
+  });
 
-  // Rotation: rotates when pressed, resets on release
-  const { rotation } = useSpring({
-    rotation: interacting ? [Math.PI / 2, Math.PI / 2, 0] : [0, 0, 0],
-    config: { mass: 5, tension: 180, friction: 2 },
-  })
-
-  // Position and rotation for each face (6 total)
   const faceConfigs = [
     { position: [0, 0, 1.01], rotation: [0, 0, 0] }, // Front
     { position: [0, 0, -1.01], rotation: [0, Math.PI, 0] }, // Back
     { position: [0, 1.01, 0], rotation: [-Math.PI / 2, 0, 0] }, // Top
     { position: [0, -1.01, 0], rotation: [Math.PI / 2, 0, 0] }, // Bottom
     { position: [1.01, 0, 0], rotation: [0, Math.PI / 2, 0] }, // Right
-    { position: [-1.01, 0, 0], rotation: [0, Math.PI / 2, 0] }, // Left
-  ]
+    { position: [-1.01, 0, 0], rotation: [0, -Math.PI / 2, 0] }, // Left
+  ];
 
   return (
     <a.group
+      ref={meshRef}
+      position={position}
       rotation={rotation}
+      scale={scale}
       onPointerDown={() => setInteracting(true)}
       onPointerUp={() => setInteracting(false)}
-      {...props}
     >
-      <RoundedBox
-        args={[2, 2, 2]}
-        radius={0.2}
-        smoothness={6}
-      >
-        <a.meshStandardMaterial attach="material" color={color} />
+      <RoundedBox args={[2, 2, 2]} radius={0.2} smoothness={6}>
+        <a.meshStandardMaterial attach="material" color="orange" />
       </RoundedBox>
 
-      {/* Add text to all 6 faces */}
       {faceConfigs.map((cfg, i) => (
         <Text
           key={i}
@@ -59,5 +50,5 @@ export default function Boxer(props) {
         </Text>
       ))}
     </a.group>
-  )
+  );
 }

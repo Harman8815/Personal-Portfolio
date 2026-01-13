@@ -17,7 +17,7 @@ const useIcons = (slugs) => {
           key: icon.slug,
           onClick: (e) => e.preventDefault(),
           className:
-            "transition-transform duration-300 ease-in-out hover:scale-150 ",
+            "transition-transform duration-300 ease-in-out hover:scale-150",
         },
       })
     );
@@ -30,17 +30,18 @@ const SkillCloud = ({ slugs }) => {
   const icons = useIcons(slugs);
 
   return (
-    <div className="w-full flex justify-center items-center ">
-       <Cloud
-              options={{
-                rotateSpeed: 0.1,
-                maxSpeed: 0.2,
-                initial: [0.05, -0.05],
-                keep: true,
-              }}
-            >
-              {icons}
-            </Cloud>
+    <div className="w-full flex justify-center items-center">
+      <Cloud
+        options={{
+          rotateSpeed: 0.1,
+          maxSpeed: 0.2,
+          initial: [0.05, -0.05],
+          keep: true,
+          wheelZoom: false, 
+        }}
+      >
+        {icons}
+      </Cloud>
     </div>
   );
 };

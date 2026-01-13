@@ -1,9 +1,35 @@
-import React from "react";
+import React  from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Laptop from "./Laptop";
 import { Center } from "@react-three/drei";
+import gsap from "gsap";
+import { Suspense, useRef } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import ModelLoader from "./ModelLoader.jsx";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const Home = () => {
+  const videoContainer = useRef(null);
+  const LaptopRef = useRef();
+  React.useEffect(() => {
+    const video = videoContainer.current;
+    // const laptop=LaptopRef.current;
+    // Initial entrance animation on first load
+    gsap.fromTo(
+      video,
+      { y: -200, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1.5,
+        ease: "power2.out",
+        
+      }
+    );
+  }, []);
+
   return (
     <section
       id="Home"
@@ -15,16 +41,17 @@ const Home = () => {
         muted
         playsInline
         className="rotate-180 z-1 w-full h-auto absolute -top-133
-        laptop:-top-109 desktop:-top-135  left-0"
+        laptop:-top-96 desktop:-top-135  left-0"
+        ref={videoContainer}
       >
         <source src="/assets/blackhole.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
-      <div className="image z-3 max-h-screen overflow-hidden absolute top-0 left-0 w-[100%] mix-blend-exclusion ">
+      <div className="image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion ">
         <img
-          src="/assets/starsky1.jpg"
+          src="/assets/starsky1.webp"
           alt=""
-          className="object-cover w-[100%] opacity-30"
+          className="object-cover w-[100%] opacity-30 "
         />
       </div>
       <div className="z-6 info text-left mb-10 desktop:mx-10 absolute top-[30%] left-10">
@@ -71,8 +98,10 @@ const Home = () => {
             maxAzimuthAngle={Math.PI / 6}
           />
 
-          <Center />
-          <Laptop />
+          <Suspense fallback={<ModelLoader />}>
+            <Center />
+            <Laptop LaptopRef={LaptopRef}/>
+          </Suspense>
         </Canvas>
       </div>
     </section>
