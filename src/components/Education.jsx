@@ -1,5 +1,5 @@
 import React from "react";
-import  { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -50,7 +50,6 @@ const EducationCard = ({ edu }) => {
   );
 };
 
-
 const educationData = [
   {
     title: "Rajiv Gandhi Prodyogiki Vishwavidyalaya",
@@ -73,8 +72,7 @@ const educationData = [
     degree: "10th",
     duration: "Aug 2017 - Aug 2018",
     grade: "80%",
-    activities:
-      "Took part in inter-school events and team-based competitions.",
+    activities: "Took part in inter-school events and team-based competitions.",
   },
 ];
 
@@ -82,13 +80,14 @@ const Education = () => {
   return (
     <section
       id="education"
-      className="bg-primary text-white py-16 overflow-hidden"
+      className="bg-primary text-white py-16 px-4 tablet:px-8 laptop:px-16 overflow-hidden"
     >
-      <h2 className="section-title text-center text-5xl font-extrabold mb-12">
+      <h2 className="section-title text-center text-3xl tablet:text-4xl laptop:text-5xl font-extrabold mb-12">
         Education
       </h2>
-      <div className="container w-[60%] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-12 px-4">
           {educationData.map((edu, index) => (
             <EducationCard key={index} edu={edu} />
           ))}
