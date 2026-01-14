@@ -41,7 +41,7 @@ export const myProjects = [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
       { id: 2, name: 'React.js', path: '/assets/react.svg' },
       { id: 3, name: 'Node.js', path: '/assets/nodejs.svg' },
-      { id: 4, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+{ id: 4, name: 'Express.js', path: '/assets/express.svg' },
       { id: 5, name: 'MUI', path: 'https://www.npmjs.com/npm-avatar/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXJVUkwiOiJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci9iYjEzYWViNTFjNTQ0MjFhN2E1NTQwYTcxMzI4OTVkYz9zaXplPTQ5NiZkZWZhdWx0PXJldHJvIn0.FnWJxluT5VvnfpnQsm2K2I1GK-k0_NAmWtu3G-u3fE0' },
     ],
   },
@@ -128,7 +128,7 @@ export const myProjects = [
     tags: [
       { id: 1, name: 'React.js', path: '/assets/react.svg' },
       { id: 2, name: 'TailwindCSS', path: '/assets/tailwindcss.png' },
-      { id: 3, name: 'Framer Motion', path: '/assets/framer.png' },
+      { id: 3, name: 'Framer Motion', path: '/assets/framer.svg' },
     ],
   },
   {
@@ -149,7 +149,7 @@ export const myProjects = [
     tags: [
       { id: 1, name: 'React.js', path: '/assets/react.svg' },
       { id: 2, name: 'TailwindCSS', path: '/assets/tailwindcss.png' },
-      { id: 3, name: 'Framer Motion', path: '/assets/framer.png' },
+      { id: 3, name: 'Framer Motion', path: '/assets/framer.svg' },
     ],
   },
   {
@@ -169,7 +169,7 @@ export const myProjects = [
     spotlight: '/assets/spotlight2.png',
     tags: [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
-      { id: 2, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+      { id: 2, name: 'Express.js', path: '/assets/express.svg' },
       { id: 3, name: 'React.js', path: '/assets/react.svg' },
       { id: 4, name: 'Node.js', path: '/assets/nodejs.svg' },
     ],
@@ -371,7 +371,7 @@ export const myProjects = [
     tags: [
       { id: 1, name: 'React.js', path: '/assets/react.svg' },
       { id: 2, name: 'Three.js', path: '/assets/threejs.svg' },
-      { id: 3, name: 'Framer Motion', path: '/assets/framer.png' },
+      { id: 3, name: 'Framer Motion', path: '/assets/framer.svg' },
     ],
   },
   {
@@ -389,7 +389,7 @@ export const myProjects = [
     spotlight: '/assets/spotlight2.png',
     tags: [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
-      { id: 2, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+      { id: 2, name: 'Express.js', path: '/assets/express.svg' },
       { id: 3, name: 'React.js', path: '/assets/react.svg' },
       { id: 4, name: 'Node.js', path: '/assets/nodejs.svg' },
     ],
@@ -409,7 +409,7 @@ export const myProjects = [
     spotlight: '/assets/spotlight4.png',
     tags: [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
-      { id: 2, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+      { id: 2, name: 'Express.js', path: '/assets/express.svg' },
       { id: 3, name: 'React.js', path: '/assets/react.svg' },
       { id: 4, name: 'Node.js', path: '/assets/nodejs.svg' },
     ],
@@ -429,7 +429,7 @@ export const myProjects = [
     spotlight: '/assets/spotlight1.png',
     tags: [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
-      { id: 2, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+      { id: 2, name: 'Express.js', path: '/assets/express.svg' },
       { id: 3, name: 'React.js', path: '/assets/react.svg' },
       { id: 4, name: 'Node.js', path: '/assets/nodejs.svg' },
     ],
@@ -593,7 +593,7 @@ export const myProjects = [
     spotlight: '/assets/spotlight2.png',
     tags: [
       { id: 1, name: 'MongoDB', path: '/assets/mongodb.svg' },
-      { id: 2, name: 'Express.js', path: 'https://logowik.com/content/uploads/images/express-js1720895488.logowik.com.webp' },
+      { id: 2, name: 'Express.js', path: '/assets/express.svg' },
       { id: 3, name: 'React.js', path: '/assets/react.svg' },
       { id: 4, name: 'Node.js', path: '/assets/nodejs.svg' },
     ],
@@ -611,11 +611,11 @@ export const slugs = [
   "css3",
   "react",
   "redux",
-  "nodedotjs",
+  "nodejs",
   "express",
   "flask",
-  "socketdotio",
-  "threedotjs",
+  "socketio",
+  "threejs",
   "mui",
   "mongodb",
   "mysql",
@@ -632,3 +632,46 @@ export const slugs = [
   "pandas",
   "numpy",
 ];
+
+export const skillTags = {
+  javascript:      { label: "JavaScript", color: "from-yellow-400 to-yellow-500", icon: "/assets/js.svg" },
+  typescript:      { label: "TypeScript", color: "from-blue-400 to-blue-600", icon: "/assets/typescript.png" },
+  python:          { label: "Python", color: "from-indigo-400 to-indigo-600", icon: "/assets/python.svg" },
+  java:            { label: "Java", color: "from-red-500 to-red-600", icon: "/assets/java.svg" },
+  html5:           { label: "HTML5", color: "from-orange-400 to-orange-500", icon: "/assets/html.svg" },
+  css3:            { label: "CSS3", color: "from-blue-300 to-blue-500", icon: "/assets/css.svg" },
+  react:           { label: "React", color: "from-cyan-400 to-blue-500", icon: "/assets/react.svg" },
+  redux:           { label: "Redux", color: "from-purple-400 to-purple-600", icon: "/icons/redux.png" },
+  "node.js":       { label: "Node.js", color: "from-green-400 to-green-600", icon: "/assets/nodejs.svg" },
+  "express.js":         { label: "Express.js", color: "from-gray-400 to-gray-600", icon: "/assets/express.svg" },
+  flask:           { label: "Flask", color: "from-gray-200 to-gray-400", icon: "/assets/flask.svg" },
+  "socket.io":     { label: "Socket.IO", color: "from-red-400 to-red-600", icon: "/icons/socketio.png" },
+  "three.js":      { label: "Three.js", color: "from-indigo-400 to-purple-500", icon: "/assets/threejs.svg" },
+  mui:             { label: "MUI", color: "from-blue-400 to-blue-600", icon: "/icons/mui.png" },
+  mongodb:         { label: "MongoDB", color: "from-green-400 to-green-600", icon: "/assets/mongodb.svg" },
+  mysql:           { label: "MySQL", color: "from-blue-500 to-blue-700", icon: "/icons/mysql.png" },
+  bootstrap:       { label: "Bootstrap", color: "from-purple-400 to-purple-600", icon: "/assets/bootstrap.svg" },
+  tailwindcss:     { label: "TailwindCSS", color: "from-teal-400 to-teal-600", icon: "/assets/tailwindcss.png" },
+  sass:            { label: "Sass", color: "from-pink-400 to-pink-500", icon: "/icons/sass.png" },
+  docker:          { label: "Docker", color: "from-blue-400 to-blue-600", icon: "/icons/docker.png" },
+  netlify:         { label: "Netlify", color: "from-green-400 to-green-600", icon: "/icons/netlify.png" },
+  vercel:          { label: "Vercel", color: "from-black to-gray-700", icon: "/icons/vercel.png" },
+  github:          { label: "GitHub", color: "from-gray-600 to-gray-800", icon: "/assets/github.svg" },
+  postman:         { label: "Postman", color: "from-orange-400 to-orange-500", icon: "/icons/postman.png" },
+  tensorflow:      { label: "TensorFlow", color: "from-orange-400 to-red-500", icon: "/icons/tensorflow.png" },
+  pytorch:         { label: "PyTorch", color: "from-red-400 to-red-600", icon: "/icons/pytorch.png" },
+  pandas:          { label: "Pandas", color: "from-blue-400 to-blue-600", icon: "/icons/pandas.png" },
+  numpy:           { label: "NumPy", color: "from-yellow-400 to-yellow-500", icon: "/icons/numpy.png" },
+
+  // Additional skills from profile
+  electron:        { label: "Electron", color: "from-gray-500 to-gray-700", icon: "/icons/electron.png" },
+  firebase:        { label: "Firebase", color: "from-orange-400 to-yellow-500", icon: "/icons/firebase.png" },
+  prisma:          { label: "Prisma", color: "from-indigo-400 to-indigo-600", icon: "/icons/prisma.png" },
+  postgresql:      { label: "PostgreSQL", color: "from-blue-400 to-blue-600", icon: "/icons/postgresql.png" },
+  gsap:            { label: "GSAP", color: "from-purple-400 to-pink-500", icon: "/icons/gsap.png" },
+  threefiber:      { label: "React Three Fiber", color: "from-indigo-400 to-purple-500", icon: "/icons/r3f.png" },
+  fabricjs:        { label: "Fabric.js", color: "from-yellow-400 to-orange-500", icon: "/icons/fabricjs.png" },
+  mqtt:            { label: "MQTT", color: "from-green-400 to-green-600", icon: "/icons/mqtt.png" },
+  jwt:             { label: "JWT", color: "from-red-400 to-red-600", icon: "/icons/jwt.png" },
+};
+

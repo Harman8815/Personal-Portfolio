@@ -293,3 +293,11 @@ html, body {
   }
 }
 
+@keyframes shine-move {
+  from {
+    transform: translateX(0) skewX(-20deg);
+  }
+  to {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
