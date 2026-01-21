@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import About from "./About/About";
 import Skills from "./skills/Skills";

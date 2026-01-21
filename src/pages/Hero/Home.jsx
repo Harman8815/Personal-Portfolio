@@ -1,3 +1,5 @@
+"use client";
+
 import React  from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -32,7 +34,7 @@ const Home = () => {
 
   return (
     <section
-      id="Home"
+      id="home"
       className="bg-home min-h-screen w-full flex flex-col items-center justify-center relative"
     >
       <video
@@ -62,7 +64,7 @@ const Home = () => {
           Full Stack Developer crafting seamless web experiences
         </p>
         <a
-          href="#About"
+          href="#about"
           className="mt-6 inline-block bg-white text-gray-900 px-8 py-3 rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300"
         >
           Discover More

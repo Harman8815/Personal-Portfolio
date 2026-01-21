@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import ProductCard from "./ProductCard.jsx";
 import { myProjects, skillTags } from "../../data/index.js";

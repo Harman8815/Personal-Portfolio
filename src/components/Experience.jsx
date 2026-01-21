@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   VerticalTimeline,
@@ -9,13 +10,14 @@ import { MdWork, MdMemory } from "react-icons/md";
 import { SiHiveBlockchain, SiOpensourceinitiative } from "react-icons/si";
 
 const Experience = () => {
+  
   return (
     <section id="experience" className="bg-primary text-white py-12 px-4">
       {" "}
      <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
          Experiences
       </h2>
-      <VerticalTimeline>
+      <VerticalTimeline  animate={false}>
         {/* Winter of Blockchain */}
         <VerticalTimelineElement
           className="vertical-timeline-element--work"

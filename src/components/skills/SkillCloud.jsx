@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Cloud, renderSimpleIcon, fetchSimpleIcons } from "react-icon-cloud";
 

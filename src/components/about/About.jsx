@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
@@ -10,8 +12,7 @@ const About = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [scrollDirection, setScrollDirection] = useState(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-
-  let lastScrollY = window.scrollY
+  const lastScrollY = useRef(0)
 
   const handleClick = () => {
     const animations = ["idle", "clapping", "salute", "victory"]
@@ -41,8 +42,9 @@ const About = () => {
       if (!section) return
       const rect = section.getBoundingClientRect()
 
-      setScrollDirection(window.scrollY > lastScrollY ? "down" : "up")
-      lastScrollY = window.scrollY
+      const currentScroll = window.scrollY
+      setScrollDirection(currentScroll > lastScrollY.current ? "down" : "up")
+      lastScrollY.current = currentScroll
 
       setIsVisible(rect.top >= 0 && rect.bottom <= window.innerHeight)
     }
