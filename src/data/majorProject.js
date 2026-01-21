@@ -1,4 +1,4 @@
-import MP1 from '/assets/MP1.png';
+const MP1 = '/assets/MP1.png';
 const majorProjects = [{
     title: 'Chaos Tracker',
     description:

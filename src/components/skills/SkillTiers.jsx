@@ -103,7 +103,7 @@ const SkillTiers = () => {
   ];
 
   return (
-    <div className="parent min-w-3xl laptop:max-w-4xl pl-14">
+    <div className="parent w-full min-w-3xl laptop:max-w-4xl pl-14">
       {tiers.map((tier, index) => (
         <TiltCard key={index} index={index}>
           <div
@@ -112,7 +112,7 @@ const SkillTiers = () => {
             <h2 className="text-2xl font-semibold mb-4 text-blue-400">
               {tier.title}
             </h2>
-            <ul className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <ul className="grid grid-cols-1 sm:grid-cols-1 gap-4">
               {tier.items.map((item, index) => (
                 <li key={index} className="flex items-center space-x-2 ">
                   <span className="text-2xl">{item.icon}</span>

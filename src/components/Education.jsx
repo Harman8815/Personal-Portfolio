@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";

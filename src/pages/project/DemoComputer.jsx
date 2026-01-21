@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useEffect, useState } from 'react';
 import { useGLTF, useAnimations, useVideoTexture } from '@react-three/drei';
 import gsap from 'gsap';
