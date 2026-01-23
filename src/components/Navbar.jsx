@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-scroll";
+import NextLink from "next/link";
+import { Link as ScrollLink } from "react-scroll";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -26,47 +27,42 @@ const Navbar = () => {
         <div className="text-lg font-bold">Harman</div>
 
         {/* Center Navigation */}
-        <nav className="space-x-6  md:flex">
-          <Link
-            to="home"
+        <nav className="space-x-6 md:flex">
+          <ScrollLink
+            href="/"
             smooth
             duration={500}
             className="cursor-pointer hover:text-yellow-400 transition"
           >
             Home
-          </Link>
-          <Link
-            to="about"
-            smooth
-            duration={500}
+          </ScrollLink>
+
+          <NextLink
+            href="/moreprojects"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
-            About
-          </Link>
-          <Link
-            to="skills"
-            smooth
-            duration={500}
+            All Projects
+          </NextLink>
+
+          <NextLink
+            href="/experience"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
-            Skills
-          </Link>
-          <Link
-            to="projects"
-            smooth
-            duration={500}
+            Experience
+          </NextLink>
+
+          <NextLink
+            href="/achievements"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
-            Projects
-          </Link>
-          <Link
-            to="contact"
-            smooth
-            duration={500}
+            Achievements
+          </NextLink>
+          <NextLink
+            href="/links"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
-            Contact
-          </Link>
+            Links
+          </NextLink>
         </nav>
 
         {/* Right Button */}

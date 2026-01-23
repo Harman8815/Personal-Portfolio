@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import LandingSections from "@/components/LandingSections";
 import MainLoader from "@/components/MainLoader";
 import HomeHero from "@/pages/Hero/Home";
@@ -28,12 +26,8 @@ export default function HomePage() {
 
   return (
     <>
-      <Navbar />
-      <main className="min-h-screen bg-primary">
-        <HomeHero />
-        <LandingSections />
-      </main>
-      <Footer />
+      <HomeHero />
+      <LandingSections />
     </>
   );
 }
