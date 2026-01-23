@@ -1,65 +1,65 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react"
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
-import Developermodel from "../Developermodel.jsx"
-import Boxer from "./Boxer.jsx"
+import React, { useState, useEffect, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import Developermodel from "../Developermodel.jsx";
+import Boxer from "./Boxer.jsx";
 
 const About = () => {
-  const [animationName, setAnimationName] = useState("idle")
-  const aboutRef = useRef(null)
-  const [isVisible, setIsVisible] = useState(false)
-  const [scrollDirection, setScrollDirection] = useState(null)
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const lastScrollY = useRef(0)
+  const [animationName, setAnimationName] = useState("idle");
+  const aboutRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const lastScrollY = useRef(0);
 
   const handleClick = () => {
-    const animations = ["idle", "clapping", "salute", "victory"]
-    setAnimationName(animations[Math.floor(Math.random() * animations.length)])
-    setTimeout(() => setAnimationName("idle"), 5000)
-  }
+    const animations = ["idle", "clapping", "salute", "victory"];
+    setAnimationName(animations[Math.floor(Math.random() * animations.length)]);
+    setTimeout(() => setAnimationName("idle"), 5000);
+  };
 
   const handleMouseMove = (e) => {
-    const card = e.currentTarget
-    const { left, top, width, height } = card.getBoundingClientRect()
-    const offsetX = e.clientX - left
-    const offsetY = e.clientY - top
+    const card = e.currentTarget;
+    const { left, top, width, height } = card.getBoundingClientRect();
+    const offsetX = e.clientX - left;
+    const offsetY = e.clientY - top;
 
-    const x = (offsetX / width) * -30 + 5
-    const y = (offsetY / height) * 30 + 5
+    const x = (offsetX / width) * -30 + 5;
+    const y = (offsetY / height) * 30 + 5;
 
-    setTilt({ x, y })
-  }
+    setTilt({ x, y });
+  };
 
   const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0 })
-  }
+    setTilt({ x: 0, y: 0 });
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      const section = aboutRef.current
-      if (!section) return
-      const rect = section.getBoundingClientRect()
+      const section = aboutRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
 
-      const currentScroll = window.scrollY
-      setScrollDirection(currentScroll > lastScrollY.current ? "down" : "up")
-      lastScrollY.current = currentScroll
+      const currentScroll = window.scrollY;
+      setScrollDirection(currentScroll > lastScrollY.current ? "down" : "up");
+      lastScrollY.current = currentScroll;
 
-      setIsVisible(rect.top >= 0 && rect.bottom <= window.innerHeight)
-    }
+      setIsVisible(rect.top >= 0 && rect.bottom <= window.innerHeight);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isVisible) {
-      setAnimationName("victory")
+      setAnimationName("victory");
     } else if (scrollDirection === "down") {
-      setAnimationName("salute")
+      setAnimationName("salute");
     }
-  }, [isVisible, scrollDirection])
+  }, [isVisible, scrollDirection]);
 
   return (
     <section
@@ -110,12 +110,12 @@ const About = () => {
               <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
               <directionalLight position={[10, 10, 10]} intensity={1} />
               <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
-              <Boxer scale={1.8} tilt={tilt}/>
+              <Boxer scale={1.8} tilt={tilt} />
             </Canvas>
           </div>
         </div>
         <div className="right w-1/2 min-h-[300px] rounded-4xl -mt-40">
-          <Canvas>
+          {/* <Canvas>
             <ambientLight intensity={7} />
             <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
             <directionalLight position={[10, 10, 10]} intensity={1} />
@@ -126,11 +126,11 @@ const About = () => {
               animationName={animationName}
               rotation-x={0.05}
             />
-          </Canvas>
+          </Canvas> */}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default About
+export default About;

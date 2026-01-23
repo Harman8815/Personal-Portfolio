@@ -6,15 +6,11 @@ import Skills from "./skills/Skills";
 
 // Lazy imports
 const MajorProjects = lazy(() => import("./MajorProject/MajorProjects"));
-const Achievements = lazy(() => import("./Achievements"));
-const MoreProject = lazy(() => import("./MoreProjects/MoreProjects"));
-const Certifications = lazy(() => import("./Certifications"));
-const Experience = lazy(() => import("./Experience"));
-const Education = lazy(() => import("./Education"));
-const Links = lazy(() => import("./Links"));
 const Contact_me = lazy(() => import("./Contact/Contact_me"));
 const ThankYou = lazy(() => import("./ThankYou"));
-
+const Education = lazy(() => import("./Education"));
+const Links = lazy(() => import("./Links"));
+const Certificates = lazy(() => import("./Certifications"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);
 
@@ -32,10 +28,7 @@ const LandingSections = () => {
       {loadRest && (
         <Suspense fallback={null}>
           <MajorProjects />
-          <Achievements />
-          <MoreProject />
-          <Certifications />
-          <Experience />
+          <Certificates />
           <Education />
           <Links />
           <Contact_me />
