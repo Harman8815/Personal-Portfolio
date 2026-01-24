@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const EducationCard = ({ edu }) => {
+const EducationCard = ({ edu, className }) => {
   const cardRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -31,8 +31,8 @@ const EducationCard = ({ edu }) => {
         ease: "power3.out",
         scrollTrigger: {
           trigger: el,
-          start: "top 60%",
-          end: "top 40%",
+          start: "top 80%",
+          end: "top 10%",
           toggleActions: "play none none reverse",
         },
       }
@@ -41,7 +41,7 @@ const EducationCard = ({ edu }) => {
   return (
     <div
       ref={cardRef}
-      className="bg-[#0d1117] p-8 rounded-lg ring-2 ring-blue-800 "
+      className={`bg-[#0d1117] p-8 rounded-lg ring-2 ring-blue-800 ${className || ""}`}
     >
       <h3 className="text-3xl font-bold mb-4">{edu.title}</h3>
       <p className="text-xl mb-3">{edu.degree}</p>
@@ -91,7 +91,15 @@ const Education = () => {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 tablet:grid-cols-2 laptop:grid-cols-3 gap-12 px-4">
           {educationData.map((edu, index) => (
-            <EducationCard key={index} edu={edu} />
+            <EducationCard
+              key={index}
+              edu={edu}
+              className={
+                index === 2
+                  ? "tablet:col-span-2 laptop:col-span-1 tablet:w-3/4 tablet:mx-auto laptop:w-full"
+                  : ""
+              }
+            />
           ))}
         </div>
       </div>
