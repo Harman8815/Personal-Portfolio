@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
-import { Link as ScrollLink } from "react-scroll";
+import { Link } from "react-scroll";
+import More from "./More";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -27,42 +27,50 @@ const Navbar = () => {
         <div className="text-lg font-bold">Harman</div>
 
         {/* Center Navigation */}
-        <nav className="space-x-6 md:flex">
-          <ScrollLink
-            href="/"
+        <nav className="space-x-6  md:flex">
+          <Link
+            to="home"
             smooth
             duration={500}
             className="cursor-pointer hover:text-yellow-400 transition"
           >
             Home
-          </ScrollLink>
-
-          <NextLink
+          </Link>
+          <Link
             href="/moreprojects"
+            smooth
+            duration={500}
             className="cursor-pointer hover:text-yellow-400 transition"
           >
             All Projects
-          </NextLink>
+          </Link>
 
-          <NextLink
+          <Link
+            smooth
+            duration={500}
             href="/experience"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
             Experience
-          </NextLink>
+          </Link>
 
-          <NextLink
+          <Link
+            smooth
+            duration={500}
             href="/achievements"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
             Achievements
-          </NextLink>
-          <NextLink
-            href="/links"
+          </Link>
+
+          <Link
+            smooth
+            duration={500}
+            href="/certifications"
             className="cursor-pointer hover:text-yellow-400 transition"
           >
-            Links
-          </NextLink>
+            Certifications
+          </Link>
         </nav>
 
         {/* Right Button */}

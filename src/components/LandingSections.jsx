@@ -5,7 +5,7 @@ import About from "./About/About";
 import Skills from "./skills/Skills";
 
 // Lazy imports
-const MajorProjects = lazy(() => import("./MajorProject/MajorProjects"));
+const MajorProjects = lazy(() => import("./majorProject/MajorProjects"));
 const Contact_me = lazy(() => import("./Contact/Contact_me"));
 const ThankYou = lazy(() => import("./ThankYou"));
 const Education = lazy(() => import("./Education"));
