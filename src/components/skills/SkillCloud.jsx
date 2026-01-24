@@ -32,7 +32,7 @@ const SkillCloud = ({ slugs }) => {
   const icons = useIcons(slugs);
 
   return (
-    <div className="w-full flex justify-center items-center">
+    <div className="w-full lg:flex hidden  justify-center items-center">
       <Cloud
         options={{
           rotateSpeed: 0.1,

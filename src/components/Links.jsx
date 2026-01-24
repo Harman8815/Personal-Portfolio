@@ -3,7 +3,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaVimeo, FaBehance, FaDribbble, FaG
 
 const Links = () => {
   return (
-   <div className="w-full min-h-[30vh] bg-primary flex items-center justify-center px-4 tablet:px-8 laptop:px-16">
+   <div className="w-full bg-primary flex items-center justify-center px-4 tablet:px-8 laptop:px-16">
   <div id="social-test" className="text-center">
     <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center text-white">
          Social Buttons
