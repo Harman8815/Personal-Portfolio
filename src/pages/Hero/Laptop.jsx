@@ -8,7 +8,7 @@ Source: https://sketchfab.com/3d-models/laptop-dell-latitude-5400-c3dfc53a600e42
 Title: Laptop Dell Latitude 5400
 */
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
@@ -17,27 +17,36 @@ function Laptop(props) {
   const { nodes, materials } = useGLTF("/models/laptop.glb");
   const laptopRef = useRef();
   // console.log(materials["8th_gen_core_i5_logo"]);
-  const [targetRotation, setTargetRotation] = useState(0);
+  const [targetRotation, setTargetRotation] = useState(Math.PI / 2); // Start closed
   const [currentRotation, setCurrentRotation] = useState(Math.PI / 2);
 
   const coretexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/8th_gen_core_i5_logo_diffuse.png"
+    "models/textures/8th_gen_core_i5_logo_diffuse.png",
   );
   const delltexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/delllogo3_diffuse.png"
+    "models/textures/delllogo3_diffuse.png",
   );
   const screenRef = useRef();
   const backpanelRef = useRef();
   const [showScreen, setShowScreen] = useState(false);
 
+  // Trigger opening animation when shouldAnimate becomes true
+  useEffect(() => {
+    if (props.shouldAnimate) {
+      console.log("[Laptop] Opening animation triggered");
+      setTargetRotation(0); // Open the laptop
+
+      setShowScreen(false);
+    }
+  }, [props.shouldAnimate]);
+
   useFrame(() => {
     const rotationSpeed = 0.01;
-
     if (currentRotation > targetRotation) {
       setCurrentRotation((prev) =>
-        Math.max(prev - rotationSpeed, targetRotation)
+        Math.max(prev - rotationSpeed, targetRotation),
       );
     }
 
@@ -45,8 +54,10 @@ function Laptop(props) {
       backpanelRef.current.rotation.z = currentRotation;
     }
 
-    if (!showScreen && currentRotation === targetRotation) {
+    if (currentRotation === targetRotation) {
       setShowScreen(true);
+      console.log("[Laptop] Animation complete, calling onLoadComplete");
+      props.onLoadComplete?.();
     }
 
     if (screenRef.current && showScreen) {

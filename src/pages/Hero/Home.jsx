@@ -6,18 +6,23 @@ import { OrbitControls } from "@react-three/drei";
 import Laptop from "./Laptop";
 import { Center } from "@react-three/drei";
 import gsap from "gsap";
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ModelLoader from "./ModelLoader.jsx";
+import { useLoadingContext } from "@/context/LoadingContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Home = () => {
+const Home = ({ onLoad, onLoaderExit }) => {
   const videoContainer = useRef(null);
   const LaptopRef = useRef();
-  React.useEffect(() => {
+  const contentLoadedRef = useRef(false);
+  const [shouldAnimateLaptop, setShouldAnimateLaptop] = useState(false);
+  const [laptopFullyLoaded, setLaptopFullyLoaded] = useState(false);
+  const { markContentReady } = useLoadingContext();
+
+  useEffect(() => {
     const video = videoContainer.current;
-    // const laptop=LaptopRef.current;
     // Initial entrance animation on first load
     gsap.fromTo(
       video,
@@ -27,10 +32,37 @@ const Home = () => {
         opacity: 1,
         duration: 1.5,
         ease: "power2.out",
-        
       }
     );
   }, []);
+
+  // Trigger laptop animation when loader exits
+  useEffect(() => {
+    if (onLoaderExit) {
+      console.log("[HomeHero] Loader exited, triggering laptop animation");
+      setShouldAnimateLaptop(true);
+    }
+  }, [onLoaderExit]);
+
+  useEffect(() => {
+    console.log("[HomeHero] useEffect mounting - setting up readiness callback");
+    // Mark content as ready when component mounts and all resources have time to load
+    const timer = setTimeout(() => {
+      console.log("[HomeHero] 800ms timeout reached - calling markContentReady");
+      if (!contentLoadedRef.current) {
+        contentLoadedRef.current = true;
+        console.log("[HomeHero] Calling markContentReady()");
+        markContentReady();
+        console.log("[HomeHero] Called onLoad callback");
+        onLoad?.();
+      }
+    }, 800); // Wait for Canvas and models to initialize
+
+    return () => {
+      console.log("[HomeHero] useEffect cleanup - clearing timeout");
+      clearTimeout(timer);
+    };
+  }, [markContentReady, onLoad]);
 
   return (
     <section
@@ -49,11 +81,11 @@ const Home = () => {
         <source src="/assets/blackhole.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
-      <div className="image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion ">
+      <div className={`image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion transition-opacity duration-1000 ${laptopFullyLoaded ? 'block' : 'hidden'}`}>
         <img
           src="/assets/starsky1.webp"
           alt=""
-          className="object-cover w-[100%] opacity-30 "
+          className="object-cover w-[100%]"
         />
       </div>
       <div className="z-6 info text-left mb-10 desktop:mx-10 absolute top-[30%] left-10">
@@ -102,7 +134,7 @@ const Home = () => {
 
           <Suspense fallback={<ModelLoader />}>
             <Center />
-            <Laptop LaptopRef={LaptopRef}/>
+            <Laptop LaptopRef={LaptopRef} shouldAnimate={shouldAnimateLaptop} onLoadComplete={() => setLaptopFullyLoaded(true)} />
           </Suspense>
         </Canvas>
       </div>
