@@ -46,7 +46,7 @@ const AboutSection = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=350%",
+          end: "+=850%",
           scrub: 1,
           pin: true,
           // pinSpacing: false,
@@ -265,7 +265,7 @@ const AboutSection = () => {
         .to(skillsHeaderRef.current, {
           opacity: 1,
           scale: 2,
-          duration: 2,
+          duration: 3,
           ease: "expo.out",
         })
 
@@ -275,7 +275,7 @@ const AboutSection = () => {
           {
             top: "10%",
             scale: 1,
-            duration: 2,
+            duration: 3,
             ease: "power3.inOut",
           },
           "header-move",
@@ -288,7 +288,7 @@ const AboutSection = () => {
             opacity: 1,
             scale: 1.5,
             filter: "blur(0px)",
-            duration: 2.5,
+            duration: 5,
             ease: "expo.out",
           },
           "header-move",
@@ -310,10 +310,11 @@ const AboutSection = () => {
         .to(
           skillsTiersRef.current,
           {
+            top: "10%",
             right: "30%",
             scale: 1,
             opacity: 1,
-            duration: 1.5,
+            duration: 4,
           },
           "cloud-drift+=1",
         )
@@ -325,7 +326,7 @@ const AboutSection = () => {
             x: 0,
             scale: 1,
             stagger: 0.2,
-            duration: 2,
+            duration: 3,
             ease: "back.out(1.2)",
           },
           "cloud-drift+=1.5",
@@ -347,6 +348,99 @@ const AboutSection = () => {
       //   yPercent: 0,
       // })
       // .set(skillsContainerRef.current, { display: "block" }); // Ensure layout is settled
+      tl.to(
+        ".skill-card-container",
+        {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          z: 0,
+          scale: 1,
+          rotateX: 0,
+          rotateY: 0,
+          stagger: {
+            amount: 2,
+            from: "random",
+          },
+          duration: 4,
+          ease: "elastic.out(1, 0.75)",
+        },
+        "cloud-drift+=1",
+      )
+
+        // Staggered list items hydration
+        .fromTo(
+          ".skill-card-container li",
+          {
+            opacity: 0,
+            x: -20,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            stagger: 0.05,
+            duration: 3,
+            ease: "power3.out",
+          },
+          "cloud-drift+=2.5",
+        )
+
+        // Hold the state for observation
+        .to({}, { duration: 4 }, "stay-assembled")
+
+        // --- PHASE 4: DECONSTRUCT SEQUENCE (The Shatter) ---
+        .to(
+          skillsHeaderRef.current,
+          {
+            opacity: 0,
+            y: -100,
+            scale: 1.2,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "shatter-start",
+        )
+
+        .to(
+          skillsCloudRef.current,
+          {
+            opacity: 0,
+            scale: 3,
+            filter: "blur(40px)",
+            duration: 3,
+            ease: "power2.in",
+          },
+          "shatter-start",
+        )
+
+        .to(
+          ".skill-card-container",
+          {
+            opacity: 0,
+            z: 2000, // Zoom towards camera
+            x: (i) => (Math.random() - 0.5) * 3000,
+            y: (i) => (Math.random() - 0.5) * 3000,
+            rotateX: () => (Math.random() - 0.5) * 720,
+            rotateY: () => (Math.random() - 0.5) * 720,
+            scale: 2,
+            stagger: {
+              amount: 1,
+              from: "center",
+            },
+            duration: 5,
+            ease: "power4.in",
+          },
+          "shatter-start",
+        )
+
+        .to(
+          skillsContainerRef.current,
+          {
+            opacity: 0,
+            duration: 1,
+          },
+          "shatter-start+=2",
+        );
     }, sectionRef);
 
     return () => ctx.revert();
