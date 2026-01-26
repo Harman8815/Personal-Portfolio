@@ -19,7 +19,9 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-40 transition-colors duration-500 shadow-md  ${
-        scrolled ? "bg-black bg-opacity-90 " : "bg-transparent"
+        scrolled
+          ? "bg-[#020617] bg-opacity-90 border-b border-gray-800"
+          : "bg-transparent"
       } text-white`}
     >
       <div className="container mx-auto flex items-center justify-between py-1 px-4 laptop:px-8">

@@ -53,6 +53,12 @@ function Laptop(props) {
     if (backpanelRef.current) {
       backpanelRef.current.rotation.z = currentRotation;
     }
+    const degToRad = (deg) => (deg * Math.PI) / 180;
+
+    // if (laptopRef.current) {
+    //   laptopRef.current.rotation.y = degToRad(60);
+    //   laptopRef.current.rotation.z = degToRad(5);
+    // }
 
     if (currentRotation === targetRotation) {
       setShowScreen(true);
@@ -1196,14 +1202,14 @@ function Laptop(props) {
         position={[0.71375281, 0.4218851, -1.69814706]}
         scale={[0.06501041, 0.01772538, 0.11345947]}
       />
-      <mesh
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.Object_266.geometry}
         material={materials["Material.023"]}
         position={[0.43818784, 0.33282247, -0.47992516]}
         scale={[2.49579358, 4.1545372, 4.1545372]}
-      />
+      /> */}
       <mesh
         castShadow
         receiveShadow

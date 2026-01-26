@@ -1,6 +1,6 @@
 "use client";
 
-import React  from "react";
+import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Laptop from "./Laptop";
@@ -32,7 +32,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
         opacity: 1,
         duration: 1.5,
         ease: "power2.out",
-      }
+      },
     );
   }, []);
 
@@ -45,10 +45,14 @@ const Home = ({ onLoad, onLoaderExit }) => {
   }, [onLoaderExit]);
 
   useEffect(() => {
-    console.log("[HomeHero] useEffect mounting - setting up readiness callback");
+    console.log(
+      "[HomeHero] useEffect mounting - setting up readiness callback",
+    );
     // Mark content as ready when component mounts and all resources have time to load
     const timer = setTimeout(() => {
-      console.log("[HomeHero] 800ms timeout reached - calling markContentReady");
+      console.log(
+        "[HomeHero] 800ms timeout reached - calling markContentReady",
+      );
       if (!contentLoadedRef.current) {
         contentLoadedRef.current = true;
         console.log("[HomeHero] Calling markContentReady()");
@@ -74,14 +78,16 @@ const Home = ({ onLoad, onLoaderExit }) => {
         loop
         muted
         playsInline
-        className="rotate-180 z-1 w-full h-auto absolute -top-133
-        laptop:-top-96 desktop:-top-135  left-0"
+        className="rotate-180 z-1 w-full h-auto absolute -top-[285px]
+        laptop:-top-[425px] desktop:-top-[495px]  left-0"
         ref={videoContainer}
       >
         <source src="/assets/blackhole.webm" type="video/webm" />
         Your browser does not support the video tag.
       </video>
-      <div className={`image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion transition-opacity duration-1000 ${laptopFullyLoaded ? 'block' : 'hidden'}`}>
+      <div
+        className={`image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion transition-opacity duration-1000 ${laptopFullyLoaded ? "block" : "hidden"}`}
+      >
         <img
           src="/assets/starsky1.webp"
           alt=""
@@ -104,7 +110,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
       </div>
 
       <div className="z-6 laptopmodel w-full h-screen overflow-hidden">
-        <Canvas camera={{ position: [0, 1, 3], fov: 50 }}>
+        <Canvas camera={{ position: [2.5, 1, 3], fov: 50 }}>
           <hemisphereLight
             skyColor="skyblue"
             groundColor="darkblue"
@@ -133,8 +139,13 @@ const Home = ({ onLoad, onLoaderExit }) => {
           />
 
           <Suspense fallback={<ModelLoader />}>
-            <Center />
-            <Laptop LaptopRef={LaptopRef} shouldAnimate={shouldAnimateLaptop} onLoadComplete={() => setLaptopFullyLoaded(true)} />
+            <group position={[0, 1, 0]} rotateOnAxis={[1.2, 2, 3]}>
+              <Laptop
+                LaptopRef={LaptopRef}
+                shouldAnimate={shouldAnimateLaptop}
+                onLoadComplete={() => setLaptopFullyLoaded(true)}
+              />
+            </group>
           </Suspense>
         </Canvas>
       </div>
