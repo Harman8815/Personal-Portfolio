@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const TiltCard = ({ children ,index}) => {
+const TiltCard = ({ children, index }) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
@@ -23,7 +23,7 @@ const TiltCard = ({ children ,index}) => {
 
   return (
     <div
-      className={`tilt-card div${
+      className={` relative h-full tilt-card div${
         index + 1
       }  border  shadow-md  ring-2 ring-blue-800 rounded-lg p-4  
        transition-all duration-300 ease-in-out transform hover:scale-105 
