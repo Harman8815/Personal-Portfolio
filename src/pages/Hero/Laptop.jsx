@@ -8,52 +8,85 @@ Source: https://sketchfab.com/3d-models/laptop-dell-latitude-5400-c3dfc53a600e42
 Title: Laptop Dell Latitude 5400
 */
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
+import { Html } from "@react-three/drei";
 function Laptop(props) {
   const { nodes, materials } = useGLTF("/models/laptop.glb");
   const laptopRef = useRef();
   // console.log(materials["8th_gen_core_i5_logo"]);
-  const [targetRotation, setTargetRotation] = useState(0);
+  const [targetRotation, setTargetRotation] = useState(Math.PI / 2); // Start closed
   const [currentRotation, setCurrentRotation] = useState(Math.PI / 2);
 
   const coretexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/8th_gen_core_i5_logo_diffuse.png"
+    "models/textures/8th_gen_core_i5_logo_diffuse.png",
   );
   const delltexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/delllogo3_diffuse.png"
+    "models/textures/delllogo3_diffuse.png",
   );
   const screenRef = useRef();
   const backpanelRef = useRef();
   const [showScreen, setShowScreen] = useState(false);
+  const [hologramOpacity, setHologramOpacity] = useState(0);
+
+  const beamRef = useRef(null);
+  // Trigger opening animation when shouldAnimate becomes true
+  useEffect(() => {
+    if (props.shouldAnimate) {
+      console.log("[Laptop] Opening animation triggered");
+      setTargetRotation(0); // Open the laptop
+
+      setShowScreen(false);
+    }
+  }, [props.shouldAnimate]);
 
   useFrame(() => {
     const rotationSpeed = 0.01;
-
     if (currentRotation > targetRotation) {
       setCurrentRotation((prev) =>
-        Math.max(prev - rotationSpeed, targetRotation)
+        Math.max(prev - rotationSpeed, targetRotation),
       );
     }
 
     if (backpanelRef.current) {
       backpanelRef.current.rotation.z = currentRotation;
     }
+    const degToRad = (deg) => (deg * Math.PI) / 180;
 
-    if (!showScreen && currentRotation === targetRotation) {
+    // if (laptopRef.current) {
+    //   laptopRef.current.rotation.y = degToRad(60);
+    //   laptopRef.current.rotation.z = degToRad(5);
+    // }
+
+    if (currentRotation === targetRotation) {
       setShowScreen(true);
+      console.log("[Laptop] Animation complete, calling onLoadComplete");
+      props.onLoadComplete?.();
     }
-
+    // Hologram Reveal Logic
+    const revealStart = 1.0;
+    if (currentRotation < revealStart) {
+      const progress = (revealStart - currentRotation) / revealStart;
+      setHologramOpacity(
+        THREE.MathUtils.lerp(hologramOpacity, Math.min(1, progress * 1.5), 0.1),
+      );
+    }
+    // Flicker & Beam pulse
+    if (beamRef.current && !Array.isArray(beamRef.current.material)) {
+      const mat = beamRef.current.material;
+      mat.opacity = hologramOpacity * (0.15 + Math.random() * 0.1);
+    }
     if (screenRef.current && showScreen) {
       screenRef.current.rotation.z = currentRotation;
     }
   });
 
+  const tilt = Math.PI / 18; // 10°
   return (
     <group
       {...props}
@@ -62,6 +95,56 @@ function Laptop(props) {
       position={[0.5, -2.5, -1.7]}
       rotation={[0, Math.PI / 2, 0]}
     >
+      {" "}
+      <Html pointerEvents="none">
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+          @keyframes hologram-glitch {
+            0% { clip-path: inset(80% 0 1% 0); transform: translate(-5px); }
+            10% { clip-path: inset(10% 0 50% 0); transform: translate(5px); }
+            20% { clip-path: inset(30% 0 20% 0); transform: translate(-5px); }
+            100% { clip-path: inset(0% 0 0% 0); transform: translate(0); }
+          }
+          @keyframes float-hologram {
+            0%, 100% { transform: translateY(0) rotateX(-5deg); }
+            50% { transform: translateY(-25px) rotateX(0deg); }
+          }
+          @keyframes scan-slow {
+            0% { top: -10%; }
+            100% { top: 110%; }
+          }
+          @keyframes chromatic-pulse {
+            0%, 100% { text-shadow: 2px 0 0 rgba(255,0,0,0.5), -2px 0 0 rgba(0,255,255,0.5); }
+            50% { text-shadow: 1px 0 0 rgba(255,0,0,0.5), -1px 0 0 rgba(0,255,255,0.5); }
+          }
+          .hologram-outer {
+            animation: float-hologram 6s ease-in-out infinite;
+            perspective: 1200px;
+          }
+          .glitch-text {
+            animation: hologram-glitch 4s infinite linear alternate-reverse, chromatic-pulse 2s infinite ease-in-out;
+          }
+          .holo-border {
+            box-shadow: 0 0 40px rgba(34, 211, 238, 0.4), inset 0 0 25px rgba(34, 211, 238, 0.2);
+            border-image: linear-gradient(to bottom, #22d3ee, transparent) 1;
+          }
+          .neon-grid {
+            background-image: linear-gradient(rgba(34, 211, 238, 0.1) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(34, 211, 238, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+          }
+          .animate-scan-slow {
+            animation: scan-slow 4s linear infinite;
+          }
+          .noise-overlay {
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+          }
+        `,
+          }}
+        />
+      </Html>
       <group
         position={[0.29150194, 0.36141503, -0.5051024]}
         rotation={[0, 0, -2.94960644]}
@@ -142,6 +225,135 @@ function Laptop(props) {
           />
         </group>
       </group>
+      <mesh
+        ref={beamRef}
+        position={[0, 1, -0.6]}
+        rotation={[-Math.PI / 2, Math.PI / 18, Math.PI / 2]}
+      >
+        <cylinderGeometry
+          args={[3, 2, 2.7, true, 1, true]}
+          onUpdate={(geo) => {
+            geo.rotateY(Math.PI / 4);
+          }}
+        />
+
+        <meshBasicMaterial
+          color="#22d3ee"
+          transparent
+          opacity={0.25}
+          side={THREE.DoubleSide}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+        />
+      </mesh>
+      {/* THE HOLOGRAM UI */}
+      {hologramOpacity > 0.01 && (
+        <Html
+          transform
+          distanceFactor={3}
+          rotation={[
+            0, // tilt back
+            -Math.PI / 2, // face +Z
+            0,
+          ]}
+          position={[
+            -1,
+            2,
+            -0.5, // move back slightly
+          ]}
+        >
+          <div
+            style={{ opacity: hologramOpacity }}
+            className="hologram-outer w-[600px] pointer-events-none select-none z-[100]"
+          >
+            <div className="holo-border bg-cyan-950/30 backdrop-blur-2xl border border-cyan-400/40 p-12 rounded-lg relative overflow-hidden flex flex-col gap-8">
+              <div className="neon-grid absolute inset-0 opacity-20"></div>
+              <div className="noise-overlay absolute inset-0"></div>
+
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-cyan-400/60 shadow-[0_0_15px_#22d3ee] animate-scan-slow"></div>
+
+              <div className="relative z-10 flex justify-between items-end border-b border-cyan-400/30 pb-6">
+                <div className="flex flex-col gap-2">
+                  <span className="font-mono text-[9px] tracking-[0.6em] text-cyan-400 uppercase font-black">
+                    Link_Stable::Node_0x7F
+                  </span>
+                  <h1 className="text-7xl font-black text-white tracking-tighter uppercase glitch-text leading-none">
+                    Harman_OS
+                  </h1>
+                </div>
+              </div>
+
+              <div className="relative z-10">
+                <p className="text-2xl font-light text-cyan-50/90 leading-relaxed max-w-lg">
+                  Crafting{" "}
+                  <span className="text-white font-bold underline decoration-cyan-400/40">
+                    digital dimensions
+                  </span>{" "}
+                  where elegance meets architectural resilience.
+                </p>
+              </div>
+
+              <div className="relative z-10 grid grid-cols-2 gap-12">
+                <div className="flex flex-col gap-5">
+                  <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-cyan-400/70">
+                    Intelligence_Matrix
+                  </span>
+                  <div className="flex flex-wrap gap-3">
+                    {["REACT", "RUST", "WEBGL", "NEXT"].map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-4 py-1.5 border border-cyan-400/40 bg-cyan-400/10 text-[10px] font-mono text-cyan-300 font-black tracking-widest"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-5">
+                  <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-cyan-400/70">
+                    Neural_Bandwidth
+                  </span>
+                  <div className="flex items-center gap-5">
+                    <div className="h-2 flex-1 bg-cyan-950/60 rounded-full overflow-hidden border border-cyan-400/20">
+                      <div
+                        className="h-full bg-cyan-400 shadow-[0_0_15px_#22d3ee] animate-pulse"
+                        style={{ width: "88%" }}
+                      ></div>
+                    </div>
+                    <span className="font-mono text-xs text-cyan-400 font-bold">
+                      88%
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative z-10 mt-6 pt-8 border-t border-cyan-400/15 flex justify-between items-center opacity-60">
+                <div className="flex gap-4 items-center">
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
+                  <span className="font-mono text-[8px] uppercase tracking-[0.6em]">
+                    System_Pulse::Healthy
+                  </span>
+                </div>
+                <span className="font-mono text-[8px] uppercase tracking-[0.3em]">
+                  SEC_VOID // MMXXV
+                </span>
+              </div>
+            </div>
+
+            {/* Floating Elements */}
+            <div className="absolute -top-12 -right-16 p-8 border border-cyan-400/40 bg-cyan-400/15 backdrop-blur-xl rounded-full shadow-[0_0_30px_rgba(34,211,238,0.25)] animate-pulse">
+              <span className="font-mono text-xs text-cyan-300 font-black uppercase tracking-widest">
+                Active
+              </span>
+            </div>
+
+            <div className="absolute -bottom-14 -left-12 px-6 py-3 border border-cyan-400/40 bg-cyan-400/15 backdrop-blur-xl font-mono text-[9px] text-cyan-300 font-bold uppercase tracking-[0.4em]">
+              Secure_Tunnel::Established
+            </div>
+          </div>
+        </Html>
+      )}
       <mesh
         castShadow
         receiveShadow
@@ -1185,14 +1397,14 @@ function Laptop(props) {
         position={[0.71375281, 0.4218851, -1.69814706]}
         scale={[0.06501041, 0.01772538, 0.11345947]}
       />
-      <mesh
+      {/* <mesh
         castShadow
         receiveShadow
         geometry={nodes.Object_266.geometry}
         material={materials["Material.023"]}
         position={[0.43818784, 0.33282247, -0.47992516]}
         scale={[2.49579358, 4.1545372, 4.1545372]}
-      />
+      /> */}
       <mesh
         castShadow
         receiveShadow
@@ -1947,7 +2159,6 @@ function Laptop(props) {
           </group>
         </group>
       )}
-
       <mesh
         castShadow
         receiveShadow

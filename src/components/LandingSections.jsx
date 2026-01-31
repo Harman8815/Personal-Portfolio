@@ -23,7 +23,7 @@ const LandingSections = () => {
   return (
     <div className="relative" id="bg">
       <About />
-      <Skills />
+      {/* <Skills /> */}
 
       {loadRest && (
         <Suspense fallback={null}>

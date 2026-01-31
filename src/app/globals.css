@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #03041f;
+  --color-primary: #020617;
   --color-secondary: #282a36;
   --color-accent: #8be9fd;
   --color-text-primary: #f8f8f2;
@@ -12,14 +12,14 @@
 
 html,
 body {
-  background-color: black;
+  background-color: #020617;
 }
 
 .bg-primary {
   background-color: var(--color-primary);
 }
 .bg-home {
-  background-color: #030117;
+  background-color: #020617;
 }
 .bg-secondary {
   background-color: var(--color-secondary);
