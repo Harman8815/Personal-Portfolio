@@ -10,9 +10,27 @@
   --color-text-secondary: #6272a4;
 }
 
+.light {
+  --color-primary: #f8f9fa;
+  --color-secondary: #e9ecef;
+  --color-accent: #0066cc;
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+}
+
+/* Theme transition for smooth switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 html,
 body {
-  background-color: #020617;
+  background-color: var(--color-primary);
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
 }
 
 .bg-primary {
@@ -220,6 +238,21 @@ body {
   * {
     scrollbar-width: thin;
     scrollbar-color: #4a90e2 var(--color-primary);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbars when loading screen is active */
+  html.loading-active,
+  body.loading-active {
+    overflow: hidden;
   }
 }
 #achievements {

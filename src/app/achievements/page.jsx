@@ -1,5 +1,5 @@
 
-import Achievements from "@/components/Achievements";
+import Achievements from "@/components/pages/achievements/Achievements";
 
 const AchievementsPage = () => {
   return (

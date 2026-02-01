@@ -1,6 +1,7 @@
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
+import { ThemeProvider } from "../hooks/useTheme";
 // import CustomCursor from "../components/common/CustomCursor";
 
 export const metadata = {
@@ -11,11 +12,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-primary text-white">
-        {/* <CustomCursor /> */}
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+      <body className="bg-primary text-primary">
+        <ThemeProvider>
+          {/* <CustomCursor /> */}
+          <Navbar />
+          <main className="">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

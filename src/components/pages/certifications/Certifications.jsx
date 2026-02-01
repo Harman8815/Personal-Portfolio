@@ -1,6 +1,6 @@
 import React from 'react'
-import EmblaCarousel from './majorProject/embla/EmblaCarousel';
-import certificatesData from '../data/certificates';
+import EmblaCarousel from '../../majorProject/embla/EmblaCarousel';
+import certificatesData from '../../../data/certificates';
 const OPTIONS = { 
   loop: true,
   speed: 0.2,
@@ -18,7 +18,7 @@ const Certifications = () => {
   return (
     <section
       id="certifications"
-      className=" major-projects-section bg-primary w-full text-white  py-12"
+      className=" major-projects-section bg-primary w-full text-primary  py-12"
     >
      <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
         Certifications

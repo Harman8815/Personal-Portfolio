@@ -1,5 +1,5 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import ThreeBackground from './ThreeBackground';
 
 
@@ -20,11 +20,29 @@ const LoadingScreen = ({ progress, isExiting }) => {
   // Determine which log to show based on progress
   const currentLogIndex = Math.floor((progress / 100) * (logs.length - 1));
 
+  // Manage scrollbar hiding when loading screen is active
+  useEffect(() => {
+    if (!isExiting) {
+      document.documentElement.classList.add('loading-active');
+      document.body.classList.add('loading-active');
+    } else {
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+    }
+
+    return () => {
+      document.documentElement.classList.remove('loading-active');
+      document.body.classList.remove('loading-active');
+    };
+  }, [isExiting]);
+
   return (
-    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#020617] transition-all duration-1000 ease-in-out ${isExiting ? 'opacity-0 scale-110 pointer-events-none' : 'opacity-100'} overflow-hidden`}>
+    <div className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-primary transition-all duration-1000 ease-in-out ${isExiting ? 'opacity-0 scale-110 pointer-events-none' : 'opacity-100'} overflow-hidden scrollbar-hide`}>
       
       {/* 3D Visualizer */}
-     <ThreeBackground progress={progress} />
+     <div className="absolute inset-0 overflow-hidden">
+       <ThreeBackground progress={progress} />
+     </div>
 
       {/* Main UI */}
       <div className="relative z-10 w-full max-w-2xl px-8">
@@ -32,7 +50,7 @@ const LoadingScreen = ({ progress, isExiting }) => {
         {/* Progress Counter - Large & Bold */}
         <div className="flex flex-col items-center mb-12">
            <div className="flex items-baseline space-x-2">
-            <span className="text-9xl md:text-[12rem] font-black font-mono text-white leading-none tracking-tighter tabular-nums select-none">
+            <span className="text-9xl md:text-[12rem] font-black font-mono text-primary leading-none tracking-tighter tabular-nums select-none">
               {progress}
             </span>
             <span className="text-2xl font-mono text-cyan-400 font-bold">%</span>

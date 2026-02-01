@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import LandingSections from "@/components/LandingSections";
+import LandingSections from "@/components/pages/landing/LandingSections";
 import LoadingScreen from "@/components/loadingScreen/LoadingScreen";
-import HomeHero from "@/pages/Hero/Home";
+import CustomCursor from "@/components/common/CustomCursor";
+import dynamic from "next/dynamic";
 import { LoadingProvider, useLoadingContext } from "@/context/LoadingContext";
+
+const HomeHero = dynamic(() => import("@/components/r3f/Hero/Home"), {
+  ssr: false,
+  loading: () => <div className="min-h-screen bg-primary flex items-center justify-center">
+    <div className="text-primary text-2xl">Loading...</div>
+  </div>
+});
 
 function HomePageContent() {
   const [isMainLoading, setIsMainLoading] = useState(true);
@@ -23,6 +31,15 @@ function HomePageContent() {
     setTimeout(() => {
       setIsMainLoading(false);
     }, 1500);
+  }, []);
+
+  // Reset scroll position on mount
+  useEffect(() => {
+    // Disable browser scroll restoration
+    if (typeof window !== 'undefined') {
+      history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    }
   }, []);
 
   // When content is ready and progress is at 90%, start smooth interpolation to 100%
@@ -80,14 +97,15 @@ function HomePageContent() {
 
   return (
     <div className="relative">
+      <CustomCursor />
       {isMainLoading && (
-        <div className="fixed inset-0 z-[100] min-h-screen min-w-screen bg-[#020617] overflow-hidden scrollbar-none">
+        <div className="fixed inset-0 z-[100] min-h-screen min-w-screen bg-primary overflow-hidden scrollbar-none">
           <LoadingScreen progress={progress} isExiting={isTransitioning} />
         </div>
       )}
       
       {/* Content renders behind loading screen and signals when ready */}
-      <div className={isMainLoading ? "invisible" : ""}>
+      <div className={isMainLoading ? "invisible overflow-hidden" : "overflow-x-hidden"}>
         <HomeHero onLoad={markContentReady} onLoaderExit={!isMainLoading} />
         <LandingSections />
       </div>

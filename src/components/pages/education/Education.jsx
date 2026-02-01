@@ -19,7 +19,7 @@ const EducationCard = ({ edu, className }) => {
         opacity: 0,
         y: 100,
         scale: 1,
-        background: "#0d1117",
+        background: "var(--color-secondary)",
       },
       {
         opacity: 1,
@@ -41,7 +41,7 @@ const EducationCard = ({ edu, className }) => {
   return (
     <div
       ref={cardRef}
-      className={`bg-[#0d1117] p-8 rounded-lg ring-2 ring-blue-800 ${className || ""}`}
+      className={`bg-secondary p-8 rounded-lg ring-2 ring-blue-800 ${className || ""}`}
     >
       <h3 className="text-3xl font-bold mb-4">{edu.title}</h3>
       <p className="text-xl mb-3">{edu.degree}</p>
@@ -82,7 +82,7 @@ const Education = () => {
   return (
     <section
       id="education"
-      className="bg-primary text-white py-16 px-4 tablet:px-8 laptop:px-16 overflow-hidden"
+      className="bg-primary text-primary py-16 px-4 tablet:px-8 laptop:px-16 overflow-hidden"
     >
       <h2 className="section-title text-center text-3xl tablet:text-4xl laptop:text-5xl font-extrabold mb-12">
         Education

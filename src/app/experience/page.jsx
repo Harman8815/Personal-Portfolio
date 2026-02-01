@@ -1,5 +1,5 @@
 
-import Experience from "@/components/Experience";
+import Experience from "@/components/pages/experience/Experience";
 
 const ExperiencePage = () => {
   return (

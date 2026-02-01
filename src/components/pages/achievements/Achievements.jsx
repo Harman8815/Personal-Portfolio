@@ -3,7 +3,7 @@
 // Achievements.jsx
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
-import { achievements } from "../data/achievementsData";
+import { achievements } from "../../../data/achievementsData";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);

@@ -1,5 +1,5 @@
 
-import Links from "@/components/Links";
+import Links from "@/components/pages/links/Links";
 
 const LinksPage = () => {
   return (
