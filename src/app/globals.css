@@ -13,6 +13,11 @@
 html,
 body {
   background-color: #020617;
+  cursor: none;
+}
+
+* {
+  cursor: none !important;
 }
 
 .bg-primary {

@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import LandingSections from "@/components/pages/landing/LandingSections";
 import LoadingScreen from "@/components/loadingScreen/LoadingScreen";
+import CustomCursor from "@/components/common/CustomCursor";
 import dynamic from "next/dynamic";
 import { LoadingProvider, useLoadingContext } from "@/context/LoadingContext";
 
@@ -87,6 +88,7 @@ function HomePageContent() {
 
   return (
     <div className="relative">
+      <CustomCursor />
       {isMainLoading && (
         <div className="fixed inset-0 z-[100] min-h-screen min-w-screen bg-[#020617] overflow-hidden scrollbar-none">
           <LoadingScreen progress={progress} isExiting={isTransitioning} />
