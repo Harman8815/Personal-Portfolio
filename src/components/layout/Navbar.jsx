@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-scroll";
 import { Menu, X } from "lucide-react";
+import ThemeToggle from "../common/ThemeToggle";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -17,9 +18,9 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-40 transition-colors duration-500 ${scrolled
-          ? "bg-[#020617]/90 border-b border-gray-800 shadow-md"
+          ? "bg-[var(--color-primary)]/90 border-b border-gray-800 shadow-md"
           : "bg-transparent"
-        } text-white`}
+        } text-primary`}
     >
       <div className=" mx-auto flex items-center justify-between py-2 px-4 laptop:px-8">
         <div className="text-lg font-bold">Harman</div>
@@ -83,7 +84,8 @@ const Navbar = () => {
           </Link>
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:flex items-center space-x-4">
+          <ThemeToggle />
           <button className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition">
             Resume
           </button>
@@ -160,9 +162,12 @@ const Navbar = () => {
             Education
           </Link>
 
-          <button className="w-full bg-blue-600 py-2 rounded hover:bg-blue-700 transition">
-            Resume
-          </button>
+          <div className="flex items-center justify-between w-full pt-4 border-t border-gray-700">
+            <ThemeToggle />
+            <button className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 transition">
+              Resume
+            </button>
+          </div>
         </div>
       )}
     </header>

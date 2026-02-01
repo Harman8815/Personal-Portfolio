@@ -16,9 +16,13 @@ const ThreeBackground = ({ progress }) => {
 
     const scene = new THREE.Scene();
 
+    const container = containerRef.current;
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight;
+
     const camera = new THREE.PerspectiveCamera(
       75,
-      window.innerWidth / window.innerHeight,
+      width / height,
       0.1,
       1000
     );
@@ -28,9 +32,9 @@ const ThreeBackground = ({ progress }) => {
       antialias: true,
     });
 
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    containerRef.current.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
     const geometry = new THREE.IcosahedronGeometry(2, 2);
     const material = new THREE.MeshBasicMaterial({
@@ -93,9 +97,14 @@ const ThreeBackground = ({ progress }) => {
     animate();
 
     const handleResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      const container = containerRef.current;
+      if (container) {
+        const width = container.clientWidth || window.innerWidth;
+        const height = container.clientHeight || window.innerHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -117,7 +126,7 @@ const ThreeBackground = ({ progress }) => {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 pointer-events-none opacity-40"
+      className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden"
     />
   );
 };

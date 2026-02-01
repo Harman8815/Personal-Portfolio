@@ -76,12 +76,12 @@ const EndSequence = () => {
   return (
     <section
       ref={containerRef}
-      className="relative flex flex-col justify-center items-center w-full min-h-screen bg-[#020617] text-white overflow-hidden"
+      className="relative flex flex-col justify-center items-center w-full min-h-screen bg-primary text-primary overflow-hidden"
     >
       {/* Cinematic Digital Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 opacity-[0.1] [background-image:linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] [background-size:60px_60px]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#020617_95%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--color-primary)_95%)]"></div>
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(34,211,238,0.015)_50%)] bg-[length:100%_4px] animate-scanline"></div>
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
       </div>
@@ -167,7 +167,7 @@ const EndSequence = () => {
               </div>
             </div>
 
-            <div className="text-5xl md:text-[8rem] font-black uppercase tracking-tighter leading-none mb-14 text-white drop-shadow-[0_0_100px_rgba(0,255,136,0.45)]">
+            <div className="text-5xl md:text-[8rem] font-black uppercase tracking-tighter leading-none mb-14 text-primary drop-shadow-[0_0_100px_rgba(0,255,136,0.45)]">
               <TypeAnimation
                 sequence={[
                   "Thank You!",
@@ -187,18 +187,18 @@ const EndSequence = () => {
               <p className="font-mono text-[10px] md:text-xs text-slate-400 leading-relaxed uppercase tracking-[0.4em] mb-10">
                 The session has been archived in the void. <br />
                 No active listeners remaining on current channel. <br />
-                <span className="text-white mt-8 block font-black text-2xl tracking-[0.6em] drop-shadow-[0_0_25px_rgba(255,255,255,0.25)]">
+                <span className="text-primary mt-8 block font-black text-2xl tracking-[0.6em] drop-shadow-[0_0_25px_rgba(255,255,255,0.25)]">
                   0xDEV // MMXXV
                 </span>
               </p>
               <div className="pt-10 border-t border-white/10 flex justify-center gap-16 text-[9px] font-mono text-slate-500 uppercase tracking-[0.6em]">
-                <span className="hover:text-[#00FF88] cursor-pointer transition-colors duration-300 hover:scale-110">
+                <span className="hover:text-accent cursor-pointer transition-colors duration-300 hover:scale-110">
                   GitHub
                 </span>
-                <span className="hover:text-[#00FF88] cursor-pointer transition-colors duration-300 hover:scale-110">
+                <span className="hover:text-accent cursor-pointer transition-colors duration-300 hover:scale-110">
                   Resume
                 </span>
-                <span className="hover:text-[#00FF88] cursor-pointer transition-colors duration-300 hover:scale-110">
+                <span className="hover:text-accent cursor-pointer transition-colors duration-300 hover:scale-110">
                   Contact
                 </span>
               </div>

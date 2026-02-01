@@ -50,7 +50,7 @@ const AboutSection = () => {
           scrub: 1,
           pin: true,
           pinSpacing: true,
-          invalidateOnRefresh: true,
+          invalidateOnRefresh: false,
           anticipatePin: 1
         },
       });
@@ -440,7 +440,7 @@ const AboutSection = () => {
     <div
       id="about"
       ref={sectionRef}
-      className="relative w-full bg-[#020617] overflow-hidden min-h-screen border-t border-slate-900"
+      className="relative w-full bg-primary overflow-hidden min-h-screen border-t border-slate-900/50"
     >
       <div className="h-screen w-full relative flex items-center justify-center">
         {/* The Animated Circle */}
@@ -465,7 +465,7 @@ const AboutSection = () => {
           ref={introTextRef}
           className="relative z-30 text-center pointer-events-none "
         >
-          <h2 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-none mb-4">
+          <h2 className="text-5xl md:text-7xl font-black text-primary uppercase tracking-tighter leading-none mb-4">
             Want to <br /> know me?
           </h2>
           <div className="flex flex-col items-center gap-4 mt-8 opacity-40">
@@ -504,7 +504,7 @@ const AboutSection = () => {
                   </span>
                   <div className="h-px w-12 bg-cyan-500/20" />
                 </div>
-                <h3 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6 leading-tight">
+                <h3 className="text-4xl md:text-6xl font-black text-primary uppercase tracking-tighter mb-6 leading-tight">
                   {step.title}
                 </h3>
                 <p className="text-slate-400 text-lg md:text-xl leading-relaxed font-light">
@@ -525,10 +525,10 @@ const AboutSection = () => {
               ref={skillsHeaderRef}
               className="flex flex-col items-center mb-20 text-center pointer-events-auto shrink-0 relative z-50"
             >
-              <span className="font-mono text-[11px] tracking-[0.8em] uppercase text-cyan-500 mb-3">
+              <span className="font-mono text-[11px] tracking-[0.8em] uppercase text-cyan-500 ">
                 Competency_Matrix
               </span>
-              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-white">
+              <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-primary">
                 Stack_Capabilities
               </h2>
               <div className="h-[2px] w-32 bg-cyan-500 mt-3 rounded-full opacity-60 shadow-[0_0_25px_rgba(34,211,238,0.8)]"></div>
@@ -558,7 +558,7 @@ const AboutSection = () => {
         {/* HUD Decoration */}
         <div className="absolute bottom-10 left-10 flex items-center gap-4 opacity-10 font-mono text-[10px] tracking-[0.3em] uppercase">
           <span className="text-cyan-500">AESTHETIC_V1.0</span>
-          <span className="h-3 w-[1px] bg-white"></span>
+          <span className="h-3 w-[1px] bg-primary"></span>
           <span>SYST_ACTIVE</span>
         </div>
       </div>

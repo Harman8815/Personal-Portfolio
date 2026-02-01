@@ -18,7 +18,7 @@ const Certifications = () => {
   return (
     <section
       id="certifications"
-      className=" major-projects-section bg-primary w-full text-white  py-12"
+      className=" major-projects-section bg-primary w-full text-primary  py-12"
     >
      <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
         Certifications

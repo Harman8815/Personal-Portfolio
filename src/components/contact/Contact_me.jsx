@@ -8,14 +8,14 @@ const Contact_me = () => {
       className="bg-primary flex justify-center items-center px-4 sm:px-6 md:px-10 py-12"
     >
       <div className="w-full max-w-7xl flex flex-col-reverse lg:flex-row justify-center items-center gap-8 rounded-2xl bg-primary/70 shadow-sm p-6 sm:p-8 md:p-10">
-        <div className="w-full lg:w-[45%] bg-primary border-2 border-white rounded-2xl p-6">
-          <h2 className="text-2xl text-white text-center font-semibold mb-4">
+        <div className="w-full lg:w-[45%] bg-primary border-2 border-primary rounded-2xl p-6">
+          <h2 className="text-2xl text-primary text-center font-semibold mb-4">
             Contact Us
           </h2>
 
           <form className="space-y-4">
             <div>
-              <label htmlFor="name" className="text-white block mb-1">
+              <label htmlFor="name" className="text-primary block mb-1">
                 Your Name
               </label>
               <input
@@ -27,7 +27,7 @@ const Contact_me = () => {
             </div>
 
             <div>
-              <label htmlFor="email" className="text-white block mb-1">
+              <label htmlFor="email" className="text-primary block mb-1">
                 Your Email
               </label>
               <input
@@ -39,7 +39,7 @@ const Contact_me = () => {
             </div>
 
             <div>
-              <label htmlFor="message" className="text-white block mb-1">
+              <label htmlFor="message" className="text-primary block mb-1">
                 Your Message
               </label>
               <textarea

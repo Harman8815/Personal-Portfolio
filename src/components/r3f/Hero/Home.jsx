@@ -91,7 +91,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
   return (
     <section
       id="home"
-      className="bg-home min-h-screen w-full flex flex-col items-center justify-center relative"
+      className="bg-home min-h-screen w-full overflow-hidden flex flex-col items-center justify-center relative"
     >
       {/* <video
         autoPlay
@@ -143,10 +143,10 @@ const Home = ({ onLoad, onLoaderExit }) => {
             type="video/mp4"
           />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617] opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-primary)] via-transparent to-[var(--color-primary)] opacity-80" />
       </div>
 
-      <div className="z-6 laptopmodel w-full h-screen overflow-hidden">
+      <div className="z-6 laptopmodel w-full h-screen max-w-screen overflow-hidden">
         <Canvas
           shadows
           gl={{ antialias: true, alpha: true, stencil: false, depth: true }}

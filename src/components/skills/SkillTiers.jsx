@@ -122,7 +122,7 @@ const SkillTiers = ({ skillref }) => {
             <div className="h-full flex flex-col">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-1 h-6 bg-cyan-500 rounded-full"></div>
-                <h3 className="text-xl font-bold text-white uppercase tracking-tight">
+                <h3 className="text-xl font-bold text-primary uppercase tracking-tight">
                   {tier.title}
                 </h3>
               </div>
@@ -135,7 +135,7 @@ const SkillTiers = ({ skillref }) => {
                     <span className="text-lg text-slate-500 group-hover/item:text-cyan-400 transition-colors duration-300">
                       {item.icon}
                     </span>
-                    <span className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors duration-300 font-mono">
+                    <span className="text-sm text-secondary group-hover/item:text-primary transition-colors duration-300 font-mono">
                       {item.name}
                     </span>
                   </li>
