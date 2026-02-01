@@ -49,10 +49,9 @@ const AboutSection = () => {
           end: "+=850%",
           scrub: 1,
           pin: true,
-          // pinSpacing: false,
-
-          anticipatePin: 1,
+          pinSpacing: true,
           invalidateOnRefresh: true,
+          anticipatePin: 1
         },
       });
 
@@ -123,12 +122,20 @@ const AboutSection = () => {
       });
 
       gsap.set(skillsTiersRef.current, { opacity: 0 });
-      gsap.set(".skill-card-container", { opacity: 0, x: -100, scale: 0.9 });
+      gsap.set(".skill-card-container", {
+        opacity: 0,
+        scale: 0.5,
+        z: -1000,
+        rotateX: () => (Math.random() - 0.5) * 120,
+        rotateY: () => (Math.random() - 0.5) * 120,
+        x: (i) => (i % 2 === 0 ? -1200 : 1200),
+        y: (i) => (Math.random() - 0.5) * 1000
+      });
       // 1. Initial Intro Phase: "Want to know me?"
       // As we start scrolling, the text fades out and circle begins its journey.
       tl.addLabel("stack-start", "-=2");
 
-      tl.to(introTextRef.current, { opacity: 0, y: -20, duration: 1 })
+      tl.to(introTextRef.current, { opacity: 0, y: -40, duration: 1.5 })
 
         // 2. Journey to Bottom-Right (Step 1)
         .to(
@@ -137,7 +144,7 @@ const AboutSection = () => {
             left: "85%",
             top: "80%",
             scale: 0.5,
-            duration: 2,
+            duration: 2.5,
             ease: "power2.inOut",
           },
           "step1",
@@ -154,7 +161,7 @@ const AboutSection = () => {
         )
         .to(
           "#card-0",
-          { opacity: 1, x: 0, filter: "blur(0px)", duration: 1 },
+          { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.5 },
           "step1+=0.5",
         )
 
@@ -165,14 +172,14 @@ const AboutSection = () => {
             left: "15%",
             top: "20%",
             scale: 0.45,
-            duration: 2,
+            duration: 2.5,
             ease: "power2.inOut",
           },
           "step2",
         )
         .to(
           "#card-0",
-          { opacity: 0, x: -50, filter: "blur(10px)", duration: 0.5 },
+          { opacity: 0, x: -50, filter: "blur(10px)", duration: 0.8 },
           "step2",
         )
         .to(
@@ -181,9 +188,9 @@ const AboutSection = () => {
             opacity: 1,
             x: 0,
             filter: "blur(0px)",
-            duration: 1,
-            left: "auto",
-            right: "10%",
+            duration: 1.5,
+            // left: "auto",
+            // right: "10%",
           },
           "step2+=0.5",
         )
@@ -195,91 +202,84 @@ const AboutSection = () => {
             left: "80%",
             top: "50%",
             scale: 0.6,
-            duration: 2,
+            duration: 2.5,
             ease: "power2.inOut",
           },
           "step3",
         )
         .to(
           "#card-1",
-          { opacity: 0, x: 50, filter: "blur(10px)", duration: 0.5 },
+          { opacity: 0, x: 50, filter: "blur(10px)", duration: 0.8 },
           "step3",
         )
         .to(
           "#card-2",
-          { opacity: 1, x: 0, filter: "blur(0px)", duration: 1 },
+          { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.5 },
           "step3+=0.5",
         )
 
         // 5. Return to Center & Final Zoom
-        .to("#card-2", { opacity: 0, duration: 0.5 }, "exit")
-        .to(
-          circleRef.current,
-          {
-            left: "50%",
-            top: "50%",
-            scale: 0.1,
-            opacity: 0.5,
-            duration: 1.5,
-            ease: "power3.in",
-          },
-          "exit",
-        )
-        .to(
-          circleRef.current,
-          {
-            scale: 40,
-            opacity: 0,
-            duration: 2,
-            ease: "power2.in",
-          },
-          "stack",
-        );
+        .to("#card-2", { opacity: 0, scale: 0.8, filter: 'blur(15px)', duration: 1.5 }, "transition-start")
+        .to(circleRef.current, {
+          left: "50%",
+          top: "50%",
+          scale: 60,
+          opacity: 0,
+          duration: 3,
+          ease: "power4.in"
+        }, "transition-start").set(skillsContainerRef.current, { visibility: 'visible', opacity: 1 }, "transition-start+=1")
+        // .to(
+        //   circleRef.current,
+        //   {
+        //     scale: 40,
+        //     opacity: 0,
+        //     duration: 2,
+        //     ease: "power2.in",
+        //   },
+        //   "stack",
+        // );
 
-      // --- PART 2: THE STACKED TRANSITION (ZOOM FROM CAMERA) ---
-      tl.to(
-        "#card-2",
-        { opacity: 0, scale: 0.8, filter: "blur(15px)", duration: 1.5 },
-        "transition-start",
-      )
-        .to(
-          circleRef.current,
-          {
-            left: "50%",
-            top: "50%",
-            scale: 60,
-            opacity: 0,
-            duration: 3,
-            ease: "power4.in",
-          },
-          "transition-start",
-        )
+        // --- PART 2: THE STACKED TRANSITION (ZOOM FROM CAMERA) ---
+        // tl.to(
+        //   "#card-2",
+        //   { opacity: 0, scale: 0.8, filter: "blur(15px)", duration: 1.5 },
+        //   "transition-start",
+        // )
+        //   .to(
+        //     circleRef.current,
+        //     {
+        //       left: "50%",
+        //       top: "50%",
+        //       scale: 60,
+        //       opacity: 0,
+        //       duration: 3,
+        //       ease: "power4.in",
+        //     },
+        //     "transition-start",
+        //   )
 
         // Activate Skills Container Early
-        .set(
-          skillsContainerRef.current,
-          { visibility: "visible", opacity: 1 },
-          "transition-start",
-        )
+        // .set(
+        //   skillsContainerRef.current,
+        //   { visibility: "visible", opacity: 1 },
+        //   "transition-start",
+        // )
         // 1. Header Zooms in from EXACT viewport center
         .to(skillsHeaderRef.current, {
           opacity: 1,
-          scale: 2,
-          duration: 3,
+          scale: 1.4,
+          duration: 2.5,
           ease: "expo.out",
-        })
+        }, "transition-start+=1.8")
 
         // 2. Header shifts UP to its final position (Y move)
         .to(
           skillsHeaderRef.current,
           {
-            top: "10%",
-            scale: 1,
-            duration: 3,
-            ease: "power3.inOut",
-          },
-          "header-move",
-        )
+            top: '10%',
+            duration: 2,
+            ease: "power3.inOut"
+          }, "header-move")
 
         // 3. Skill Cloud zooms in at the SAME viewport center
         .to(
@@ -288,17 +288,23 @@ const AboutSection = () => {
             opacity: 1,
             scale: 1.5,
             filter: "blur(0px)",
-            duration: 5,
+            duration: 2.5,
             ease: "expo.out",
           },
           "header-move",
         )
-
+        .to(
+          skillsCloudRef.current,
+          {
+            y: '10%',
+          },
+          "header-move",
+        )
         // 4. Cloud L-Path: Horizontal move (X) to the right while maintaining Y
         .to(
           skillsCloudRef.current,
           {
-            left: "70%", // Final horizontal position
+            left: "80%", // Final horizontal position
             scale: 1,
             duration: 2.5,
             ease: "power4.inOut",
@@ -332,22 +338,6 @@ const AboutSection = () => {
           "cloud-drift+=1.5",
         );
 
-      // Final cleanup: Switch fixed elements to relative/absolute flow for resizing stability
-      // .set(skillsHeaderRef.current, {
-      //   position: "relative",
-      //   top: "auto",
-      //   left: "auto",
-      //   xPercent: 0,
-      //   yPercent: 0,
-      // })
-      // .set(skillsCloudRef.current, {
-      //   position: "relative",
-      //   top: "auto",
-      //   left: "auto",
-      //   xPercent: 0,
-      //   yPercent: 0,
-      // })
-      // .set(skillsContainerRef.current, { display: "block" }); // Ensure layout is settled
       tl.to(
         ".skill-card-container",
         {
