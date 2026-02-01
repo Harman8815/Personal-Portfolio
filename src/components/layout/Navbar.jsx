@@ -35,7 +35,15 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="projects"
+            to="about"
+            smooth
+            duration={500}
+            className="cursor-pointer hover:text-yellow-400"
+          >
+            About
+          </Link>
+          <Link
+            to="project"
             smooth
             duration={500}
             className="cursor-pointer hover:text-yellow-400"
@@ -65,6 +73,14 @@ const Navbar = () => {
             className="cursor-pointer hover:text-yellow-400"
           >
             Certifications
+          </Link>
+          <Link
+            to="education"
+            smooth
+            duration={500}
+            className="cursor-pointer hover:text-yellow-400"
+          >
+            Education
           </Link>
         </nav>
 
@@ -91,7 +107,16 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="projects"
+            to="about"
+            smooth
+            duration={500}
+            onClick={() => setOpen(false)}
+            className="block"
+          >
+            About
+          </Link>
+          <Link
+            to="project"
             smooth
             duration={500}
             onClick={() => setOpen(false)}
@@ -125,6 +150,15 @@ const Navbar = () => {
             className="block"
           >
             Certifications
+          </Link>
+          <Link
+            to="education"
+            smooth
+            duration={500}
+            onClick={() => setOpen(false)}
+            className="block"
+          >
+            Education
           </Link>
 
           <button className="w-full bg-blue-600 py-2 rounded hover:bg-blue-700 transition">

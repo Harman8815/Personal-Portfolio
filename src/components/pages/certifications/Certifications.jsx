@@ -1,6 +1,6 @@
 import React from 'react'
-import EmblaCarousel from './majorProject/embla/EmblaCarousel';
-import certificatesData from '../data/certificates';
+import EmblaCarousel from '../../majorProject/embla/EmblaCarousel';
+import certificatesData from '../../../data/certificates';
 const OPTIONS = { 
   loop: true,
   speed: 0.2,

@@ -1,10 +1,17 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import LandingSections from "@/components/LandingSections";
+import LandingSections from "@/components/pages/landing/LandingSections";
 import LoadingScreen from "@/components/loadingScreen/LoadingScreen";
-import HomeHero from "@/pages/Hero/Home";
+import dynamic from "next/dynamic";
 import { LoadingProvider, useLoadingContext } from "@/context/LoadingContext";
+
+const HomeHero = dynamic(() => import("@/components/r3f/Hero/Home"), {
+  ssr: false,
+  loading: () => <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="text-white text-2xl">Loading...</div>
+  </div>
+});
 
 function HomePageContent() {
   const [isMainLoading, setIsMainLoading] = useState(true);

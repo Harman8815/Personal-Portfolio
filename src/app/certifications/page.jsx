@@ -1,5 +1,5 @@
 
-import Certifications from "@/components/Certifications";
+import Certifications from "@/components/pages/certifications/Certifications";
 
 const CertificationsPage = () => {
   return (

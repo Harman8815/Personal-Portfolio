@@ -1,16 +1,18 @@
 "use client";
 
 import React, { useEffect, useState, Suspense, lazy } from "react";
-import About from "./About/About";
-import Skills from "./skills/Skills";
+import About from "../../about/About";
+import Skills from "../../skills/Skills";
 
 // Lazy imports
-const MajorProjects = lazy(() => import("./majorProject/MajorProjects"));
-const Contact_me = lazy(() => import("./Contact/Contact_me"));
+const MajorProjects = lazy(() => import("../../majorProject/MajorProjects"));
+const Contact_me = lazy(() => import("../../contact/Contact_me"));
 const ThankYou = lazy(() => import("./ThankYou"));
-const Education = lazy(() => import("./Education"));
-const Links = lazy(() => import("./Links"));
-const Certificates = lazy(() => import("./Certifications"));
+const Education = lazy(() => import("../education/Education"));
+const Links = lazy(() => import("../links/Links"));
+const Certificates = lazy(() => import("../certifications/Certifications"));
+const Experience = lazy(() => import("../experience/Experience"));
+const Achievements = lazy(() => import("../achievements/Achievements"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);
 
@@ -28,8 +30,10 @@ const LandingSections = () => {
       {loadRest && (
         <Suspense fallback={null}>
           <MajorProjects />
+          <Experience />
           <Certificates />
           <Education />
+          <Achievements />
           <Links />
           <Contact_me />
           <ThankYou />

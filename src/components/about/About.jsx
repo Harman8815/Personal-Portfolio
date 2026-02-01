@@ -448,6 +448,7 @@ const AboutSection = () => {
 
   return (
     <div
+      id="about"
       ref={sectionRef}
       className="relative w-full bg-[#020617] overflow-hidden min-h-screen border-t border-slate-900"
     >

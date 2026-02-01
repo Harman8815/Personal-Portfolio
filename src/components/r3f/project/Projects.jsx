@@ -6,8 +6,8 @@ import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Center, OrbitControls } from "@react-three/drei";
 
-import { myProjects } from "../../data/index.js";
-import CanvasLoader from "../../components/Loading.jsx";
+import { myProjects } from "../../../data/index.js";
+import CanvasLoader from "../../../components/shared/Loading.jsx";
 import DemoComputer from "./DemoComputer.jsx";
 
 const projectCount = myProjects.length;

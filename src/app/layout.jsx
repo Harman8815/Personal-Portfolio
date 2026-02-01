@@ -1,6 +1,6 @@
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 // import CustomCursor from "../components/common/CustomCursor";
 
 export const metadata = {
