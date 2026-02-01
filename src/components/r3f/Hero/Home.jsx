@@ -190,7 +190,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
           />
 
           <Suspense fallback={<ModelLoader />}>
-            <group position={[0, 0, 0]}>
+            <group position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
               {/* <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}> */}
               <Laptop
                 LaptopRef={LaptopRef}
