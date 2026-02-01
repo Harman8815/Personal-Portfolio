@@ -13,6 +13,7 @@ const Links = lazy(() => import("../links/Links"));
 const Certificates = lazy(() => import("../certifications/Certifications"));
 const Experience = lazy(() => import("../experience/Experience"));
 const Achievements = lazy(() => import("../achievements/Achievements"));
+const EndSequence = lazy(() => import("./EndSequence"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);
 
@@ -25,7 +26,7 @@ const LandingSections = () => {
   return (
     <div className="relative" id="bg">
       <About />
-      <Skills />
+      {/* <Skills /> */}
 
       {loadRest && (
         <Suspense fallback={null}>
@@ -36,7 +37,8 @@ const LandingSections = () => {
           {/* <Achievements /> */}
           <Links />
           <Contact_me />
-          <ThankYou />
+          {/* <ThankYou /> */}
+          <EndSequence />
         </Suspense>
       )}
     </div>
