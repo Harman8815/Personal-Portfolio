@@ -56,7 +56,7 @@ const NotFound= () => {
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 z-[1000] bg-[#020617] flex flex-col items-center justify-center overflow-hidden text-white selection:bg-cyan-500/30"
+      className="fixed inset-0 z-[1000] bg-[#020617] flex flex-col items-center justify-center overflow-hidden text-white selection:bg-cyan-500/30 min-w-0"
     >
       {/* Cinematic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
@@ -89,34 +89,34 @@ const NotFound= () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
+      <div className="relative z-10 flex flex-col items-center text-center px-6 w-full max-w-full min-w-0">
         {/* Glitchy 404 */}
         <div className="relative mb-8">
           <h1 
             ref={glitchTextRef}
-            className="text-[12rem] md:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-white drop-shadow-[0_0_80px_rgba(255,255,255,0.1)] relative z-10"
+            className="text-[8rem] sm:text-[12rem] md:text-[16rem] lg:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-white drop-shadow-[0_0_80px_rgba(255,255,255,0.1)] relative z-10 break-words min-w-0"
           >
             404
           </h1>
           {/* Ghost Layers for Glitch Depth */}
-          <span className="absolute inset-0 text-[12rem] md:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-cyan-500/20 -translate-x-1 blur-sm animate-pulse">404</span>
-          <span className="absolute inset-0 text-[12rem] md:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-red-500/10 translate-x-1 blur-[1px]">404</span>
+          <span className="absolute inset-0 text-[8rem] sm:text-[12rem] md:text-[16rem] lg:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-cyan-500/20 -translate-x-1 blur-sm animate-pulse min-w-0">404</span>
+          <span className="absolute inset-0 text-[8rem] sm:text-[12rem] md:text-[16rem] lg:text-[20rem] font-black font-mono leading-none tracking-tighter tabular-nums text-red-500/10 translate-x-1 blur-[1px] min-w-0">404</span>
         </div>
 
         {/* Messaging */}
-        <div className="max-w-xl flex flex-col items-center gap-8 mb-16">
+        <div className="max-w-xl flex flex-col items-center gap-8 mb-16 w-full min-w-0">
           <div className="flex items-center gap-6">
             <div className="h-[1px] w-12 bg-cyan-500/30"></div>
             <span className="font-mono text-xs tracking-[0.8em] text-cyan-400 font-black uppercase">Void_Entry_Detected</span>
             <div className="h-[1px] w-12 bg-cyan-500/30"></div>
           </div>
           
-          <h2 className="text-3xl md:text-5xl font-bold text-white uppercase tracking-tighter leading-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase tracking-tighter leading-tight break-words min-w-0">
             You have drifted <br /> 
             <span className="text-cyan-500 italic">beyond the mapped network</span>
           </h2>
           
-          <p className="text-slate-500 font-mono text-sm uppercase tracking-widest leading-relaxed">
+          <p className="text-slate-500 font-mono text-sm uppercase tracking-widest leading-relaxed break-words min-w-0">
             The resource you are attempting to access has been <br />
             de-synchronized from the primary Lumina uplink.
           </p>
@@ -125,7 +125,7 @@ const NotFound= () => {
         {/* CTA Button */}
         <button 
           onClick={handleReturn}
-          className="interactive group relative px-12 py-5 overflow-hidden border border-white/10 backdrop-blur-md rounded-full transition-all duration-500 hover:border-cyan-500/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)]"
+          className="interactive group relative px-8 sm:px-12 py-5 overflow-hidden border border-white/10 backdrop-blur-md rounded-full transition-all duration-500 hover:border-cyan-500/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)] min-w-0"
         >
           <div className="absolute inset-0 bg-cyan-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out opacity-10"></div>
           <div className="relative z-10 flex items-center gap-4">

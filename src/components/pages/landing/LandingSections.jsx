@@ -18,22 +18,22 @@ const LandingSections = () => {
 
   useEffect(() => {
     // Automatically trigger loading of remaining sections after first render
-    const timer = setTimeout(() => setLoadRest(true), 100); // slight delay after initial mount
+    const timer = setTimeout(() => setLoadRest(true), 500); // increased delay for proper initialization
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="relative" id="bg">
       <About />
-      {/* <Skills /> */}
+      <Skills />
 
       {loadRest && (
         <Suspense fallback={null}>
           <MajorProjects />
-          <Experience />
+          {/* <Experience /> */}
           <Certificates />
           <Education />
-          <Achievements />
+          {/* <Achievements /> */}
           <Links />
           <Contact_me />
           <ThankYou />

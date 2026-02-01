@@ -7,15 +7,15 @@ export default function GlobalError({ error, reset }) {
 
   return (
     <html>
-      <body className="fixed inset-0 bg-[#020617] text-white overflow-hidden">
+      <body className="fixed inset-0 bg-[#020617] text-white overflow-hidden min-w-0">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(239,68,68,0.08)_0%,transparent_70%)]"></div>
           <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
           <div className="absolute top-0 left-0 w-full h-px bg-red-500/30 animate-scan-fast"></div>
         </div>
 
-        <main className="relative z-10 min-h-screen flex items-center justify-center px-8">
-          <div className="w-full max-w-2xl flex flex-col items-center">
+        <main className="relative z-10 min-h-screen flex items-center justify-center px-8 min-w-0">
+          <div className="w-full max-w-2xl flex flex-col items-center min-w-0">
             <div className="mb-8 flex flex-col items-center gap-2">
               <div className="w-14 h-14 border-2 border-red-500/50 rounded-full flex items-center justify-center animate-pulse">
                 <span className="text-red-500 font-black text-3xl">!</span>
@@ -26,10 +26,10 @@ export default function GlobalError({ error, reset }) {
             </div>
 
             <div className="relative mb-12">
-              <h1 className="text-[9rem] md:text-[12rem] font-black font-mono text-white leading-none tracking-tighter select-none glitch-code">
+              <h1 className="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] font-black font-mono text-white leading-none tracking-tighter select-none glitch-code break-words min-w-0">
                 {errorCode}
               </h1>
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 whitespace-nowrap">
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 whitespace-nowrap min-w-0">
                 <div className="h-[1px] w-20 bg-gradient-to-r from-transparent to-red-500/50"></div>
                 <span className="text-[11px] font-mono uppercase tracking-[0.8em] text-red-400 font-black">
                   {message}
@@ -38,7 +38,7 @@ export default function GlobalError({ error, reset }) {
               </div>
             </div>
 
-            <div className="w-full bg-slate-950/40 border border-white/5 backdrop-blur-xl p-8 rounded-lg relative overflow-hidden mb-12 shadow-[0_0_60px_rgba(0,0,0,0.7)]">
+            <div className="w-full bg-slate-950/40 border border-white/5 backdrop-blur-xl p-8 rounded-lg relative overflow-hidden mb-12 shadow-[0_0_60px_rgba(0,0,0,0.7)] min-w-0">
               <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/40 to-transparent"></div>
 
               <div className="flex flex-col gap-4 font-mono text-[11px] text-slate-400">
@@ -61,7 +61,7 @@ export default function GlobalError({ error, reset }) {
 
             <button
               onClick={reset}
-              className="group relative px-16 py-5 overflow-hidden transition-all"
+              className="group relative px-12 sm:px-16 py-5 overflow-hidden transition-all min-w-0"
             >
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
               <span className="relative z-10 font-mono text-xs font-black uppercase tracking-[0.4em] text-white group-hover:text-black transition-colors">

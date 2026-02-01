@@ -6,14 +6,14 @@ export default function Error({ error, reset }) {
   const message = error?.message || "LOST_IN_THE_VOID";
 
   return (
-    <div className="fixed inset-0 z-[500] bg-[#020617] flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-[500] bg-[#020617] flex items-center justify-center overflow-hidden min-w-0">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)]"></div>
         <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         <div className="absolute top-0 left-0 w-full h-px bg-cyan-500/20 animate-scan-fast"></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-2xl px-8 flex flex-col items-center">
+      <div className="relative z-10 w-full max-w-2xl px-8 flex flex-col items-center min-w-0">
         <div className="mb-8 flex flex-col items-center gap-2">
           <div className="w-12 h-12 border-2 border-red-500/40 rounded-full flex items-center justify-center animate-pulse">
             <span className="text-red-500 font-black text-2xl">!</span>
@@ -24,10 +24,10 @@ export default function Error({ error, reset }) {
         </div>
 
         <div className="relative mb-12">
-          <h1 className="text-[10rem] md:text-[14rem] font-black font-mono text-white leading-none tracking-tighter tabular-nums select-none glitch-code">
+          <h1 className="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[14rem] font-black font-mono text-white leading-none tracking-tighter tabular-nums select-none glitch-code break-words min-w-0">
             {errorCode}
           </h1>
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 whitespace-nowrap">
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-6 whitespace-nowrap min-w-0">
             <div className="h-[1px] w-24 bg-gradient-to-r from-transparent to-red-500/40"></div>
             <span className="text-[12px] font-mono uppercase tracking-[0.8em] text-red-400 font-black">
               {message}
@@ -36,7 +36,7 @@ export default function Error({ error, reset }) {
           </div>
         </div>
 
-        <div className="w-full bg-slate-950/40 border border-white/5 backdrop-blur-xl p-8 rounded-lg relative overflow-hidden mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+        <div className="w-full bg-slate-950/40 border border-white/5 backdrop-blur-xl p-8 rounded-lg relative overflow-hidden mb-12 shadow-[0_0_50px_rgba(0,0,0,0.5)] min-w-0">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
 
           <div className="flex flex-col gap-4">
@@ -68,7 +68,7 @@ export default function Error({ error, reset }) {
 
         <button
           onClick={reset}
-          className="group relative px-16 py-5 overflow-hidden transition-all"
+          className="group relative px-12 sm:px-16 py-5 overflow-hidden transition-all min-w-0"
         >
           <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
           <div className="relative z-10 flex items-center gap-4">
