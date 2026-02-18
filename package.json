@@ -22,6 +22,7 @@
     "embla-carousel-class-names": "^8.5.2",
     "embla-carousel-react": "^8.5.2",
     "embla-carousel-wheel-gestures": "^8.0.1",
+    "framer-motion": "^12.34.1",
     "gsap": "^3.12.7",
     "lucide-react": "^0.563.0",
     "maath": "^0.10.8",
