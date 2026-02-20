@@ -218,20 +218,18 @@ const MajorProjects = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 20%", // Start when section enters viewport
-          end: "+=300%", // Reduced duration for snappier experience
-          scrub: 1, // Match Skills section scrub value
-          pin: true, // Pin the section
+          start: "top 20%",
+          end: "+=300%",
+          scrub: 1,
+          pin: true,
           pinSpacing: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             setIsPinned(self.isActive);
-            // Update active card based on scroll progress
             const cardIndex = Math.floor(self.progress * projects.length);
             setActiveIndex(Math.min(cardIndex, projects.length - 1));
             
-            // Enable pointer events when cards are fully animated (progress > 0.3)
-            if (self.progress > 0.3 && !cardsAnimated) {
+            if (self.progress > 0.2 && !cardsAnimated) {
               setCardsAnimated(true);
             }
           }
@@ -281,16 +279,13 @@ const MajorProjects = () => {
       // Create horizontal scroll effect for cards
       tl.to(cardsRef.current, {
         x: (index) => {
-          // Center the active card and offset others
           const offset = index - activeIndex;
           return offset * 120;
         },
         scale: (index) => {
-          // Make active card larger
           return index === activeIndex ? 1.1 : 0.9;
         },
         opacity: (index) => {
-          // Make active card more opaque
           return index === activeIndex ? 1 : 0.6;
         },
         duration: 0.8,

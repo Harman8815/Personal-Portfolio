@@ -111,12 +111,12 @@ const SkillTiers = ({ skillref }) => {
   return (
     <div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
-    auto-rows-fr gap-6 w-full"
+    auto-rows-fr gap-6 w-[85%] mx-auto"
     >
       {tiers.map((tier) => (
         <div
           key={tier.id}
-          className={`skill-card-container h-full  ${tier.className}`}
+          className={`skill-card-container h-full ${tier.className}`}
         >
           <TiltCard>
             <div className="h-full flex flex-col">
