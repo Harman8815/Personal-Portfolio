@@ -7,16 +7,17 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * Lumina OS Logout/Gratitude Sequence.
  * A cinematic end-of-page transition simulating system power-down and gratitude.
  */
+const phrases = [
+  "Gratitude_Acknowledged...",
+  "Connection_Closing_Securely...",
+  "System_De-sync::Complete",
+  "Visit_Again::Required",
+];
+
 const ThankYou = () => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
   const [displayText, setDisplayText] = useState("");
-  const phrases = [
-    "Gratitude_Acknowledged...",
-    "Connection_Closing_Securely...",
-    "System_De-sync::Complete",
-    "Visit_Again::Required",
-  ];
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);

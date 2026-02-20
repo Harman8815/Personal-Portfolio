@@ -497,6 +497,7 @@ const PortfolioScroll = () => {
     }, sectionRef);
 
     return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // EMPTIED DEPS to prevent killing/rebuilding timeline mid-scroll
 
   return (

@@ -329,7 +329,7 @@ const MajorProjects = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [activeIndex]); // Add activeIndex dependency to update animations
+  }, [activeIndex, cardsAnimated, isPinned]); // Add activeIndex dependency to update animations
 
   return (
     <section

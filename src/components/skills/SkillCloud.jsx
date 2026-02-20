@@ -8,7 +8,7 @@ const useIcons = (slugs) => {
 
   React.useEffect(() => {
     fetchSimpleIcons({ slugs }).then(setIcons);
-  }, []);
+  }, [slugs]);
 
   if (icons) {
     return Object.values(icons.simpleIcons).map((icon) =>
@@ -21,7 +21,7 @@ const useIcons = (slugs) => {
           className:
             "transition-transform duration-300 ease-in-out hover:scale-150",
         },
-      })
+      }),
     );
   }
 
@@ -39,7 +39,7 @@ const SkillCloud = ({ slugs }) => {
           maxSpeed: 0.2,
           initial: [0.05, -0.05],
           keep: true,
-          wheelZoom: false, 
+          wheelZoom: false,
         }}
       >
         {icons}

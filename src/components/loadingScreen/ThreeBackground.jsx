@@ -20,12 +20,7 @@ const ThreeBackground = ({ progress }) => {
     const width = container.clientWidth || window.innerWidth;
     const height = container.clientHeight || window.innerHeight;
 
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      width / height,
-      0.1,
-      1000
-    );
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
@@ -57,7 +52,7 @@ const ThreeBackground = ({ progress }) => {
 
     particlesGeometry.setAttribute(
       "position",
-      new THREE.BufferAttribute(posArray, 3)
+      new THREE.BufferAttribute(posArray, 3),
     );
 
     const particlesMaterial = new THREE.PointsMaterial({
@@ -67,7 +62,7 @@ const ThreeBackground = ({ progress }) => {
 
     const particlesMesh = new THREE.Points(
       particlesGeometry,
-      particlesMaterial
+      particlesMaterial,
     );
 
     scene.add(particlesMesh);
@@ -77,7 +72,6 @@ const ThreeBackground = ({ progress }) => {
     let animatedProgress = 0;
 
     const animate = () => {
-      
       animatedProgress += (progressRef.current - animatedProgress) * 0.1;
 
       const speedFactor = 0.005 + (animatedProgress / 100) * 0.02;
@@ -109,11 +103,12 @@ const ThreeBackground = ({ progress }) => {
 
     window.addEventListener("resize", handleResize);
 
+    const cleanupContainer = containerRef.current;
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
-      if (containerRef.current) {
-        containerRef.current.removeChild(renderer.domElement);
+      if (cleanupContainer) {
+        cleanupContainer.removeChild(renderer.domElement);
       }
       renderer.dispose();
       geometry.dispose();
