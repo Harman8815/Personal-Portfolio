@@ -32,41 +32,42 @@ const PortfolioScroll = () => {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
 
+  // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
+  const lastIndexRef = useRef(0);
+  const projectsVisibleRef = useRef(false);
+
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initial setup for all elements to be hidden/positioned correctly
-    // We use absolute positioning for everything within the pinned container
-
     const ctx = gsap.context(() => {
-      // Create master timeline for entire portfolio
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=1500%", // Increased duration for smoother multi-section flow
-          scrub: true, // Direct scrub for better sync
+          end: "+=1500%",
+          scrub: true,
           pin: true,
           pinSpacing: true,
           invalidateOnRefresh: true,
           anticipatePin: 1,
-          markers: true, // Temporarily enabled for debugging as requested
           onUpdate: (self) => {
-            // Use progress to handle visibility and index updates outside the reactive cycle
             const progress = self.progress;
 
-            // Toggle visibility state for projects section
             if (progress > 0.58) {
-              if (!projectsVisible) setProjectsVisible(true);
+              if (!projectsVisibleRef.current) {
+                projectsVisibleRef.current = true;
+                setProjectsVisible(true);
+              }
 
-              // Map 0.6 -> 1.0 progress to project items 0 -> 4
               const projectProgress = (progress - 0.6) / 0.4;
               const newIndex = Math.min(Math.floor(projectProgress * 5), 4);
-              if (newIndex >= 0 && newIndex !== activeProjectIndex) {
-                // Note: Selective state update is okay, but we must MUST ensure the timeline doesn't rebuild
+
+              if (newIndex >= 0 && newIndex !== lastIndexRef.current) {
+                lastIndexRef.current = newIndex;
                 setActiveProjectIndex(newIndex);
               }
-            } else if (projectsVisible) {
+            } else if (projectsVisibleRef.current) {
+              projectsVisibleRef.current = false;
               setProjectsVisible(false);
             }
           },
@@ -261,7 +262,7 @@ const PortfolioScroll = () => {
           {
             opacity: 1,
             scale: 1,
-            y: "-35vh", // Move up from center
+            y: "-45vh", // Move up from center
             duration: 3,
             ease: "expo.out",
           },
@@ -276,8 +277,8 @@ const PortfolioScroll = () => {
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
-            x: "20vw",
-            y: "0",
+            x: "30vw",
+            y: "5vh",
             duration: 4,
             ease: "power3.out",
           },
@@ -289,7 +290,7 @@ const PortfolioScroll = () => {
             opacity: 1,
             scale: 1,
             x: "-15vw",
-            y: "0",
+            y: "5vh",
             duration: 4,
             ease: "power3.out",
           },
