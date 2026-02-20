@@ -56,24 +56,17 @@ const PortfolioScroll = () => {
             const progress = self.progress;
 
             // 🚀 BUG FIX: Sync visibility with timeline labels.
-            // Based on current timeline distribution, projects-start is around 0.45-0.5 progress.
-            if (progress > 0.4) {
+            if (progress > 0.45) {
               if (!projectsVisibleRef.current) {
                 projectsVisibleRef.current = true;
                 setProjectsVisible(true);
               }
-
-              // Map 0.5 -> 1.0 progress to project items 0 -> 4 for the wheel rotation
-              const projectProgress = Math.max(0, (progress - 0.5) / 0.5);
-              const newIndex = Math.min(Math.floor(projectProgress * 5), 4);
-
-              if (newIndex >= 0 && newIndex !== lastIndexRef.current) {
-                lastIndexRef.current = newIndex;
-                setActiveProjectIndex(newIndex);
-              }
             } else if (projectsVisibleRef.current) {
               projectsVisibleRef.current = false;
               setProjectsVisible(false);
+              // Reset index when scrolling back up past projects
+              lastIndexRef.current = 0;
+              setActiveProjectIndex(0);
             }
           },
         },
@@ -475,9 +468,27 @@ const PortfolioScroll = () => {
         .to(
           projectsRefs.wheelRef.current,
           {
-            rotate: -288, // (360 / 5) * 4 projects transition
+            rotate: -288, // 4 gaps of 72deg = 288deg to reach project 5
             duration: 20,
-            ease: "none", // Linear scroll-linked rotation
+            ease: "none",
+            onUpdate: function () {
+              const self = this;
+              const progress = self.progress();
+
+              // Sync the CSS variable with the current rotation for child counter-rotation
+              const rot = gsap.getProperty(self.targets()[0], "rotate");
+              self
+                .targets()[0]
+                .style.setProperty("--wheel-rotation", rot + "deg");
+
+              // 🚀 BUG FIX: Derive index from rotation progress
+              // We have 5 projects. We want index to be 0 for while, then 1, 2, 3, 4.
+              const newIndex = Math.min(Math.floor(progress * 5), 4);
+              if (newIndex !== lastIndexRef.current) {
+                lastIndexRef.current = newIndex;
+                setActiveProjectIndex(newIndex);
+              }
+            },
           },
           "projects-rotation",
         )

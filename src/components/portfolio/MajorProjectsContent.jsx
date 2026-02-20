@@ -151,10 +151,11 @@ const MajorProjectsContent = ({ refs, activeIndex }) => {
             {/* The Rotating Wheel */}
             <div
               ref={refs.wheelRef}
-              className="absolute inset-0 rounded-full border border-white/5 flex items-center justify-center transition-transform duration-700 ease-out shadow-[0_0_100px_rgba(0,0,0,0.5)]"
+              className="absolute inset-0 rounded-full border border-white/5 flex items-center justify-center shadow-[0_0_100px_rgba(0,0,0,0.5)]"
               style={{
                 background:
                   "radial-gradient(circle at center, rgba(34,211,238,0.03) 0%, transparent 70%)",
+                "--wheel-rotation": "0deg",
               }}
             >
               {/* Center decorative core */}
@@ -176,7 +177,7 @@ const MajorProjectsContent = ({ refs, activeIndex }) => {
                     ref={(el) => (refs.wheelItemsRef.current[i] = el)}
                     className="absolute top-1/2 left-1/2 w-8 h-8 md:w-16 md:h-16 pointer-events-none"
                     style={{
-                      transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-20vh) rotate(-${angle}deg)`,
+                      transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-20vh) rotate(calc(-1 * (${angle}deg + var(--wheel-rotation, 0deg))))`,
                     }}
                   >
                     <div
