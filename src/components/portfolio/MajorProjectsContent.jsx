@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Project data
 const projects = [
@@ -76,7 +75,7 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
     setMousePos({ x: x * 20, y: y * 20 });
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     // GSAP hover animations for buttons
     buttonRefs.current.forEach((button) => {
       if (!button) return;
@@ -200,124 +199,11 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
   );
 };
 
-const MajorProjects = () => {
-  const sectionRef = useRef(null);
-  const containerRef = useRef(null);
-  const cardsRef = useRef([]);
-  const headerRef = useRef(null);
-  const scrollIndicatorRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPinned, setIsPinned] = useState(false);
-  const [cardsAnimated, setCardsAnimated] = useState(false);
-
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      // Create timeline for pinned section
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 20%",
-          end: "+=300%",
-          scrub: 1,
-          pin: true,
-          pinSpacing: true,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            setIsPinned(self.isActive);
-            const cardIndex = Math.floor(self.progress * projects.length);
-            setActiveIndex(Math.min(cardIndex, projects.length - 1));
-            
-            if (self.progress > 0.2 && !cardsAnimated) {
-              setCardsAnimated(true);
-            }
-          }
-        }
-      });
-
-      // Initial states
-      gsap.set(headerRef.current.children, {
-        opacity: 0,
-        y: 50
-      });
-
-      gsap.set(scrollIndicatorRef.current, {
-        opacity: 0
-      });
-
-      gsap.set(cardsRef.current, {
-        y: 100,
-        opacity: 0,
-        scale: 0.8,
-        rotateY: 15,
-        filter: "blur(10px)"
-      });
-
-      // Header entrance animation
-      tl.to(headerRef.current.children, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.2
-      });
-
-      // Animate cards in sequence
-      cardsRef.current.forEach((card, index) => {
-        tl.to(card, {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          rotateY: 0,
-          filter: "blur(0px)",
-          duration: 1.5,
-          ease: "power3.out",
-        }, `cards+=${index * 0.2}`);
-      });
-
-      // Create horizontal scroll effect for cards
-      tl.to(cardsRef.current, {
-        x: (index) => {
-          const offset = index - activeIndex;
-          return offset * 120;
-        },
-        scale: (index) => {
-          return index === activeIndex ? 1.1 : 0.9;
-        },
-        opacity: (index) => {
-          return index === activeIndex ? 1 : 0.6;
-        },
-        duration: 0.8,
-        ease: "power2.inOut"
-      }, "horizontal-scroll");
-
-      // Scroll indicator animation
-      gsap.to(scrollIndicatorRef.current, {
-        opacity: isPinned ? 1 : 0,
-        duration: 0.5,
-        ease: "power2.out"
-      });
-
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [activeIndex]); // Add activeIndex dependency to update animations
-
+const MajorProjectsContent = ({ refs, activeIndex, cardsAnimated, setActiveIndex }) => {
   return (
-    <section
-      ref={sectionRef}
-      className="relative w-full bg-primary text-white overflow-hidden"
-    >
-      {/* Background effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] [background-size:60px_60px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.05)_0%,transparent_70%)]" />
-        <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      </div>
-
+    <div className="relative z-10">
       {/* Header */}
-      <div ref={headerRef} className="relative z-10 text-center mb-20">
+      <div ref={refs.headerRef} className="relative z-10 text-center mb-20">
         <div>
           <span className="font-mono text-[11px] tracking-[0.8em] uppercase text-cyan-500 mb-4 block">
             Project_Portfolio
@@ -330,12 +216,12 @@ const MajorProjects = () => {
       </div>
 
       {/* Projects container */}
-      <div ref={containerRef} className="relative z-10 max-w-7xl mx-auto px-6 py-20 pt-0">
+      <div ref={refs.containerRef} className="relative z-10 max-w-7xl mx-auto px-6 py-20 pt-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[60vh]">
           {projects.map((project, index) => (
             <div
               key={project.id}
-              ref={(el) => (cardsRef.current[index] = el)}
+              ref={(el) => (refs.cardsRef.current[index] = el)}
               className="transform-gpu"
             >
               <ProjectCard
@@ -353,7 +239,7 @@ const MajorProjects = () => {
 
       {/* Scroll indicator */}
       <div
-        ref={scrollIndicatorRef}
+        ref={refs.scrollIndicatorRef}
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center"
       >
         <div className="flex flex-col items-center gap-2">
@@ -380,8 +266,8 @@ const MajorProjects = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default MajorProjects;
+export default MajorProjectsContent;
