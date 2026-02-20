@@ -13,7 +13,7 @@ const hexToRgb = (hex) => {
   return match
     ? `${parseInt(match[1], 16)}, ${parseInt(match[2], 16)}, ${parseInt(
         match[3],
-        16
+        16,
       )}`
     : "";
 };
@@ -32,8 +32,8 @@ const Achievements = () => {
         trigger: item,
         start: "top 99%",
 
-        onEnter: () => animateItem(icon, item),
-        onEnterBack: () => animateItem(icon, item),
+        onEnter: () => animateItem(icon, content),
+        onEnterBack: () => animateItem(icon, content),
       });
     });
 
@@ -48,7 +48,7 @@ const Achievements = () => {
           opacity: 1,
           duration: 4,
           ease: "power4.out",
-        }
+        },
       );
 
       // Animate content (title and description): slide up with stagger
@@ -61,15 +61,18 @@ const Achievements = () => {
           duration: 2,
           ease: "power3.out",
           stagger: 0.2, // Stagger for title and description
-        }
+        },
       );
     }
 
     return () => ScrollTrigger.getAll().forEach((trigger) => trigger.kill()); // Cleanup
   }, []);
 
-  return (<section id="achievements" className="text-white bg-primary py-8 px-4 tablet:px-8 laptop:px-16">
-
+  return (
+    <section
+      id="achievements"
+      className="text-white bg-primary py-8 px-4 tablet:px-8 laptop:px-16"
+    >
       <h2 className="text-4xl tablet:text-5xl laptop:text-6xl font-bold mb-6 text-center">
         Achievements
       </h2>

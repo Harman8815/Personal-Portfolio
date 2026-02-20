@@ -8,71 +8,83 @@ const projects = [
     id: 1,
     title: "Neural Canvas",
     category: "AI Creative Suite",
-    description: "Advanced ML-powered design platform with real-time collaboration and generative art capabilities.",
+    description:
+      "Advanced ML-powered design platform with real-time collaboration and generative art capabilities.",
     tech: ["React", "TensorFlow.js", "WebGL", "Node.js"],
     color: "from-cyan-500 to-blue-600",
     link: "#",
     github: "#",
-    featured: true
+    featured: true,
   },
   {
     id: 2,
     title: "Quantum Ledger",
     category: "Blockchain Infrastructure",
-    description: "Next-gen distributed ledger system with quantum-resistant cryptography and sub-second consensus.",
+    description:
+      "Next-gen distributed ledger system with quantum-resistant cryptography and sub-second consensus.",
     tech: ["Rust", "WebAssembly", "IPFS", "PostgreSQL"],
     color: "from-purple-500 to-pink-600",
     link: "#",
     github: "#",
-    featured: true
+    featured: true,
   },
   {
     id: 3,
     title: "Synthetic Dreams",
     category: "3D Web Experience",
-    description: "Immersive WebGL-powered virtual environment with physics simulation and real-time rendering.",
+    description:
+      "Immersive WebGL-powered virtual environment with physics simulation and real-time rendering.",
     tech: ["Three.js", "React", "GLSL", "WebSocket"],
     color: "from-emerald-500 to-teal-600",
     link: "#",
     github: "#",
-    featured: true
+    featured: true,
   },
   {
     id: 4,
     title: "Echo Chamber",
     category: "Audio Platform",
-    description: "Spatial audio streaming service with AI-driven personalization and 3D sound positioning.",
+    description:
+      "Spatial audio streaming service with AI-driven personalization and 3D sound positioning.",
     tech: ["Next.js", "Web Audio API", "Python", "Redis"],
     color: "from-orange-500 to-red-600",
     link: "#",
     github: "#",
-    featured: false
+    featured: false,
   },
   {
     id: 5,
     title: "Data Weave",
     category: "Analytics Dashboard",
-    description: "Real-time data visualization platform with advanced ML insights and predictive analytics.",
+    description:
+      "Real-time data visualization platform with advanced ML insights and predictive analytics.",
     tech: ["Vue.js", "D3.js", "Python", "MongoDB"],
     color: "from-indigo-500 to-purple-600",
     link: "#",
     github: "#",
-    featured: false
-  }
+    featured: false,
+  },
 ];
 
-const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated }) => {
+const ProjectCard = ({
+  project,
+  _index,
+  _isActive,
+  onHover,
+  onLeave,
+  cardsAnimated,
+}) => {
   const cardRef = useRef(null);
   const buttonRefs = useRef([]);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e) => {
     if (!cardRef.current || !cardsAnimated) return;
-    
+
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left - rect.width / 2) / rect.width;
     const y = (e.clientY - rect.top - rect.height / 2) / rect.height;
-    
+
     setMousePos({ x: x * 20, y: y * 20 });
   };
 
@@ -80,36 +92,36 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
     // GSAP hover animations for buttons
     buttonRefs.current.forEach((button) => {
       if (!button) return;
-      
-      button.addEventListener('mouseenter', () => {
+
+      button.addEventListener("mouseenter", () => {
         gsap.to(button, {
           scale: 1.05,
           duration: 0.2,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       });
-      
-      button.addEventListener('mouseleave', () => {
+
+      button.addEventListener("mouseleave", () => {
         gsap.to(button, {
           scale: 1,
           duration: 0.2,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       });
-      
-      button.addEventListener('mousedown', () => {
+
+      button.addEventListener("mousedown", () => {
         gsap.to(button, {
           scale: 0.95,
           duration: 0.1,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       });
-      
-      button.addEventListener('mouseup', () => {
+
+      button.addEventListener("mouseup", () => {
         gsap.to(button, {
           scale: 1.05,
           duration: 0.1,
-          ease: "power2.out"
+          ease: "power2.out",
         });
       });
     });
@@ -122,17 +134,19 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
       onMouseEnter={cardsAnimated ? onHover : undefined}
       onMouseLeave={cardsAnimated ? onLeave : undefined}
       className={`relative group cursor-pointer transition-opacity duration-300 ${
-        cardsAnimated ? 'opacity-100' : 'opacity-60'
+        cardsAnimated ? "opacity-100" : "opacity-60"
       }`}
       style={{
-        pointerEvents: cardsAnimated ? 'auto' : 'none',
+        pointerEvents: cardsAnimated ? "auto" : "none",
         transform: `perspective(1000px) rotateY(${mousePos.x}deg) rotateX(${-mousePos.y}deg)`,
-        transformStyle: "preserve-3d"
+        transformStyle: "preserve-3d",
       }}
     >
       {/* Glow effect */}
-      <div className={`absolute -inset-1 bg-gradient-to-r ${project.color} rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500`} />
-      
+      <div
+        className={`absolute -inset-1 bg-gradient-to-r ${project.color} rounded-2xl blur-lg opacity-0 group-hover:opacity-60 transition-opacity duration-500`}
+      />
+
       {/* Main card */}
       <div className="relative bg-slate-900/90 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden">
         {/* Background pattern */}
@@ -143,14 +157,18 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
         {/* Featured badge */}
         {project.featured && (
           <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full">
-            <span className="text-[10px] font-black uppercase tracking-wider text-white">Featured</span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-white">
+              Featured
+            </span>
           </div>
         )}
 
         {/* Content */}
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-2 h-2 bg-gradient-to-r ${project.color} rounded-full animate-pulse`} />
+            <div
+              className={`w-2 h-2 bg-gradient-to-r ${project.color} rounded-full animate-pulse`}
+            />
             <span className="font-mono text-xs text-cyan-400 uppercase tracking-wider opacity-70">
               {project.category}
             </span>
@@ -194,7 +212,9 @@ const ProjectCard = ({ project, index, isActive, onHover, onLeave, cardsAnimated
         </div>
 
         {/* Hover overlay */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`} />
+        <div
+          className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`}
+        />
       </div>
     </div>
   );
@@ -228,22 +248,22 @@ const MajorProjects = () => {
             setIsPinned(self.isActive);
             const cardIndex = Math.floor(self.progress * projects.length);
             setActiveIndex(Math.min(cardIndex, projects.length - 1));
-            
+
             if (self.progress > 0.2 && !cardsAnimated) {
               setCardsAnimated(true);
             }
-          }
-        }
+          },
+        },
       });
 
       // Initial states
       gsap.set(headerRef.current.children, {
         opacity: 0,
-        y: 50
+        y: 50,
       });
 
       gsap.set(scrollIndicatorRef.current, {
-        opacity: 0
+        opacity: 0,
       });
 
       gsap.set(cardsRef.current, {
@@ -251,7 +271,7 @@ const MajorProjects = () => {
         opacity: 0,
         scale: 0.8,
         rotateY: 15,
-        filter: "blur(10px)"
+        filter: "blur(10px)",
       });
 
       // Header entrance animation
@@ -260,49 +280,56 @@ const MajorProjects = () => {
         y: 0,
         duration: 1,
         ease: "power3.out",
-        stagger: 0.2
+        stagger: 0.2,
       });
 
       // Animate cards in sequence
       cardsRef.current.forEach((card, index) => {
-        tl.to(card, {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          rotateY: 0,
-          filter: "blur(0px)",
-          duration: 1.5,
-          ease: "power3.out",
-        }, `cards+=${index * 0.2}`);
+        tl.to(
+          card,
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            rotateY: 0,
+            filter: "blur(0px)",
+            duration: 1.5,
+            ease: "power3.out",
+          },
+          `cards+=${index * 0.2}`,
+        );
       });
 
       // Create horizontal scroll effect for cards
-      tl.to(cardsRef.current, {
-        x: (index) => {
-          const offset = index - activeIndex;
-          return offset * 120;
+      tl.to(
+        cardsRef.current,
+        {
+          x: (index) => {
+            const offset = index - activeIndex;
+            return offset * 120;
+          },
+          scale: (index) => {
+            return index === activeIndex ? 1.1 : 0.9;
+          },
+          opacity: (index) => {
+            return index === activeIndex ? 1 : 0.6;
+          },
+          duration: 0.8,
+          ease: "power2.inOut",
         },
-        scale: (index) => {
-          return index === activeIndex ? 1.1 : 0.9;
-        },
-        opacity: (index) => {
-          return index === activeIndex ? 1 : 0.6;
-        },
-        duration: 0.8,
-        ease: "power2.inOut"
-      }, "horizontal-scroll");
+        "horizontal-scroll",
+      );
 
       // Scroll indicator animation
       gsap.to(scrollIndicatorRef.current, {
         opacity: isPinned ? 1 : 0,
         duration: 0.5,
-        ease: "power2.out"
+        ease: "power2.out",
       });
-
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [activeIndex]); // Add activeIndex dependency to update animations
+  }, [activeIndex, cardsAnimated, isPinned]); // Add activeIndex dependency to update animations
 
   return (
     <section
@@ -330,7 +357,10 @@ const MajorProjects = () => {
       </div>
 
       {/* Projects container */}
-      <div ref={containerRef} className="relative z-10 max-w-7xl mx-auto px-6 py-20 pt-0">
+      <div
+        ref={containerRef}
+        className="relative z-10 max-w-7xl mx-auto px-6 py-20 pt-0"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[60vh]">
           {projects.map((project, index) => (
             <div

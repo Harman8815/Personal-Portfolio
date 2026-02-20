@@ -20,7 +20,7 @@ import majorProjects from "../../../data/majorProject.js";
 import clsx from "clsx";
 
 const EmblaCarousel = (props) => {
-  const { slides, options, certificates } = props;
+  const { options, certificates } = props;
   const progressNode = useRef(null);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
@@ -63,11 +63,7 @@ const EmblaCarousel = (props) => {
     useAutoplay(emblaApi);
 
   const { showAutoplayProgress } = useAutoplayProgress(emblaApi, progressNode);
-  const MP1 = "assets/MP1.png";
-  const MP2 = MP1;
-  const data = certificates
-    ? certificatesData
-    : majorProjects;
+  const data = certificates ? certificatesData : majorProjects;
 
   return (
     <div className={clsx("embla", certificates && "embla-certificate")}>
@@ -110,7 +106,7 @@ const EmblaCarousel = (props) => {
 
           <div
             className={`embla__progress`.concat(
-              showAutoplayProgress ? "" : " embla__progress--hidden"
+              showAutoplayProgress ? "" : " embla__progress--hidden",
             )}
           >
             <div className="embla__progress__bar" ref={progressNode} />

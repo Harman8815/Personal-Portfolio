@@ -385,8 +385,8 @@ const PortfolioScroll = () => {
             opacity: 0,
             scale: 0.5,
             z: -1000,
-            x: (i) => (Math.random() - 0.5) * 3000,
-            y: (i) => (Math.random() - 0.5) * 3000,
+            x: (_i) => (Math.random() - 0.5) * 3000,
+            y: (_i) => (Math.random() - 0.5) * 3000,
             rotate: () => (Math.random() - 0.5) * 720,
             stagger: { amount: 1.5, from: "random" },
             duration: 4,
@@ -497,6 +497,7 @@ const PortfolioScroll = () => {
     }, sectionRef);
 
     return () => ctx.revert();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // EMPTIED DEPS to prevent killing/rebuilding timeline mid-scroll
 
   return (
