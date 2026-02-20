@@ -5,12 +5,9 @@ import PortfolioScroll from "../../portfolio/PortfolioScroll";
 
 // Lazy imports for other sections
 const Contact_me = lazy(() => import("../../contact/Contact_me"));
-const ThankYou = lazy(() => import("./ThankYou"));
 const Education = lazy(() => import("../education/Education"));
 const Links = lazy(() => import("../links/Links"));
 const Certificates = lazy(() => import("../certifications/Certifications"));
-const Experience = lazy(() => import("../experience/Experience"));
-const Achievements = lazy(() => import("../achievements/Achievements"));
 const EndSequence = lazy(() => import("./EndSequence"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);

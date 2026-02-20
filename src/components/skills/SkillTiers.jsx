@@ -33,7 +33,7 @@ import { FaJava } from "react-icons/fa6";
 import TiltCard from "./TiltCard";
 import "./style.css";
 
-const SkillTiers = ({ skillref }) => {
+const SkillTiers = ({ _skillref } = {}) => {
   const tiers = [
     {
       id: 1,
