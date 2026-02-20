@@ -231,8 +231,10 @@ const PortfolioScroll = () => {
           "step3+=0.5",
         )
 
-        // 2. SKILLS TRANSITION
+        // 2. SKILLS ENTRANCE (ENTRY FLOW: Phase 1 - 4)
         .addLabel("skills-entrance")
+
+        // Phase 1 — Cross Transition: About zooms out, Skills header zooms in
         .to(
           "#card-2",
           { opacity: 0, scale: 0.8, filter: "blur(20px)", duration: 2 },
@@ -253,26 +255,34 @@ const PortfolioScroll = () => {
         .set(
           aboutRefs.skillsContainerRef.current,
           { visibility: "visible", opacity: 1 },
-          "skills-entrance+=2",
-        )
-
-        // Appear Skills Header
-        .to(
-          aboutRefs.skillsHeaderRef.current,
-          {
-            opacity: 1,
-            scale: 1,
-            y: "-45vh", // Move up from center
-            duration: 3,
-            ease: "expo.out",
-          },
           "skills-entrance+=2.5",
         )
 
-        // Reveal Skills Cloud and Tiers
-        .addLabel("skills-reveal")
+        // Header zooms in from center
+        .fromTo(
+          aboutRefs.skillsHeaderRef.current,
+          { opacity: 0, scale: 0, y: 0 },
+          { opacity: 1, scale: 1, duration: 3, ease: "expo.out" },
+          "skills-entrance+=2.5",
+        )
+
+        // Phase 2 — Header Placement: Header moves to top
+        .addLabel("skills-header-placement")
         .to(
+          aboutRefs.skillsHeaderRef.current,
+          {
+            y: "-43vh",
+            duration: 3,
+            ease: "power3.inOut",
+          },
+          "skills-header-placement",
+        )
+
+        // Phase 3 — Skill Cloud Formation: Cloud zooms in while header moves
+        .addLabel("skills-cloud-formation", "skills-header-placement+=0.5")
+        .fromTo(
           aboutRefs.skillsCloudRef.current,
+          { opacity: 0, scale: 0, x: 0, y: 0 },
           {
             opacity: 1,
             scale: 1,
@@ -280,12 +290,16 @@ const PortfolioScroll = () => {
             x: "30vw",
             y: "5vh",
             duration: 4,
-            ease: "power3.out",
+            ease: "back.out(1.2)",
           },
-          "skills-reveal",
+          "skills-cloud-formation",
         )
-        .to(
+
+        // Phase 4 — Skill Cards Assembly: Dynamic construction with stagger
+        .addLabel("skills-cards-assembly")
+        .fromTo(
           aboutRefs.skillsTiersRef.current,
+          { opacity: 0, scale: 0.8, x: 0, y: 0 },
           {
             opacity: 1,
             scale: 1,
@@ -294,52 +308,85 @@ const PortfolioScroll = () => {
             duration: 4,
             ease: "power3.out",
           },
-          "skills-reveal+=0.5",
+          "skills-cards-assembly",
         )
-
-        // Animate individual skill cards
-        .to(
+        .fromTo(
           ".skill-card-container",
+          {
+            opacity: 0,
+            scale: 0.5,
+            x: (i) => (i % 2 === 0 ? -500 : 500),
+            y: (i) => i * 100 - 200,
+            rotateZ: (i) => (i % 2 === 0 ? -15 : 15),
+          },
           {
             opacity: 1,
             scale: 1,
             x: 0,
             y: 0,
-            stagger: { amount: 2 },
+            rotateZ: 0,
+            stagger: { amount: 2, from: "center" },
             duration: 3,
             ease: "back.out(1.4)",
           },
-          "skills-reveal+=1",
+          "skills-cards-assembly+=0.8",
         )
 
-        .to({}, { duration: 4 }, "skills-hold") // Buffer for reading skills
+        .to({}, { duration: 5 }, "skills-hold") // Buffer for reading skills
 
-        // 3. SKILLS SHATTER & PROJECTS ENTRANCE
-        .addLabel("skills-shatter")
+        // SKILLS EXIT (EXIT FLOW: Phase 5 - 7)
+        .addLabel("skills-exit")
+
+        // Phase 5 — Header Exit: Header moves upward further and fades out
         .to(
-          aboutRefs.skillsContainerRef.current,
+          aboutRefs.skillsHeaderRef.current,
           {
+            y: "-100vh",
             opacity: 0,
-            scale: 1.2,
-            filter: "blur(30px)",
             duration: 3,
             ease: "power2.in",
           },
-          "skills-shatter",
+          "skills-exit",
         )
+
+        // Phase 6 — Skill Tier (Cloud) Collapse: Cloud shrinks and fades
+        .to(
+          aboutRefs.skillsCloudRef.current,
+          {
+            scale: 0,
+            opacity: 0,
+            filter: "blur(20px)",
+            duration: 3,
+            ease: "power2.in",
+          },
+          "skills-exit+=0.4",
+        )
+
+        // Phase 7 — Skill Cards Disassembly: Clean disassembly scatter
         .to(
           ".skill-card-container",
           {
             opacity: 0,
-            y: -500,
-            rotateZ: 45,
-            stagger: 0.05,
-            duration: 2,
+            scale: 0.5,
+            z: -1000,
+            x: (i) => (Math.random() - 0.5) * 3000,
+            y: (i) => (Math.random() - 0.5) * 3000,
+            rotate: () => (Math.random() - 0.5) * 720,
+            stagger: { amount: 1.5, from: "random" },
+            duration: 4,
+            ease: "power4.in",
           },
-          "skills-shatter",
+          "skills-exit",
         )
 
-        // Ensure circle is totally gone
+        // Final cleanup of the container before projects
+        .to(
+          aboutRefs.skillsContainerRef.current,
+          { opacity: 0, duration: 1 },
+          "skills-exit+=3.5",
+        )
+
+        // Ensure circle is totally gone if any trace remains
         .set(aboutRefs.circleRef.current, { display: "none" })
 
         // 4. MAJOR PROJECTS
