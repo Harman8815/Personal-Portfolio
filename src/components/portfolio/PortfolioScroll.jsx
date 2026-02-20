@@ -24,7 +24,9 @@ const PortfolioScroll = () => {
   // MajorProjects section refs
   const projectsRefs = {
     containerRef: useRef(null),
-    cardsRef: useRef([]),
+    wheelRef: useRef(null),
+    wheelItemsRef: useRef([]),
+    cardContainerRef: useRef(null),
     headerRef: useRef(null),
     scrollIndicatorRef: useRef(null),
   };
@@ -53,13 +55,16 @@ const PortfolioScroll = () => {
           onUpdate: (self) => {
             const progress = self.progress;
 
-            if (progress > 0.58) {
+            // 🚀 BUG FIX: Sync visibility with timeline labels.
+            // Based on current timeline distribution, projects-start is around 0.45-0.5 progress.
+            if (progress > 0.4) {
               if (!projectsVisibleRef.current) {
                 projectsVisibleRef.current = true;
                 setProjectsVisible(true);
               }
 
-              const projectProgress = (progress - 0.6) / 0.4;
+              // Map 0.5 -> 1.0 progress to project items 0 -> 4 for the wheel rotation
+              const projectProgress = Math.max(0, (progress - 0.5) / 0.5);
               const newIndex = Math.min(Math.floor(projectProgress * 5), 4);
 
               if (newIndex >= 0 && newIndex !== lastIndexRef.current) {
@@ -141,13 +146,31 @@ const PortfolioScroll = () => {
       // Projects initial states
       gsap.set(projectsRefs.containerRef.current, {
         opacity: 0,
-        y: 100,
         position: "absolute",
         inset: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         zIndex: 50,
+      });
+
+      gsap.set(projectsRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        y: 0,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(projectsRefs.wheelRef.current, {
+        opacity: 0,
+        scale: 0.5,
+        rotate: 0,
+      });
+
+      gsap.set(projectsRefs.cardContainerRef.current, {
+        opacity: 0,
+        x: -100,
       });
 
       // === TIMELINE CONSTRUCTION ===
@@ -390,50 +413,76 @@ const PortfolioScroll = () => {
         .set(aboutRefs.circleRef.current, { display: "none" })
 
         // 4. MAJOR PROJECTS
-        .addLabel("projects-start")
+        // 🚀 BUG FIX: Trigger start simultaneously with skills exit to ensure zero black gap
+        .addLabel("projects-start", "skills-exit")
+
+        // Ensure projects container is ready
         .to(
           projectsRefs.containerRef.current,
-          {
-            opacity: 1,
-            y: 0,
-            duration: 4,
-            ease: "power3.out",
-          },
+          { opacity: 1, duration: 1 },
           "projects-start",
         )
 
-        // Header and cards sequence
+        // Header Animation: Emerge from center
+        // 🚀 BUG FIX: Forced y: 0 and shared center alignment
         .fromTo(
           projectsRefs.headerRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 2 },
-          "projects-start+=1",
+          { opacity: 0, scale: 0.7, y: 0, yPercent: -50 },
+          { opacity: 1, scale: 1, duration: 5.5, ease: "power2.inOut" },
+          "projects-start",
         )
 
-        .addLabel("projects-reveal")
-        // Animate cards into view
+        // Header moves upward to its final top position
+        // Start moving once zoom is almost complete
         .to(
-          projectsRefs.cardsRef.current,
+          projectsRefs.headerRef.current,
+          {
+            y: "-38vh",
+            duration: 3,
+            ease: "power3.inOut",
+          },
+          "projects-start+=5.5",
+        )
+
+        // Reveal Wheel and Card
+        .addLabel("projects-reveal")
+        .to(
+          projectsRefs.wheelRef.current,
           {
             opacity: 1,
-            y: 0,
             scale: 1,
-            stagger: 0.3,
             duration: 3,
-            ease: "power3.out",
+            ease: "back.out(1.2)",
           },
           "projects-reveal",
         )
 
         .to(
-          projectsRefs.scrollIndicatorRef.current,
+          projectsRefs.cardContainerRef.current,
           {
             opacity: 1,
-            duration: 2,
+            x: 0,
+            duration: 3,
+            ease: "power3.out",
           },
-          "projects-reveal+=2",
+          "projects-reveal+=0.5",
         )
-        .to({}, { duration: 5 }); // Final buffer at end of Projects
+
+        // 🌀 CONTINUOUS WHEEL ROTATION
+        // We have 5 projects, so we rotate (5-1) segments.
+        // Rotation is negative to feel like it's pulling the next one from the bottom/right.
+        .addLabel("projects-rotation")
+        .to(
+          projectsRefs.wheelRef.current,
+          {
+            rotate: -288, // (360 / 5) * 4 projects transition
+            duration: 20,
+            ease: "none", // Linear scroll-linked rotation
+          },
+          "projects-rotation",
+        )
+
+        .to({}, { duration: 5 }); // Final buffer
     }, sectionRef);
 
     return () => ctx.revert();
