@@ -493,7 +493,75 @@ const PortfolioScroll = () => {
           "projects-rotation",
         )
 
-        .to({}, { duration: 5 }); // Final buffer
+        .to({}, { duration: 5 }) // Final buffer before exit
+
+        // 5. MAJOR PROJECTS EXIT - HORIZONTAL SPLIT TRANSITION
+        .addLabel("projects-exit")
+
+        // Background transition: blur and dim
+        .to(
+          sectionRef.current,
+          {
+            filter: "blur(8px)",
+            opacity: 0.7,
+            duration: 3,
+            ease: "power2.inOut",
+          },
+          "projects-exit",
+        )
+
+        // Horizontal Split: Wheel moves left (mirror of entrance)
+        .to(
+          projectsRefs.wheelRef.current,
+          {
+            x: "-50vw",
+            scale: 0.3,
+            rotate: "-=180",
+            opacity: 0,
+            duration: 4,
+            ease: "power3.inOut",
+          },
+          "projects-exit+=0.5",
+        )
+
+        // Horizontal Split: Cards move right (mirror of entrance)
+        .to(
+          projectsRefs.cardContainerRef.current,
+          {
+            x: "60vw",
+            scale: 0.4,
+            opacity: 0,
+            duration: 4,
+            ease: "power3.inOut",
+          },
+          "projects-exit+=0.8",
+        )
+
+        // Header fades out upward
+        .to(
+          projectsRefs.headerRef.current,
+          {
+            y: "-60vh",
+            opacity: 0,
+            scale: 0.8,
+            duration: 3,
+            ease: "power2.in",
+          },
+          "projects-exit+=1",
+        )
+
+        // Container cleanup
+        .to(
+          projectsRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "projects-exit+=3",
+        )
+
+        .to({}, { duration: 2 }); // Final buffer for smooth transition
     }, sectionRef);
 
     return () => ctx.revert();
