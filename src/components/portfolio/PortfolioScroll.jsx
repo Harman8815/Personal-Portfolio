@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
+import ExperienceBloom from "../pages/experience/ExperienceBloom";
 
 const PortfolioScroll = () => {
   const sectionRef = useRef(null);
@@ -31,12 +32,22 @@ const PortfolioScroll = () => {
     scrollIndicatorRef: useRef(null),
   };
 
+  // Experience Bloom section refs
+  const experienceRefs = {
+    containerRef: useRef(null),
+    wheelRef: useRef(null),
+    headerRef: useRef(null),
+    centerRef: useRef(null),
+  };
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
+  const [experienceVisible, setExperienceVisible] = useState(false);
 
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
   const projectsVisibleRef = useRef(false);
+  const experienceVisibleRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -46,7 +57,7 @@ const PortfolioScroll = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=1500%",
+          end: "+=1800%",
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -56,7 +67,7 @@ const PortfolioScroll = () => {
             const progress = self.progress;
 
             // 🚀 BUG FIX: Sync visibility with timeline labels.
-            if (progress > 0.45) {
+            if (progress > 0.35) {
               if (!projectsVisibleRef.current) {
                 projectsVisibleRef.current = true;
                 setProjectsVisible(true);
@@ -67,6 +78,17 @@ const PortfolioScroll = () => {
               // Reset index when scrolling back up past projects
               lastIndexRef.current = 0;
               setActiveProjectIndex(0);
+            }
+
+            // Experience bloom visibility
+            if (progress > 0.75) {
+              if (!experienceVisibleRef.current) {
+                experienceVisibleRef.current = true;
+                setExperienceVisible(true);
+              }
+            } else if (experienceVisibleRef.current) {
+              experienceVisibleRef.current = false;
+              setExperienceVisible(false);
             }
           },
         },
@@ -146,7 +168,7 @@ const PortfolioScroll = () => {
 
       gsap.set(projectsRefs.headerRef.current, {
         opacity: 0,
-        scale: 0.8,
+        scale: 0.2,
         y: 0,
         position: "absolute",
         top: "50%",
@@ -159,11 +181,59 @@ const PortfolioScroll = () => {
         opacity: 0,
         scale: 0.5,
         rotate: 0,
+        x: "50vw",
       });
 
       gsap.set(projectsRefs.cardContainerRef.current, {
         opacity: 0,
-        x: -100,
+        x: "-50vw",
+        scale: 0.8,
+      });
+
+      // Experience Bloom initial states
+      gsap.set(experienceRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 60,
+      });
+
+      gsap.set(experienceRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.8,
+        y: 0,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(experienceRefs.wheelRef.current, {
+        opacity: 0,
+        scale: 0.3,
+        rotate: 0,
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(experienceRefs.centerRef.current, {
+        opacity: 0,
+        scale: 0,
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(".experience-petal", {
+        opacity: 0,
+        scale: 0.2,
+        rotate: 0,
       });
 
       // === TIMELINE CONSTRUCTION ===
@@ -416,49 +486,52 @@ const PortfolioScroll = () => {
           "projects-start",
         )
 
-        // Header Animation: Emerge from center
-        // 🚀 BUG FIX: Forced y: 0 and shared center alignment
+        // Header Animation: Emerge from center with dramatic zoom
         .fromTo(
           projectsRefs.headerRef.current,
-          { opacity: 0, scale: 0.7, y: 0, yPercent: -50 },
-          { opacity: 1, scale: 1, duration: 5.5, ease: "power2.inOut" },
+          { opacity: 0, scale: 0.2, y: 0, yPercent: -50 },
+          { opacity: 1, scale: 1, duration: 3, ease: "back.out(1.6)" },
           "projects-start",
         )
 
         // Header moves upward to its final top position
-        // Start moving once zoom is almost complete
         .to(
           projectsRefs.headerRef.current,
           {
             y: "-38vh",
-            duration: 3,
+            duration: 2.5,
             ease: "power3.inOut",
           },
-          "projects-start+=5.5",
+          "projects-start+=3",
         )
 
-        // Reveal Wheel and Card
-        .addLabel("projects-reveal")
-        .to(
+        // Wheel comes from right (starts after header scale completes)
+        .addLabel("projects-reveal", "projects-start+=3")
+        .fromTo(
           projectsRefs.wheelRef.current,
+          { opacity: 0, scale: 0.5, x: "50vw", rotate: 0 },
           {
             opacity: 1,
             scale: 1,
-            duration: 3,
-            ease: "back.out(1.2)",
-          },
-          "projects-reveal",
-        )
-
-        .to(
-          projectsRefs.cardContainerRef.current,
-          {
-            opacity: 1,
             x: 0,
             duration: 3,
             ease: "power3.out",
           },
-          "projects-reveal+=0.5",
+          "projects-reveal",
+        )
+
+        // Cards come from left (starts after header scale completes)
+        .fromTo(
+          projectsRefs.cardContainerRef.current,
+          { opacity: 0, x: "-50vw", scale: 0.8 },
+          {
+            opacity: 1,
+            x: 0,
+            scale: 1,
+            duration: 3,
+            ease: "power3.out",
+          },
+          "projects-reveal+0.5",
         )
 
         // 🌀 CONTINUOUS WHEEL ROTATION
@@ -498,12 +571,11 @@ const PortfolioScroll = () => {
         // 5. MAJOR PROJECTS EXIT - HORIZONTAL SPLIT TRANSITION
         .addLabel("projects-exit")
 
-        // Background transition: blur and dim
+        // Background transition: dim only (no blur for experience section)
         .to(
           sectionRef.current,
           {
-            filter: "blur(8px)",
-            opacity: 0.7,
+            opacity: 0.9,
             duration: 3,
             ease: "power2.inOut",
           },
@@ -561,7 +633,106 @@ const PortfolioScroll = () => {
           "projects-exit+=3",
         )
 
-        .to({}, { duration: 2 }); // Final buffer for smooth transition
+        .to({}, { duration: 2 }) // Final buffer for smooth transition
+
+        // 6. EXPERIENCE BLOOM FORMATION
+        .addLabel("experience-bloom-start")
+
+        // Container fade in with clear filter
+        .to(
+          experienceRefs.containerRef.current,
+          { opacity: 1, filter: "blur(0px)", duration: 2 },
+          "experience-bloom-start",
+        )
+
+        // Wheel Re-Center: Bring wheel back to center smoothly
+        .addLabel("wheel-recenter")
+        .to(
+          experienceRefs.wheelRef.current,
+          {
+            opacity: 1,
+            scale: 1,
+            x: 0,
+            y: 0,
+            duration: 4,
+            ease: "power2.inOut",
+          },
+          "wheel-recenter",
+        )
+
+        // Center decorative element appears
+        .to(
+          experienceRefs.centerRef.current,
+          {
+            opacity: 0.8,
+            scale: 1,
+            duration: 3,
+            ease: "back.out(1.3)",
+          },
+          "wheel-recenter+=1",
+        )
+
+        // Header emerges from center
+        .fromTo(
+          experienceRefs.headerRef.current,
+          { opacity: 0, scale: 0.5, y: 0 },
+          { opacity: 1, scale: 1, duration: 4, ease: "expo.out" },
+          "wheel-recenter+=1.5",
+        )
+
+        // Header moves to top position
+        .to(
+          experienceRefs.headerRef.current,
+          {
+            y: "-35vh",
+            duration: 3,
+            ease: "power3.inOut",
+          },
+          "wheel-recenter+=5.5",
+        )
+
+        // Bloom Formation: Petals expand radially with stagger
+        .addLabel("bloom-formation", "wheel-recenter+=2")
+        .to(
+          ".experience-petal",
+          {
+            opacity: 1,
+            scale: 1,
+            rotate: (i) => (i % 2 === 0 ? 5 : -5), // Slight elegant rotation
+            stagger: { amount: 2, from: "center" },
+            duration: 3,
+            ease: "back.out(1.4)",
+          },
+          "bloom-formation",
+        )
+
+        // Subtle bloom motion: gentle rotation and scale pulsing
+        .addLabel("bloom-motion", "bloom-formation+=2")
+        .to(
+          experienceRefs.wheelRef.current,
+          {
+            rotate: 15,
+            duration: 8,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: 1,
+          },
+          "bloom-motion",
+        )
+        .to(
+          ".experience-petal",
+          {
+            scale: 1.05,
+            duration: 4,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: 1,
+            stagger: { amount: 1, from: "center" },
+          },
+          "bloom-motion",
+        )
+
+        .to({}, { duration: 5 }); // Hold the bloom for viewing
     }, sectionRef);
 
     return () => ctx.revert();
@@ -600,6 +771,9 @@ const PortfolioScroll = () => {
           setActiveIndex={setActiveProjectIndex}
         />
       </div>
+
+      {/* Experience Bloom Content */}
+      <ExperienceBloom refs={experienceRefs} visible={experienceVisible} />
     </section>
   );
 };
