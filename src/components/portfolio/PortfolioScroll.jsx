@@ -38,6 +38,16 @@ const PortfolioScroll = () => {
     wheelRef: useRef(null),
     headerRef: useRef(null),
     centerRef: useRef(null),
+    linesContainerRef: useRef(null),
+    clockHandRef: useRef(null),
+    line45Ref: useRef(null),
+    line135Ref: useRef(null),
+    line225Ref: useRef(null),
+    line315Ref: useRef(null),
+    card45Ref: useRef(null),
+    card135Ref: useRef(null),
+    card225Ref: useRef(null),
+    card315Ref: useRef(null),
   };
 
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
@@ -80,8 +90,8 @@ const PortfolioScroll = () => {
               setActiveProjectIndex(0);
             }
 
-            // Experience bloom visibility
-            if (progress > 0.75) {
+            // Experience bloom visibility - updated to match synchronized transition
+            if (progress > 0.65) {
               if (!experienceVisibleRef.current) {
                 experienceVisibleRef.current = true;
                 setExperienceVisible(true);
@@ -566,10 +576,10 @@ const PortfolioScroll = () => {
           "projects-rotation",
         )
 
-        .to({}, { duration: 5 }) // Final buffer before exit
+        .to({}, { duration: 5 }) // Final buffer before transition
 
-        // 5. MAJOR PROJECTS EXIT - WHEEL CENTER TRANSITION
-        .addLabel("projects-exit")
+        // 6. SYNCHRONIZED WHEEL TRANSITION - MAJOR PROJECTS EXIT + EXPERIENCE ENTRY OVERLAP
+        .addLabel("wheel-transition")
 
         // Background transition: dim only (no blur for experience section)
         .to(
@@ -579,10 +589,11 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "power2.inOut",
           },
-          "projects-exit",
+          "wheel-transition",
         )
 
-        // Phase 1: Wheel moves to center gradually (maintains size)
+        // === MAJOR PROJECTS WHEEL MOVE TO CENTER (NO FADE YET) ===
+        // Wheel moves to center first, maintaining full opacity
         .to(
           projectsRefs.wheelRef.current,
           {
@@ -590,21 +601,58 @@ const PortfolioScroll = () => {
             duration: 2.5,
             ease: "power3.inOut",
           },
-          "projects-exit+=1.5",
+          "wheel-transition",
         )
 
-        // Phase 2: Wheel fades at center (maintains original size)
+        // === SYNCHRONIZED CROSS-FADE (CENTER POSITION) ===
+        .addLabel("cross-fade", "wheel-transition+=2.5")
+
+        // Major Projects wheel fades out from center
         .to(
           projectsRefs.wheelRef.current,
           {
             rotate: "-=45", // Subtle rotation during fade
             opacity: 0,
-            duration: 1.5,
-            ease: "power2.in",
+            duration: 2.5,
+            ease: "power3.inOut",
           },
-          "projects-exit+=3",
+          "cross-fade",
         )
 
+        // Experience wheel fades in at center (perfect cross-fade)
+        .fromTo(
+          experienceRefs.wheelRef.current,
+          {
+            opacity: 0,
+            scale: 0.3,
+            rotate: 45, // Mirror entry rotation
+            x: 0,
+            y: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            rotate: 0, // Neutral position
+            x: 0,
+            y: 0,
+            duration: 2.5, // Same duration as Major Projects fade
+            ease: "power3.inOut", // Same easing as Major Projects fade
+          },
+          "cross-fade", // Same start time for perfect cross-fade
+        )
+
+        // Experience container becomes visible
+        .to(
+          experienceRefs.containerRef.current,
+          {
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 1,
+          },
+          "wheel-transition+=0.5",
+        )
+
+        // === MAJOR PROJECTS CLEANUP ===
         // Cards fade out
         .to(
           projectsRefs.cardContainerRef.current,
@@ -613,7 +661,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power2.in",
           },
-          "projects-exit+=1",
+          "wheel-transition+=0.5",
         )
 
         // Header fades out upward
@@ -626,7 +674,7 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "power2.in",
           },
-          "projects-exit+=1",
+          "wheel-transition+=0.5",
         )
 
         // Container cleanup
@@ -637,35 +685,11 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power2.in",
           },
-          "projects-exit+=3",
+          "wheel-transition+=1.5",
         )
 
-        .to({}, { duration: 2 }) // Final buffer for smooth transition
-
-        // 6. EXPERIENCE BLOOM FORMATION
-        .addLabel("experience-bloom-start")
-
-        // Container fade in with clear filter
-        .to(
-          experienceRefs.containerRef.current,
-          { opacity: 1, filter: "blur(0px)", duration: 2 },
-          "experience-bloom-start",
-        )
-
-        // Wheel Re-Center: Bring wheel back to center smoothly
-        .addLabel("wheel-recenter")
-        .to(
-          experienceRefs.wheelRef.current,
-          {
-            opacity: 1,
-            scale: 1,
-            x: 0,
-            y: 0,
-            duration: 4,
-            ease: "power2.inOut",
-          },
-          "wheel-recenter",
-        )
+        // 7. EXPERIENCE WHEEL EXPANSION PHASE
+        .addLabel("experience-expansion", "wheel-transition+=2")
 
         // Center decorative element appears
         .to(
@@ -674,72 +698,376 @@ const PortfolioScroll = () => {
             opacity: 0.8,
             scale: 1,
             duration: 3,
+            y: 10,
             ease: "back.out(1.3)",
           },
-          "wheel-recenter+=1",
+          "experience-expansion+=0.5",
         )
 
-        // Header emerges from center
+        // Header emerges from center (same pattern as previous sections)
         .fromTo(
           experienceRefs.headerRef.current,
-          { opacity: 0, scale: 0.5, y: 0 },
-          { opacity: 1, scale: 1, duration: 4, ease: "expo.out" },
-          "wheel-recenter+=1.5",
-        )
-
-        // Header moves to top position
-        .to(
-          experienceRefs.headerRef.current,
           {
-            y: "-35vh",
-            duration: 3,
-            ease: "power3.inOut",
+            opacity: 0,
+            scale: 0.2, // Same entry scale as Major Projects header
+            y: 0,
+            yPercent: -50,
           },
-          "wheel-recenter+=5.5",
-        )
-
-        // Bloom Formation: Petals expand radially with stagger
-        .addLabel("bloom-formation", "wheel-recenter+=2")
-        .to(
-          ".experience-petal",
           {
             opacity: 1,
             scale: 1,
-            rotate: (i) => (i % 2 === 0 ? 5 : -5), // Slight elegant rotation
-            stagger: { amount: 2, from: "center" },
             duration: 3,
-            ease: "back.out(1.4)",
+            ease: "back.out(1.6)", // Same easing as Major Projects header
           },
-          "bloom-formation",
+          "experience-expansion+=0.5",
         )
 
-        // Subtle bloom motion: gentle rotation and scale pulsing
-        .addLabel("bloom-motion", "bloom-formation+=2")
+        // 8. HEADER LIFT ANIMATION (CENTER → TOP)
+        .addLabel("header-lift", "experience-expansion+=3.5")
+
+        // Header moves to top position (mirroring Major Projects header animation)
         .to(
-          experienceRefs.wheelRef.current,
+          experienceRefs.headerRef.current,
           {
-            rotate: 15,
-            duration: 8,
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: 1,
+            y: "-38vh", // Same translateY as Major Projects header
+            duration: 2.5, // Same duration as Major Projects header
+            ease: "power3.inOut", // Same easing as Major Projects header
           },
-          "bloom-motion",
-        )
-        .to(
-          ".experience-petal",
-          {
-            scale: 1.05,
-            duration: 4,
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: 1,
-            stagger: { amount: 1, from: "center" },
-          },
-          "bloom-motion",
+          "header-lift",
         )
 
-        .to({}, { duration: 5 }); // Hold the bloom for viewing
+        // 9. CLOCK-HAND FORMATION ANIMATION (after header moves up)
+        .addLabel("clock-hand-formation", "header-lift+=0.5")
+
+        // Part 1: Initial Line Spawn
+        .to(
+          experienceRefs.clockHandRef.current,
+          {
+            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
+            duration: 0.8, // Short, sharp grow
+            ease: "power2.out", // Same micro-ease as line/petal animations
+          },
+          "clock-hand-formation",
+        )
+
+        // Part 2: Clock-Hand Rotation + Line Duplication
+        .addLabel("clock-hand-rotation", "clock-hand-formation+=0.5")
+
+        // Rotate 45° → 135°
+        .to(
+          experienceRefs.clockHandRef.current,
+          {
+            rotation: 135,
+            duration: 1.5,
+            ease: "power1.inOut", // Smooth scrub-based rotation
+          },
+          "clock-hand-rotation",
+        )
+
+        // Clone at 45° and freeze
+        .to(
+          experienceRefs.line45Ref.current,
+          {
+            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
+            opacity: 1,
+            rotation: 45,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "clock-hand-rotation+=0.1", // Clone immediately after rotation starts
+        )
+
+        // Show card for 45° line
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            opacity: 1,
+            pointerEvents: "auto",
+            duration: 0.5,
+            ease: "back.out(1.2)",
+          },
+          "clock-hand-rotation+=0.2",
+        )
+
+        // Rotate 135° → 225°
+        .to(
+          experienceRefs.clockHandRef.current,
+          {
+            rotation: 225,
+            duration: 1.5,
+            ease: "power1.inOut",
+          },
+          "clock-hand-rotation+=1.5",
+        )
+
+        // Clone at 135° and freeze
+        .to(
+          experienceRefs.line135Ref.current,
+          {
+            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
+            opacity: 1,
+            rotation: 135,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "clock-hand-rotation+=1.6",
+        )
+
+        // Show card for 135° line
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            opacity: 1,
+            pointerEvents: "auto",
+            duration: 0.5,
+            ease: "back.out(1.2)",
+          },
+          "clock-hand-rotation+=1.7",
+        )
+
+        // Rotate 225° → 315°
+        .to(
+          experienceRefs.clockHandRef.current,
+          {
+            rotation: 315,
+            duration: 1.5,
+            ease: "power1.inOut",
+          },
+          "clock-hand-rotation+=3.0",
+        )
+
+        // Clone at 225° and freeze
+        .to(
+          experienceRefs.line225Ref.current,
+          {
+            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
+            opacity: 1,
+            rotation: 225,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "clock-hand-rotation+=3.1",
+        )
+
+        // Show card for 225° line
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            opacity: 1,
+            pointerEvents: "auto",
+            duration: 0.5,
+            ease: "back.out(1.2)",
+          },
+          "clock-hand-rotation+=3.2",
+        )
+
+        // Clone at 315° and freeze (final line)
+        .to(
+          experienceRefs.line315Ref.current,
+          {
+            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
+            opacity: 1,
+            rotation: 315,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "clock-hand-rotation+=4.6",
+        )
+
+        // Show card for 315° line
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            opacity: 1,
+            pointerEvents: "auto",
+            duration: 0.5,
+            ease: "back.out(1.2)",
+          },
+          "clock-hand-rotation+=4.7",
+        )
+
+        // Part 3: Kill rotation and hide clock hand immediately after 4th line
+        .to(
+          experienceRefs.clockHandRef.current,
+          {
+            opacity: 0, // Hide the rotating clock hand
+            duration: 0.5,
+            ease: "power2.in",
+          },
+          "clock-hand-rotation+=5.2", // Vanish after final card appears
+        )
+
+        .to({}, { duration: 5 }) // Hold for viewing
+
+        // 10. EXPERIENCE SECTION FINAL COLLAPSE ANIMATION
+        .addLabel("experience-collapse-start")
+
+        // Phase 1 — Pre-Collapse Heart Beat (Inner Circle Pulse)
+        .addLabel("heartbeat-phase", "experience-collapse-start")
+        .to(
+          experienceRefs.centerRef.current,
+          {
+            scale: 1.15,
+            duration: 0.3,
+            ease: "power2.out",
+          },
+          "heartbeat-phase",
+        )
+        .to(
+          experienceRefs.centerRef.current,
+          {
+            scale: 0.95,
+            duration: 0.2,
+            ease: "power2.in",
+          },
+          "heartbeat-phase+=0.3",
+        )
+        .to(
+          experienceRefs.centerRef.current,
+          {
+            scale: 1,
+            duration: 0.2,
+            ease: "power2.inOut",
+          },
+          "heartbeat-phase+=0.5",
+        )
+
+        // Phase 2 — Card Collapse to Center (starts during heartbeat)
+        .addLabel("card-collapse", "heartbeat-phase+=0.3")
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            x: 0,
+            y: 0,
+            scale: 0.6,
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "card-collapse",
+        )
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            x: 0,
+            y: 0,
+            scale: 0.6,
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "card-collapse",
+        )
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            x: 0,
+            y: 0,
+            scale: 0.6,
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "card-collapse",
+        )
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            x: 0,
+            y: 0,
+            scale: 0.6,
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "card-collapse",
+        )
+
+        // Phase 3 — Radial Line Retraction (starts after cards begin collapsing)
+        .addLabel("line-retraction", "card-collapse+=0.5")
+        .to(
+          experienceRefs.line45Ref.current,
+          {
+            scaleY: 0,
+            duration: 1.5,
+            ease: "power2.in",
+          },
+          "line-retraction",
+        )
+        .to(
+          experienceRefs.line135Ref.current,
+          {
+            scaleY: 0,
+            duration: 1.5,
+            ease: "power2.in",
+          },
+          "line-retraction",
+        )
+        .to(
+          experienceRefs.line225Ref.current,
+          {
+            scaleY: 0,
+            duration: 1.5,
+            ease: "power2.in",
+          },
+          "line-retraction",
+        )
+        .to(
+          experienceRefs.line315Ref.current,
+          {
+            scaleY: 0,
+            duration: 1.5,
+            ease: "power2.in",
+          },
+          "line-retraction",
+        )
+
+        // Phase 4 — Final Core Collapse (after heartbeat completes and cards nearly reach center)
+        .addLabel("final-collapse", "heartbeat-phase+1")
+        .to(
+          experienceRefs.centerRef.current,
+          {
+            scale: 0,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power3.in",
+          },
+          "final-collapse",
+        )
+
+        // Header fade out
+        .to(
+          experienceRefs.headerRef.current,
+          {
+            opacity: 0,
+            y: "-60vh",
+            duration: 2,
+            ease: "power2.in",
+          },
+          "final-collapse",
+        )
+
+        // Container cleanup
+        .to(
+          experienceRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.in",
+          },
+          "final-collapse+=1",
+        )
+
+        // Background return to normal
+        .to(
+          sectionRef.current,
+          {
+            opacity: 1,
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "final-collapse",
+        );
     }, sectionRef);
 
     return () => ctx.revert();
