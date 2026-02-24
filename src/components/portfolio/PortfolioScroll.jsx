@@ -568,7 +568,7 @@ const PortfolioScroll = () => {
 
         .to({}, { duration: 5 }) // Final buffer before exit
 
-        // 5. MAJOR PROJECTS EXIT - HORIZONTAL SPLIT TRANSITION
+        // 5. MAJOR PROJECTS EXIT - WHEEL CENTER TRANSITION
         .addLabel("projects-exit")
 
         // Background transition: dim only (no blur for experience section)
@@ -582,31 +582,38 @@ const PortfolioScroll = () => {
           "projects-exit",
         )
 
-        // Horizontal Split: Wheel moves left (mirror of entrance)
+        // Phase 1: Wheel moves to center gradually (maintains size)
         .to(
           projectsRefs.wheelRef.current,
           {
-            x: "-50vw",
-            scale: 0.3,
-            rotate: "-=180",
-            opacity: 0,
-            duration: 4,
+            x: () => (window.innerWidth >= 768 ? "-28vw" : "0"), // Responsive centering
+            duration: 2.5,
             ease: "power3.inOut",
           },
-          "projects-exit+=0.5",
+          "projects-exit+=1.5",
         )
 
-        // Horizontal Split: Cards move right (mirror of entrance)
+        // Phase 2: Wheel fades at center (maintains original size)
+        .to(
+          projectsRefs.wheelRef.current,
+          {
+            rotate: "-=45", // Subtle rotation during fade
+            opacity: 0,
+            duration: 1.5,
+            ease: "power2.in",
+          },
+          "projects-exit+=3",
+        )
+
+        // Cards fade out
         .to(
           projectsRefs.cardContainerRef.current,
           {
-            x: "60vw",
-            scale: 0.4,
             opacity: 0,
-            duration: 4,
-            ease: "power3.inOut",
+            duration: 2,
+            ease: "power2.in",
           },
-          "projects-exit+=0.8",
+          "projects-exit+=1",
         )
 
         // Header fades out upward
