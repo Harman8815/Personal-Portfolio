@@ -6,7 +6,7 @@ import { RoundedBox, Text } from "@react-three/drei";
 import { a } from "@react-spring/three";
 
 export default function Boxer({ position, scale = 1, rotation, tilt }) {
-  const [interacting, setInteracting] = useState(false);
+  const [_interacting, setInteracting] = useState(false);
   const meshRef = useRef();
 
   useFrame(() => {

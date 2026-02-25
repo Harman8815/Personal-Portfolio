@@ -56,7 +56,6 @@ function Laptop(props) {
     if (backpanelRef.current) {
       backpanelRef.current.rotation.z = currentRotation;
     }
-    const degToRad = (deg) => (deg * Math.PI) / 180;
 
     // if (laptopRef.current) {
     //   laptopRef.current.rotation.y = degToRad(60);
@@ -86,7 +85,7 @@ function Laptop(props) {
     }
   });
 
-  const tilt = Math.PI / 18; // 10°
+  const _tilt = Math.PI / 18; // 10°
   return (
     <group
       {...props}

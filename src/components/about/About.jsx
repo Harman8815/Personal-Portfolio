@@ -51,7 +51,7 @@ const AboutSection = () => {
           pin: true,
           pinSpacing: true,
           invalidateOnRefresh: false,
-          anticipatePin: 1
+          anticipatePin: 1,
         },
       });
 
@@ -128,8 +128,8 @@ const AboutSection = () => {
         z: -1000,
         rotateX: () => (Math.random() - 0.5) * 120,
         rotateY: () => (Math.random() - 0.5) * 120,
-        x: (i) => (i % 2 === 0 ? -1200 : 1200),
-        y: (i) => (Math.random() - 0.5) * 1000
+        x: (_i) => (_i % 2 === 0 ? -1200 : 1200),
+        y: (_i) => (Math.random() - 0.5) * 1000,
       });
       // 1. Initial Intro Phase: "Want to know me?"
       // As we start scrolling, the text fades out and circle begins its journey.
@@ -219,15 +219,28 @@ const AboutSection = () => {
         )
 
         // 5. Return to Center & Final Zoom
-        .to("#card-2", { opacity: 0, scale: 0.8, filter: 'blur(15px)', duration: 1.5 }, "transition-start")
-        .to(circleRef.current, {
-          left: "50%",
-          top: "50%",
-          scale: 60,
-          opacity: 0,
-          duration: 3,
-          ease: "power4.in"
-        }, "transition-start").set(skillsContainerRef.current, { visibility: 'visible', opacity: 1 }, "transition-start+=1")
+        .to(
+          "#card-2",
+          { opacity: 0, scale: 0.8, filter: "blur(15px)", duration: 1.5 },
+          "transition-start",
+        )
+        .to(
+          circleRef.current,
+          {
+            left: "50%",
+            top: "50%",
+            scale: 60,
+            opacity: 0,
+            duration: 3,
+            ease: "power4.in",
+          },
+          "transition-start",
+        )
+        .set(
+          skillsContainerRef.current,
+          { visibility: "visible", opacity: 1 },
+          "transition-start+=1",
+        )
         // .to(
         //   circleRef.current,
         //   {
@@ -265,21 +278,27 @@ const AboutSection = () => {
         //   "transition-start",
         // )
         // 1. Header Zooms in from EXACT viewport center
-        .to(skillsHeaderRef.current, {
-          opacity: 1,
-          scale: 1.4,
-          duration: 2.5,
-          ease: "expo.out",
-        }, "transition-start+=1.8")
+        .to(
+          skillsHeaderRef.current,
+          {
+            opacity: 1,
+            scale: 1.4,
+            duration: 2.5,
+            ease: "expo.out",
+          },
+          "transition-start+=1.8",
+        )
 
         // 2. Header shifts UP to its final position (Y move)
         .to(
           skillsHeaderRef.current,
           {
-            top: '10%',
+            top: "10%",
             duration: 2,
-            ease: "power3.inOut"
-          }, "header-move")
+            ease: "power3.inOut",
+          },
+          "header-move",
+        )
 
         // 3. Skill Cloud zooms in at the SAME viewport center
         .to(
@@ -296,7 +315,7 @@ const AboutSection = () => {
         .to(
           skillsCloudRef.current,
           {
-            y: '10%',
+            y: "10%",
           },
           "header-move",
         )
@@ -408,8 +427,8 @@ const AboutSection = () => {
           {
             opacity: 0,
             z: 2000, // Zoom towards camera
-            x: (i) => (Math.random() - 0.5) * 3000,
-            y: (i) => (Math.random() - 0.5) * 3000,
+            x: (_i) => (Math.random() - 0.5) * 3000,
+            y: (_i) => (Math.random() - 0.5) * 3000,
             rotateX: () => (Math.random() - 0.5) * 720,
             rotateY: () => (Math.random() - 0.5) * 720,
             scale: 2,

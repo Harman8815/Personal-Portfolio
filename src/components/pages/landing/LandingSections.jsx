@@ -1,18 +1,13 @@
 "use client";
 
 import React, { useEffect, useState, Suspense, lazy } from "react";
-import About from "../../about/About";
-import Skills from "../../skills/Skills";
+import PortfolioScroll from "../../portfolio/PortfolioScroll";
 
-// Lazy imports
-const MajorProjects = lazy(() => import("../../majorProject/MajorProjects"));
+// Lazy imports for other sections
 const Contact_me = lazy(() => import("../../contact/Contact_me"));
-const ThankYou = lazy(() => import("./ThankYou"));
 const Education = lazy(() => import("../education/Education"));
 const Links = lazy(() => import("../links/Links"));
 const Certificates = lazy(() => import("../certifications/Certifications"));
-const Experience = lazy(() => import("../experience/Experience"));
-const Achievements = lazy(() => import("../achievements/Achievements"));
 const EndSequence = lazy(() => import("./EndSequence"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);
@@ -25,12 +20,10 @@ const LandingSections = () => {
 
   return (
     <div className="relative" id="bg">
-      <About />
-      {/* <Skills /> */}
+      <PortfolioScroll />
 
       {loadRest && (
         <Suspense fallback={null}>
-          <MajorProjects />
           {/* <Experience /> */}
           <Certificates />
           <Education />

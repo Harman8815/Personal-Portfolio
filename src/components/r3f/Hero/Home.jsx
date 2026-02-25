@@ -4,11 +4,10 @@ import React from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Laptop from "./Laptop";
-import { Center } from "@react-three/drei";
 import gsap from "gsap";
 import { Suspense, useRef, useEffect, useState } from "react";
 
-import { Stars, Float } from "@react-three/drei";
+import { Stars } from "@react-three/drei";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ModelLoader from "./ModelLoader.jsx";
 import { useLoadingContext } from "@/context/LoadingContext";
@@ -20,7 +19,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
   const LaptopRef = useRef();
   const contentLoadedRef = useRef(false);
   const [shouldAnimateLaptop, setShouldAnimateLaptop] = useState(false);
-  const [laptopFullyLoaded, setLaptopFullyLoaded] = useState(false);
+  const [_laptopFullyLoaded, setLaptopFullyLoaded] = useState(false);
   const { markContentReady } = useLoadingContext();
   const videoRef = useRef(null);
 
