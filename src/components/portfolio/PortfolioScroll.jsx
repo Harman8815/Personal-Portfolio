@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
 import ExperienceBloom from "../pages/experience/ExperienceBloom";
+import Education from "../pages/education/Education";
 
 const PortfolioScroll = () => {
   const sectionRef = useRef(null);
@@ -50,14 +51,25 @@ const PortfolioScroll = () => {
     card315Ref: useRef(null),
   };
 
+  // Education section refs
+  const educationRefs = {
+    containerRef: useRef(null),
+    headerRef: useRef(null),
+    card1Ref: useRef(null),
+    card2Ref: useRef(null),
+    card3Ref: useRef(null),
+  };
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
+  const [educationVisible, setEducationVisible] = useState(false);
 
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
   const projectsVisibleRef = useRef(false);
   const experienceVisibleRef = useRef(false);
+  const educationVisibleRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +79,7 @@ const PortfolioScroll = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=2200%", // Increased from 1800% to accommodate secondary bloom
+          end: "+=2800%", // Increased to accommodate Education section
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -99,6 +111,17 @@ const PortfolioScroll = () => {
             } else if (experienceVisibleRef.current) {
               experienceVisibleRef.current = false;
               setExperienceVisible(false);
+            }
+
+            // Education section visibility
+            if (progress > 0.75) {
+              if (!educationVisibleRef.current) {
+                educationVisibleRef.current = true;
+                setEducationVisible(true);
+              }
+            } else if (educationVisibleRef.current) {
+              educationVisibleRef.current = false;
+              setEducationVisible(false);
             }
           },
         },
@@ -244,6 +267,42 @@ const PortfolioScroll = () => {
         opacity: 0,
         scale: 0.2,
         rotate: 0,
+      });
+
+      // Education section initial states
+      gsap.set(educationRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 70,
+      });
+
+      gsap.set(educationRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.2,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(educationRefs.card1Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      gsap.set(educationRefs.card2Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      gsap.set(educationRefs.card3Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
       });
 
       // === TIMELINE CONSTRUCTION ===
@@ -1259,6 +1318,172 @@ const PortfolioScroll = () => {
             ease: "power2.inOut",
           },
           "final-collapse",
+        )
+
+        // 12. EDUCATION SECTION ENTRANCE
+        .addLabel("education-start", "heartbeat-phase") // Start when experience circle begins shrinking
+
+        // Education container becomes visible
+        .to(
+          educationRefs.containerRef.current,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "education-start",
+        )
+
+        // Header emerges from center (following same pattern as other sections)
+        .fromTo(
+          educationRefs.headerRef.current,
+          {
+            opacity: 0,
+            scale: 0.2,
+            y: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 3,
+            ease: "back.out(1.6)",
+          },
+          "education-start",
+        )
+
+        // Header moves to top position (after experience cards begin collapsing)
+        .addLabel("education-header-lift", "card-collapse+=0.5")
+        .to(
+          educationRefs.headerRef.current,
+          {
+            top: "15%",
+            yPercent: -50,
+            duration: 2.5,
+            ease: "power3.inOut",
+          },
+          "education-header-lift",
+        )
+
+        // Education cards entrance with stagger (after experience cards are collapsing)
+        .addLabel("education-cards-entrance", "line-retraction")
+        
+        // Card 1 (left) - Bachelors
+        .fromTo(
+          educationRefs.card1Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "education-cards-entrance",
+        )
+
+        // Card 2 (center) - Intermediate
+        .fromTo(
+          educationRefs.card2Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "education-cards-entrance+=0.3",
+        )
+
+        // Card 3 (right) - High School
+        .fromTo(
+          educationRefs.card3Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "education-cards-entrance+=0.6",
+        )
+
+        // Hold for viewing
+        .to({}, { duration: 8 }, "education-hold")
+
+        // 13. EDUCATION SECTION EXIT
+        .addLabel("education-exit")
+
+        // Cards fade and move down
+        .to(
+          educationRefs.card1Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "education-exit",
+        )
+        .to(
+          educationRefs.card2Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "education-exit+=0.3",
+        )
+        .to(
+          educationRefs.card3Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "education-exit+=0.6",
+        )
+
+        // Header fade out
+        .to(
+          educationRefs.headerRef.current,
+          {
+            opacity: 0,
+            top: "5%",
+            yPercent: -50,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "education-exit",
+        )
+
+        // Container cleanup
+        .to(
+          educationRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.in",
+          },
+          "education-exit+=1",
         );
     }, sectionRef);
 
@@ -1301,6 +1526,18 @@ const PortfolioScroll = () => {
 
       {/* Experience Bloom Content */}
       <ExperienceBloom refs={experienceRefs} visible={experienceVisible} />
+
+      {/* Education Section Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: educationVisible ? "visible" : "hidden",
+          opacity: educationVisible ? 1 : 0,
+          pointerEvents: educationVisible ? "auto" : "none",
+        }}
+      >
+        <Education refs={educationRefs} visible={educationVisible} />
+      </div>
     </section>
   );
 };
