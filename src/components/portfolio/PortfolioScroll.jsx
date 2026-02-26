@@ -67,7 +67,7 @@ const PortfolioScroll = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=1800%",
+          end: "+=2200%", // Increased from 1800% to accommodate secondary bloom
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -899,7 +899,199 @@ const PortfolioScroll = () => {
 
         .to({}, { duration: 5 }) // Hold for viewing
 
-        // 10. EXPERIENCE SECTION FINAL COLLAPSE ANIMATION
+        // 10. SECONDARY BLOOM EXPANSION PHASE
+        .addLabel("secondary-bloom-start")
+        .call(() => console.log("Secondary bloom phase reached"), [], "secondary-bloom-start")
+
+        // Phase 1 — Cards expand and reveal detailed content
+        .addLabel("card-expansion", "secondary-bloom-start")
+        
+        // Card 45° expansion and content reveal
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            scale: 1.2, // Reduced scale for compact cards
+            width: "18rem", // Compact width
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            transform: "rotate(45deg) translateY(-18vw) translateY(-2rem) rotate(-45deg) translateX(-2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card45Ref.current)(".expanded-content"),
+          {
+            opacity: 1,
+            maxHeight: "150px", // Compact height for 2 lines
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.5",
+        )
+
+        // Card 135° expansion and content reveal
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            transform: "rotate(135deg) translateY(-18vw) translateY(-2rem) rotate(-135deg) translateX(-2rem) translateY(-2rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card135Ref.current)(".expanded-content"),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.7",
+        )
+
+        // Card 225° expansion and content reveal
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            transform: "rotate(225deg) translateY(-18vw) translateY(-2rem) rotate(-225deg) translateX(-14rem) translateY(-2rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card225Ref.current)(".expanded-content"),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.9",
+        )
+
+        // Card 315° expansion and content reveal
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            transform: "rotate(315deg) translateY(-18vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card315Ref.current)(".expanded-content"),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=1.1",
+        )
+
+        // Phase 2 — Hold expanded state for viewing
+        .to({}, { duration: 10 }) // Extended hold for reading detailed content
+
+        // Phase 3 — Pre-Exit Content Hide and Card Recompression
+        .addLabel("recompression-start")
+        
+        // Hide content first
+        .to(
+          gsap.utils.selector(experienceRefs.card45Ref.current)(".expanded-content"),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card135Ref.current)(".expanded-content"),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start+=0.2",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card225Ref.current)(".expanded-content"),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start+=0.4",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card315Ref.current)(".expanded-content"),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            width: "16rem",
+            transform: "rotate(315deg) translateY(-19.25vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "recompression-start",
+        )
+
+        .to({}, { duration: 2 }) // Brief pause before collapse
+
+        // 11. EXPERIENCE SECTION FINAL COLLAPSE ANIMATION
         .addLabel("experience-collapse-start")
 
         // Phase 1 — Pre-Collapse Heart Beat (Inner Circle Pulse)
