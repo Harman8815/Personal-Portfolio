@@ -7,6 +7,7 @@ import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
 import ExperienceBloom from "../pages/experience/ExperienceBloom";
 import Education from "../pages/education/Education";
+import SocialPresence from "../pages/social/SocialPresence";
 
 const PortfolioScroll = () => {
   const sectionRef = useRef(null);
@@ -60,16 +61,28 @@ const PortfolioScroll = () => {
     card3Ref: useRef(null),
   };
 
+  // Social section refs
+  const socialRefs = {
+    containerRef: useRef(null),
+    headerRef: useRef(null),
+    card1Ref: useRef(null),
+    card2Ref: useRef(null),
+    card3Ref: useRef(null),
+    card4Ref: useRef(null),
+  };
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
+  const [socialVisible, setSocialVisible] = useState(false);
 
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
   const projectsVisibleRef = useRef(false);
   const experienceVisibleRef = useRef(false);
   const educationVisibleRef = useRef(false);
+  const socialVisibleRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -79,7 +92,7 @@ const PortfolioScroll = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=2800%", // Increased to accommodate Education section
+          end: "+=4200%", // Increased to prevent skipped animations
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -89,7 +102,7 @@ const PortfolioScroll = () => {
             const progress = self.progress;
 
             // 🚀 BUG FIX: Sync visibility with timeline labels.
-            if (progress > 0.35) {
+            if (progress > 0.25) {
               if (!projectsVisibleRef.current) {
                 projectsVisibleRef.current = true;
                 setProjectsVisible(true);
@@ -103,7 +116,7 @@ const PortfolioScroll = () => {
             }
 
             // Experience bloom visibility - updated to match synchronized transition
-            if (progress > 0.65) {
+            if (progress > 0.45) {
               if (!experienceVisibleRef.current) {
                 experienceVisibleRef.current = true;
                 setExperienceVisible(true);
@@ -114,7 +127,7 @@ const PortfolioScroll = () => {
             }
 
             // Education section visibility
-            if (progress > 0.75) {
+            if (progress > 0.65) {
               if (!educationVisibleRef.current) {
                 educationVisibleRef.current = true;
                 setEducationVisible(true);
@@ -122,6 +135,17 @@ const PortfolioScroll = () => {
             } else if (educationVisibleRef.current) {
               educationVisibleRef.current = false;
               setEducationVisible(false);
+            }
+
+            // Social section visibility
+            if (progress > 0.8) {
+              if (!socialVisibleRef.current) {
+                socialVisibleRef.current = true;
+                setSocialVisible(true);
+              }
+            } else if (socialVisibleRef.current) {
+              socialVisibleRef.current = false;
+              setSocialVisible(false);
             }
           },
         },
@@ -300,6 +324,48 @@ const PortfolioScroll = () => {
       });
 
       gsap.set(educationRefs.card3Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      // Social section initial states
+      gsap.set(socialRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 80,
+      });
+
+      gsap.set(socialRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.2,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      gsap.set(socialRefs.card1Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      gsap.set(socialRefs.card2Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      gsap.set(socialRefs.card3Ref.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9,
+      });
+
+      gsap.set(socialRefs.card4Ref.current, {
         opacity: 0,
         y: 100,
         scale: 0.9,
@@ -1321,7 +1387,7 @@ const PortfolioScroll = () => {
         )
 
         // 12. EDUCATION SECTION ENTRANCE
-        .addLabel("education-start", "heartbeat-phase") // Start when experience circle begins shrinking
+        .addLabel("education-start", "final-collapse+=2") // Start when experience circle begins shrinking
 
         // Education container becomes visible
         .to(
@@ -1345,27 +1411,27 @@ const PortfolioScroll = () => {
           {
             opacity: 1,
             scale: 1,
-            duration: 3,
+            duration: 2,
             ease: "back.out(1.6)",
           },
           "education-start",
         )
 
-        // Header moves to top position (after experience cards begin collapsing)
-        .addLabel("education-header-lift", "card-collapse+=0.5")
+        // Header moves to top position
+        .addLabel("education-header-lift", "education-start+2")
         .to(
           educationRefs.headerRef.current,
           {
             top: "15%",
             yPercent: -50,
-            duration: 2.5,
+            duration: 1.5,
             ease: "power3.inOut",
           },
           "education-header-lift",
         )
 
-        // Education cards entrance with stagger (after experience cards are collapsing)
-        .addLabel("education-cards-entrance", "line-retraction")
+        // Education cards entrance with stagger (after header animation is completely done)
+        .addLabel("education-cards-entrance", "education-header-lift+1.5")
         
         // Card 1 (left) - Bachelors
         .fromTo(
@@ -1422,7 +1488,7 @@ const PortfolioScroll = () => {
         )
 
         // Hold for viewing
-        .to({}, { duration: 8 }, "education-hold")
+        .to({}, { duration: 6 }, "education-hold")
 
         // 13. EDUCATION SECTION EXIT
         .addLabel("education-exit")
@@ -1484,6 +1550,201 @@ const PortfolioScroll = () => {
             ease: "power2.in",
           },
           "education-exit+=1",
+        )
+
+        // 14. SOCIAL SECTION ENTRANCE
+        .addLabel("social-start", "education-exit+=2")
+
+        // Social container becomes visible
+        .to(
+          socialRefs.containerRef.current,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "social-start",
+        )
+
+        // Header emerges from center
+        .fromTo(
+          socialRefs.headerRef.current,
+          {
+            opacity: 0,
+            scale: 0.2,
+            y: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 2,
+            ease: "back.out(1.6)",
+          },
+          "social-start",
+        )
+
+        // Header moves to top position
+        .addLabel("social-header-lift", "social-start+2")
+        .to(
+          socialRefs.headerRef.current,
+          {
+            top: "15%",
+            yPercent: -50,
+            duration: 1.5,
+            ease: "power3.inOut",
+          },
+          "social-header-lift",
+        )
+
+        // Social cards entrance with stagger (after header animation is completely done)
+        .addLabel("social-cards-entrance", "social-header-lift+1.5")
+        
+        // Card 1 - GitHub
+        .fromTo(
+          socialRefs.card1Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "social-cards-entrance",
+        )
+
+        // Card 2 - LinkedIn
+        .fromTo(
+          socialRefs.card2Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "social-cards-entrance+=0.2",
+        )
+
+        // Card 3 - Twitter
+        .fromTo(
+          socialRefs.card3Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "social-cards-entrance+=0.4",
+        )
+
+        // Card 4 - Email
+        .fromTo(
+          socialRefs.card4Ref.current,
+          {
+            opacity: 0,
+            y: 100,
+            scale: 0.9,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            ease: "back.out(1.4)",
+          },
+          "social-cards-entrance+=0.6",
+        )
+
+        // Hold for viewing
+        .to({}, { duration: 6 }, "social-hold")
+
+        // 15. SOCIAL SECTION EXIT
+        .addLabel("social-exit")
+
+        // Cards fade and move down
+        .to(
+          socialRefs.card1Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "social-exit",
+        )
+        .to(
+          socialRefs.card2Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "social-exit+=0.2",
+        )
+        .to(
+          socialRefs.card3Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "social-exit+=0.4",
+        )
+        .to(
+          socialRefs.card4Ref.current,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.8,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "social-exit+=0.6",
+        )
+
+        // Header fade out
+        .to(
+          socialRefs.headerRef.current,
+          {
+            opacity: 0,
+            top: "5%",
+            yPercent: -50,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "social-exit",
+        )
+
+        // Container cleanup
+        .to(
+          socialRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 1,
+            ease: "power2.in",
+          },
+          "social-exit+=1",
         );
     }, sectionRef);
 
@@ -1537,6 +1798,18 @@ const PortfolioScroll = () => {
         }}
       >
         <Education refs={educationRefs} visible={educationVisible} />
+      </div>
+
+      {/* Social Section Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: socialVisible ? "visible" : "hidden",
+          opacity: socialVisible ? 1 : 0,
+          pointerEvents: socialVisible ? "auto" : "none",
+        }}
+      >
+        <SocialPresence refs={socialRefs} visible={socialVisible} />
       </div>
     </section>
   );
