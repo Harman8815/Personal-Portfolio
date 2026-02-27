@@ -127,7 +127,10 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
   const internalRef = useRef(null);
   const ref = cardRef || internalRef;
 
+  // Only run internal animations if not controlled by PortfolioScroll
   useLayoutEffect(() => {
+    if (cardRef) return; // Skip internal animations if controlled externally
+
     const el = ref.current;
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -181,7 +184,7 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
       el.removeEventListener('mouseenter', handleMouseEnter);
       el.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [index, ref]);
+  }, [index, cardRef]);
 
   return (
     <div
@@ -338,7 +341,7 @@ const Education = ({ refs, visible }) => {
       <section
         ref={sectionRef}
         id="education"
-        className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 py-16 overflow-hidden"
+        className="min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden"
       >
         <div className="max-w-7xl mx-auto w-full">
           {/* Section Header */}
@@ -356,16 +359,43 @@ const Education = ({ refs, visible }) => {
           </div>
 
           {/* Education Cards Grid - 1x3 Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
-            {educationData.map((edu, index) => (
-              <EducationCard
-                key={edu.id}
-                edu={edu}
-                index={index}
-                totalCards={educationData.length}
-                cardRef={refs ? [refs.card1Ref, refs.card2Ref, refs.card3Ref][index] : null}
-              />
-            ))}
+          <div className="relative" style={{ minHeight: "400px" }}>
+            {/* Standard grid layout for standalone use */}
+            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 ${refs ? 'opacity-0 pointer-events-none' : ''}`}>
+              {educationData.map((edu, index) => (
+                <EducationCard
+                  key={edu.id}
+                  edu={edu}
+                  index={index}
+                  totalCards={educationData.length}
+                  cardRef={null}
+                />
+              ))}
+            </div>
+            
+            {/* Absolute positioned cards for PortfolioScroll control */}
+            {refs && (
+              <>
+                <EducationCard
+                  edu={educationData[1]} // Intermediate (center card)
+                  index={0}
+                  totalCards={educationData.length}
+                  cardRef={refs.card1Ref}
+                />
+                <EducationCard
+                  edu={educationData[0]} // Bachelors (left card)
+                  index={1}
+                  totalCards={educationData.length}
+                  cardRef={refs.card2Ref}
+                />
+                <EducationCard
+                  edu={educationData[2]} // High School (right card)
+                  index={2}
+                  totalCards={educationData.length}
+                  cardRef={refs.card3Ref}
+                />
+              </>
+            )}
           </div>
         </div>
       </section>
