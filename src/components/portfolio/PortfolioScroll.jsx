@@ -8,6 +8,8 @@ import MajorProjectsContent from "./MajorProjectsContent";
 import ExperienceBloom from "../pages/experience/ExperienceBloom";
 import Education from "../pages/education/Education";
 import SocialHub from "../pages/social/SocialHub";
+import Contact_me from "../contact/Contact_me";
+import EndSequence from "../pages/landing/EndSequence";
 
 const PortfolioScroll = () => {
   const sectionRef = useRef(null);
@@ -70,11 +72,24 @@ const PortfolioScroll = () => {
     socialIconsRef: useRef([]),
   };
 
+  // Contact section refs
+  const contactRefs = {
+    containerRef: useRef(null),
+    headerRef: useRef(null),
+  };
+
+  // EndSequence refs
+  const endSequenceRefs = {
+    containerRef: useRef(null),
+  };
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
   const [socialVisible, setSocialVisible] = useState(false);
+  const [contactVisible, setContactVisible] = useState(false);
+  const [endSequenceVisible, setEndSequenceVisible] = useState(false);
 
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
@@ -82,6 +97,8 @@ const PortfolioScroll = () => {
   const experienceVisibleRef = useRef(false);
   const educationVisibleRef = useRef(false);
   const socialVisibleRef = useRef(false);
+  const contactVisibleRef = useRef(false);
+  const endSequenceVisibleRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -145,6 +162,28 @@ const PortfolioScroll = () => {
             } else if (socialVisibleRef.current) {
               socialVisibleRef.current = false;
               setSocialVisible(false);
+            }
+
+            // Contact section visibility
+            if (progress > 0.9) {
+              if (!contactVisibleRef.current) {
+                contactVisibleRef.current = true;
+                setContactVisible(true);
+              }
+            } else if (contactVisibleRef.current) {
+              contactVisibleRef.current = false;
+              setContactVisible(false);
+            }
+
+            // EndSequence visibility
+            if (progress > 0.95) {
+              if (!endSequenceVisibleRef.current) {
+                endSequenceVisibleRef.current = true;
+                setEndSequenceVisible(true);
+              }
+            } else if (endSequenceVisibleRef.current) {
+              endSequenceVisibleRef.current = false;
+              setEndSequenceVisible(false);
             }
           },
         },
@@ -339,6 +378,33 @@ const PortfolioScroll = () => {
         scale: 0.6,
         opacity: 0,
         filter: "blur(12px)",
+      });
+
+      // Contact section initial states
+      gsap.set(contactRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 90,
+      });
+
+      gsap.set(contactRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.2,
+        position: "absolute",
+        top: "50vh",
+        left: "50vw",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      // EndSequence initial states
+      gsap.set(endSequenceRefs.containerRef.current, {
+        opacity: 0,
+        scale: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 100,
       });
 
       // Social icons initial states - temporarily disabled for debugging
@@ -1814,6 +1880,119 @@ const PortfolioScroll = () => {
             ease: "power2.in",
           },
           "social-exit+=1",
+        )
+        // 16. CONTACT SECTION ENTRANCE
+        .addLabel("contact-start", "social-exit+=2")
+
+        // Contact container becomes visible
+        .to(
+          contactRefs.containerRef.current,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "contact-start",
+        )
+
+        // STEP 1: Header Animation (Same As Education)
+        .fromTo(
+          contactRefs.headerRef.current,
+          {
+            opacity: 0,
+            scale: 0.1, // Same entry scale as Education header
+            y: 0,
+            yPercent: -50,
+            xPercent: -50,
+            left: "50%",
+            top: "50%",
+            position: "absolute",
+            filter: "blur(8px)", // Start with blur
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)", // Sharpen as it reaches final position
+            duration: 2.5,
+            ease: "back.out(1.8)", // Same easing as Education header
+          },
+          "contact-start"
+        )
+
+        // Header moves to top position (same as Education)
+        .addLabel("contact-header-lift", "contact-start+2.5")
+        .to(
+          contactRefs.headerRef.current,
+          {
+            top: "15vh", // Same top position as Education header
+            transform: "translate(-50%, -50%)",
+            duration: 2,
+            ease: "power3.inOut", // Same easing as Education header
+          },
+          "contact-header-lift"
+        )
+
+        // STEP 2: Contact Container Reveal (after header settles)
+        .addLabel("contact-container-reveal", "contact-start+4.5") // After header settles
+        .fromTo(
+          contactRefs.containerRef.current,
+          {
+            opacity: 0,
+            scale: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "back.out(1.3)", // Same ease as Education card entrance
+          },
+          "contact-container-reveal"
+        )
+
+        // Hold for viewing
+        .to({}, { duration: 6 }, "contact-hold")
+
+        // STEP 3: Contact Section Fade Out
+        .addLabel("contact-exit")
+        .to(
+          contactRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "contact-exit"
+        )
+        .to(
+          contactRefs.headerRef.current,
+          {
+            opacity: 0,
+            top: "5vh",
+            transform: "translate(-50%, -50%)",
+            filter: "blur(4px)",
+            duration: 2,
+            ease: "power2.in",
+          },
+          "contact-exit"
+        )
+
+        // 17. ENDSEQUENCE ENTRANCE
+        .addLabel("endsequence-start", "contact-exit+1")
+
+        // EndSequence scale and opacity animation
+        .fromTo(
+          endSequenceRefs.containerRef.current,
+          {
+            opacity: 0,
+            scale: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 2,
+            ease: "back.out(1.6)",
+          },
+          "endsequence-start"
         );
     }, sectionRef);
 
@@ -1879,6 +2058,30 @@ const PortfolioScroll = () => {
         }}
       >
         <SocialHub refs={socialRefs} visible={socialVisible} />
+      </div>
+
+      {/* Contact Section Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: contactVisible ? "visible" : "hidden",
+          opacity: contactVisible ? 1 : 0,
+          pointerEvents: contactVisible ? "auto" : "none",
+        }}
+      >
+        <Contact_me refs={contactRefs} visible={contactVisible} />
+      </div>
+
+      {/* EndSequence Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: endSequenceVisible ? "visible" : "hidden",
+          opacity: endSequenceVisible ? 1 : 0,
+          pointerEvents: endSequenceVisible ? "auto" : "none",
+        }}
+      >
+        <EndSequence refs={endSequenceRefs} visible={endSequenceVisible} />
       </div>
     </section>
   );

@@ -28,10 +28,10 @@ const LandingSections = () => {
           {/* <Certificates /> */}
           {/* <Education /> */}
           {/* <Achievements /> */}
-          <Links />
-          <Contact_me />
+          {/* <Links /> */}
+          {/* <Contact_me /> */}
           {/* <ThankYou /> */}
-          <EndSequence />
+          {/* <EndSequence /> */}
         </Suspense>
       )}
     </div>
