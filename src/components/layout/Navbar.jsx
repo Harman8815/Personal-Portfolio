@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`relative top-0 left-0 w-full z-40 transition-colors duration-500 ${scrolled
+      className={`fixed top-0 left-0 w-full z-40 transition-colors duration-500 ${scrolled
           ? "bg-[var(--color-primary)]/90 border-b border-gray-800 shadow-md"
           : "bg-transparent"
         } text-primary`}
