@@ -163,58 +163,64 @@ const SocialHub = ({ refs, visible }) => {
       );
 
       // 3. Outer ring appears and scales in
-      const outerRing = planetRef.current.querySelector('.planet-ring.outer');
-      tl.fromTo(outerRing,
-        {
-          scale: 0.3,
-          opacity: 0,
-          filter: "blur(12px)"
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          filter: "blur(0px)",
-          duration: 0.7,
-          ease: "power3.out"
-        },
-        "+=0.3"
-      );
+      const outerRing = planetRef.current?.querySelector('.planet-ring.outer');
+      if (outerRing) {
+        tl.fromTo(outerRing,
+          {
+            scale: 0.3,
+            opacity: 0,
+            filter: "blur(12px)"
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.7,
+            ease: "power3.out"
+          },
+          "+=0.3"
+        );
+      }
 
       // 4. Middle ring appears (after 0.25s delay)
-      const middleRing = planetRef.current.querySelector('.planet-ring.middle');
-      tl.fromTo(middleRing,
-        {
-          scale: 0.3,
-          opacity: 0,
-          filter: "blur(12px)"
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          filter: "blur(0px)",
-          duration: 0.7,
-          ease: "power3.out"
-        },
-        "+=0.25"
-      );
+      const middleRing = planetRef.current?.querySelector('.planet-ring.middle');
+      if (middleRing) {
+        tl.fromTo(middleRing,
+          {
+            scale: 0.3,
+            opacity: 0,
+            filter: "blur(12px)"
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.7,
+            ease: "power3.out"
+          },
+          "+=0.25"
+        );
+      }
 
       // 5. Inner ring appears (after 0.25s delay)
-      const innerRing = planetRef.current.querySelector('.planet-ring.inner');
-      tl.fromTo(innerRing,
-        {
-          scale: 0.3,
-          opacity: 0,
-          filter: "blur(12px)"
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          filter: "blur(0px)",
-          duration: 0.7,
-          ease: "power3.out"
-        },
-        "+=0.25"
-      );
+      const innerRing = planetRef.current?.querySelector('.planet-ring.inner');
+      if (innerRing) {
+        tl.fromTo(innerRing,
+          {
+            scale: 0.3,
+            opacity: 0,
+            filter: "blur(12px)"
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            filter: "blur(0px)",
+            duration: 0.7,
+            ease: "power3.out"
+          },
+          "+=0.25"
+        );
+      }
 
       socialTimelineRef.current = tl;
 
