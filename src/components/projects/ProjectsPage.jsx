@@ -150,7 +150,7 @@ const ProjectsPage = () => {
   }, [advancedFilters]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30 cursor-auto">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
       <FilterModal 
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
@@ -159,7 +159,7 @@ const ProjectsPage = () => {
         availableTech={allTech}
       />
 
-      <main className="mx-auto max-w-7xl px-6 pt-32 pb-20 cursor-auto">
+      <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
         {/* Hero Section */}
         <div className="mb-16">
           <motion.div

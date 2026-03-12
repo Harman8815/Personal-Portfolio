@@ -2,7 +2,7 @@ import "./globals.css";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { ThemeProvider } from "../hooks/useTheme";
-// import CustomCursor from "../components/common/CustomCursor";
+import CustomCursor from "../components/common/CustomCursor";
 
 export const metadata = {
   title: "Harman | Portfolio",
@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="bg-primary text-primary">
         <ThemeProvider>
-          {/* <CustomCursor /> */}
+          <CustomCursor />
           <Navbar />
           <main className="">{children}</main>
           <Footer />
