@@ -2,12 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-scroll";
+import { useRouter, usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "../common/ThemeToggle";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 2);
@@ -42,14 +45,12 @@ const Navbar = () => {
           >
             About
           </Link>
-          <Link
-            to="project"
-            smooth
-            duration={500}
+          <button
+            onClick={() => router.push('/projects')}
             className="cursor-pointer hover:text-yellow-400"
           >
             All Projects
-          </Link>
+          </button>
           <Link
             to="experience"
             smooth
@@ -66,14 +67,12 @@ const Navbar = () => {
           >
             Achievements
           </Link>
-          <Link
-            to="certifications"
-            smooth
-            duration={500}
+          <button
+            onClick={() => router.push('/certifications')}
             className="cursor-pointer hover:text-yellow-400"
           >
             Certifications
-          </Link>
+          </button>
           <Link
             to="education"
             smooth
@@ -116,15 +115,15 @@ const Navbar = () => {
           >
             About
           </Link>
-          <Link
-            to="project"
-            smooth
-            duration={500}
-            onClick={() => setOpen(false)}
+          <button
+            onClick={() => {
+              router.push('/projects');
+              setOpen(false);
+            }}
             className="block"
           >
             All Projects
-          </Link>
+          </button>
           <Link
             to="experience"
             smooth
@@ -143,15 +142,15 @@ const Navbar = () => {
           >
             Achievements
           </Link>
-          <Link
-            to="certifications"
-            smooth
-            duration={500}
-            onClick={() => setOpen(false)}
+          <button
+            onClick={() => {
+              router.push('/certifications');
+              setOpen(false);
+            }}
             className="block"
           >
             Certifications
-          </Link>
+          </button>
           <Link
             to="education"
             smooth
