@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-
+import ProjectsPage from "@/components/projects/ProjectsPage";
+import ErrorBoundary from "@/components/ErrorBoundary";
 const Projects = dynamic(() => import("@/components/r3f/project/Projects"), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-black flex items-center justify-center">
@@ -9,10 +10,10 @@ const Projects = dynamic(() => import("@/components/r3f/project/Projects"), {
   </div>
 });
 
-export default function ProjectsPage() {
+export default function ProjectsPageWrapper() {
   return (
-    <div className="pt-28">
-      <Projects />
-    </div>
+    <ErrorBoundary>
+      <ProjectsPage />
+    </ErrorBoundary>
   );
 }
