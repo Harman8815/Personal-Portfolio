@@ -62,7 +62,6 @@ const PortfolioScroll = () => {
     card3Ref: useRef(null),
   };
 
-
   // Contact section refs
   const contactRefs = {
     containerRef: useRef(null),
@@ -142,7 +141,6 @@ const PortfolioScroll = () => {
               setEducationVisible(false);
             }
 
-            
             // Contact section visibility
             if (progress > 0.8) {
               if (!contactVisibleRef.current) {
@@ -330,7 +328,6 @@ const PortfolioScroll = () => {
 
       // Education cards initial states will be set dynamically in timeline
 
-
       // Contact section initial states
       gsap.set(contactRefs.containerRef.current, {
         opacity: 0,
@@ -357,7 +354,6 @@ const PortfolioScroll = () => {
         inset: 0,
         zIndex: 100,
       });
-
 
       // === TIMELINE CONSTRUCTION ===
 
@@ -489,7 +485,7 @@ const PortfolioScroll = () => {
 
         // Phase 3 — Skill Cloud Formation: Two-stage animation
         .addLabel("skills-cloud-formation", "skills-header-placement+=0.5")
-        
+
         // Stage 1: Cloud appears from center (scale 0 to 1)
         .fromTo(
           aboutRefs.skillsCloudRef.current,
@@ -505,7 +501,7 @@ const PortfolioScroll = () => {
           },
           "skills-cloud-formation",
         )
-        
+
         // Stage 2: Cloud moves from center to right side
         .addLabel("skills-cloud-move-right", "skills-cloud-formation+=2")
         .to(
@@ -521,7 +517,7 @@ const PortfolioScroll = () => {
 
         // Phase 4 — Skill Cards Assembly: Starts after cloud stage 1 completes
         .addLabel("skills-cards-assembly", "skills-cloud-formation+=2")
-        
+
         // Container appears from center, slightly below skills cloud
         .fromTo(
           aboutRefs.skillsTiersRef.current,
@@ -536,7 +532,7 @@ const PortfolioScroll = () => {
           },
           "skills-cards-assembly",
         )
-        
+
         // Container moves from center to left side
         .addLabel("skills-cards-move-left", "skills-cards-assembly+=2")
         .to(
@@ -1060,7 +1056,11 @@ const PortfolioScroll = () => {
 
         // 10. SECONDARY BLOOM EXPANSION PHASE
         .addLabel("secondary-bloom-start")
-        .call(() => console.log("Secondary bloom phase reached"), [], "secondary-bloom-start")
+        .call(
+          () => console.log("Secondary bloom phase reached"),
+          [],
+          "secondary-bloom-start",
+        )
 
         // Phase 1 — Cards expand and reveal detailed content
         .addLabel("card-expansion", "secondary-bloom-start")
@@ -1079,14 +1079,17 @@ const PortfolioScroll = () => {
         .to(
           experienceRefs.card45Ref.current,
           {
-            transform: "rotate(45deg) translateY(-18vw) translateY(-2rem) rotate(-45deg) translateX(-2rem) translateY(-1rem)",
+            transform:
+              "rotate(45deg) translateY(-18vw) translateY(-2rem) rotate(-45deg) translateX(-2rem) translateY(-1rem)",
             duration: 2,
             ease: "power2.inOut",
           },
           "card-expansion",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card45Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card45Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 1,
             maxHeight: "150px", // Compact height for 2 lines
@@ -1111,14 +1114,17 @@ const PortfolioScroll = () => {
         .to(
           experienceRefs.card135Ref.current,
           {
-            transform: "rotate(135deg) translateY(-18vw) translateY(-2rem) rotate(-135deg) translateX(-2rem) translateY(-2rem)",
+            transform:
+              "rotate(135deg) translateY(-18vw) translateY(-2rem) rotate(-135deg) translateX(-2rem) translateY(-2rem)",
             duration: 2,
             ease: "power2.inOut",
           },
           "card-expansion",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card135Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card135Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 1,
             maxHeight: "150px",
@@ -1143,14 +1149,17 @@ const PortfolioScroll = () => {
         .to(
           experienceRefs.card225Ref.current,
           {
-            transform: "rotate(225deg) translateY(-18vw) translateY(-2rem) rotate(-225deg) translateX(-14rem) translateY(-2rem)",
+            transform:
+              "rotate(225deg) translateY(-18vw) translateY(-2rem) rotate(-225deg) translateX(-14rem) translateY(-2rem)",
             duration: 2,
             ease: "power2.inOut",
           },
           "card-expansion",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card225Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card225Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 1,
             maxHeight: "150px",
@@ -1175,14 +1184,17 @@ const PortfolioScroll = () => {
         .to(
           experienceRefs.card315Ref.current,
           {
-            transform: "rotate(315deg) translateY(-18vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            transform:
+              "rotate(315deg) translateY(-18vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
             duration: 2,
             ease: "power2.inOut",
           },
           "card-expansion",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card315Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card315Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 1,
             maxHeight: "150px",
@@ -1201,7 +1213,9 @@ const PortfolioScroll = () => {
 
         // Hide content first
         .to(
-          gsap.utils.selector(experienceRefs.card45Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card45Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 0,
             maxHeight: "0",
@@ -1212,7 +1226,9 @@ const PortfolioScroll = () => {
           "recompression-start",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card135Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card135Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 0,
             maxHeight: "0",
@@ -1223,7 +1239,9 @@ const PortfolioScroll = () => {
           "recompression-start+=0.2",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card225Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card225Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 0,
             maxHeight: "0",
@@ -1234,14 +1252,17 @@ const PortfolioScroll = () => {
           "recompression-start+=0.4",
         )
         .to(
-          gsap.utils.selector(experienceRefs.card315Ref.current)(".expanded-content"),
+          gsap.utils.selector(experienceRefs.card315Ref.current)(
+            ".expanded-content",
+          ),
           {
             opacity: 0,
             maxHeight: "0",
             padding: "0 0.5rem 0 0.5rem",
             duration: 1,
             width: "16rem",
-            transform: "rotate(315deg) translateY(-19.25vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            transform:
+              "rotate(315deg) translateY(-19.25vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
             duration: 2,
             ease: "power2.inOut",
           },
@@ -1260,7 +1281,7 @@ const PortfolioScroll = () => {
         .set(
           educationRefs.containerRef.current,
           { opacity: 1 },
-          "education-header-entrance"
+          "education-header-entrance",
         )
 
         // Experience wheel begins shrinking/contracting with blur effect
@@ -1273,7 +1294,7 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "power3.in",
           },
-          "synchronized-transition"
+          "synchronized-transition",
         )
 
         // Experience petals collapse with wheel and blur
@@ -1286,9 +1307,8 @@ const PortfolioScroll = () => {
             duration: 2.5,
             ease: "power2.in",
           },
-          "synchronized-transition+=0.5"
+          "synchronized-transition+=0.5",
         )
-
 
         // Pre-Collapse Heart Beat (Inner Circle Pulse) - happens simultaneously with header zoom
         .addLabel("heartbeat-phase", "synchronized-transition")
@@ -1322,7 +1342,7 @@ const PortfolioScroll = () => {
           },
           "heartbeat-phase+=0.5",
         )
-       
+
         // Card Collapse to Center with blur (starts during header movement)
         .addLabel("card-collapse", "header-lift-phase")
         .to(
@@ -1443,7 +1463,7 @@ const PortfolioScroll = () => {
           },
           "final-collapse",
         )
- // Education header appears ONLY AFTER Experience header is completely gone + buffer
+        // Education header appears ONLY AFTER Experience header is completely gone + buffer
         .addLabel("education-header-entrance", "final-collapse+5") // Start after Experience header finishes its 2s fade + 0.5s buffer
 
         // Education header zooms in from center with blur that sharpens
@@ -1467,7 +1487,7 @@ const PortfolioScroll = () => {
             duration: 2.5,
             ease: "back.out(1.8)",
           },
-          "education-header-entrance"
+          "education-header-entrance",
         )
 
         // === SYNCHRONIZED PHASE 2: Cards Collapse + Header Moves Up ===
@@ -1482,7 +1502,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power3.inOut",
           },
-          "header-lift-phase"
+          "header-lift-phase",
         )
 
         // Experience container cleanup
@@ -1508,24 +1528,27 @@ const PortfolioScroll = () => {
         )
 
         // === EDUCATION CARDS ENTRANCE (AFTER HEADER SETTLES + CLEAR SEPARATION) ===
-        .addLabel("education-cards-start", "education-header-entrance+4") // Clear separation after header settles
+        .addLabel("education-cards-start", "education-header-entrance+4"); // Clear separation after header settles
 
       // Calculate responsive positions
       const screenWidth = window.innerWidth;
       let cardWidth, leftOffset, rightOffset;
 
-      if (screenWidth >= 1024) { // Large desktop
+      if (screenWidth >= 1024) {
+        // Large desktop
         cardWidth = "18rem";
-        leftOffset = "-20rem";
-        rightOffset = "20rem";
-      } else if (screenWidth >= 768) { // Tablet
+        leftOffset = "-23rem";
+        rightOffset = "23rem";
+      } else if (screenWidth >= 768) {
+        // Tablet
         cardWidth = "16rem";
-        leftOffset = "-16rem";
-        rightOffset = "16rem";
-      } else { // Mobile
+        leftOffset = "-19rem";
+        rightOffset = "19rem";
+      } else {
+        // Mobile
         cardWidth = "14rem";
-        leftOffset = "-12rem";
-        rightOffset = "12rem";
+        leftOffset = "-14rem";
+        rightOffset = "14rem";
       }
 
       // Set initial card states (scaled down, translated down, opacity 0)
@@ -1581,33 +1604,45 @@ const PortfolioScroll = () => {
       });
 
       // Simple staggered card animation (center first, then sides)
-      tl.to(educationRefs.card1Ref.current, {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 1.2,
-        ease: "back.out(1.3)",
-      }, "education-cards-start")
-        .to(educationRefs.card2Ref.current, {
+      tl.to(
+        educationRefs.card1Ref.current,
+        {
           opacity: 1,
           scale: 1,
           y: 0,
           duration: 1.2,
           ease: "back.out(1.3)",
-        }, "education-cards-start+0.2")
-        .to(educationRefs.card3Ref.current, {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 1.2,
-          ease: "back.out(1.3)",
-        }, "education-cards-start+0.4");
+        },
+        "education-cards-start",
+      )
+        .to(
+          educationRefs.card2Ref.current,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "back.out(1.3)",
+          },
+          "education-cards-start+0.2",
+        )
+        .to(
+          educationRefs.card3Ref.current,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "back.out(1.3)",
+          },
+          "education-cards-start+0.4",
+        );
 
       // Hold for viewing
-      tl.to({}, { duration: 6 }, "education-hold")
+      tl.to({}, { duration: 6 }, "education-hold");
 
       // 13. EDUCATION SECTION EXIT
-      tl.addLabel("education-exit")
+      tl.addLabel("education-exit");
 
       // Cards fade and move down
       tl.to(
@@ -1620,7 +1655,7 @@ const PortfolioScroll = () => {
           ease: "power2.in",
         },
         "education-exit",
-      )
+      );
       tl.to(
         educationRefs.card2Ref.current,
         {
@@ -1631,7 +1666,7 @@ const PortfolioScroll = () => {
           ease: "power2.in",
         },
         "education-exit+=0.3",
-      )
+      );
       tl.to(
         educationRefs.card3Ref.current,
         {
@@ -1642,7 +1677,7 @@ const PortfolioScroll = () => {
           ease: "power2.in",
         },
         "education-exit+=0.6",
-      )
+      );
 
       // Header fade out
       tl.to(
@@ -1655,7 +1690,7 @@ const PortfolioScroll = () => {
           ease: "power2.in",
         },
         "education-exit",
-      )
+      );
 
       // Container cleanup
       tl.to(
@@ -1703,7 +1738,7 @@ const PortfolioScroll = () => {
             duration: 2.5,
             ease: "back.out(1.8)", // Same easing as Education header
           },
-          "contact-start"
+          "contact-start",
         )
 
         // Header moves to top position (same as Education)
@@ -1716,7 +1751,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power3.inOut", // Same easing as Education header
           },
-          "contact-header-lift"
+          "contact-header-lift",
         )
 
         // STEP 2: Contact Container Reveal (after header settles)
@@ -1733,7 +1768,7 @@ const PortfolioScroll = () => {
             duration: 1.2,
             ease: "back.out(1.3)", // Same ease as Education card entrance
           },
-          "contact-container-reveal"
+          "contact-container-reveal",
         )
 
         // Hold for viewing
@@ -1748,7 +1783,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power2.in",
           },
-          "contact-exit"
+          "contact-exit",
         )
         .to(
           contactRefs.headerRef.current,
@@ -1760,7 +1795,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power2.in",
           },
-          "contact-exit"
+          "contact-exit",
         )
 
         // 17. ENDSEQUENCE ENTRANCE
@@ -1779,7 +1814,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "back.out(1.6)",
           },
-          "endsequence-start"
+          "endsequence-start",
         );
     }, sectionRef);
 
@@ -1835,7 +1870,6 @@ const PortfolioScroll = () => {
         <Education refs={educationRefs} visible={educationVisible} />
       </div>
 
-      
       {/* Contact Section Content */}
       <div
         className="absolute inset-0"

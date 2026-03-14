@@ -9,6 +9,7 @@ import { Center, OrbitControls } from "@react-three/drei";
 import { myProjects } from "../../../data/index.js";
 import CanvasLoader from "../../../components/shared/Loading.jsx";
 import DemoComputer from "./DemoComputer.jsx";
+import SSRSafeWrapper from "@/components/common/SSRSafeWrapper";
 
 const projectCount = myProjects.length;
 
@@ -29,7 +30,7 @@ const Projects = () => {
     gsap.fromTo(
       `.animatedText`,
       { opacity: 0 },
-      { opacity: 1, duration: 1, stagger: 0.2, ease: "power2.inOut" }
+      { opacity: 1, duration: 1, stagger: 0.2, ease: "power2.inOut" },
     );
   }, [selectedProjectIndex]);
 
@@ -39,18 +40,30 @@ const Projects = () => {
     <section className="c-space  bg-primary text-white -mt-20  pt-20 min-h-screen">
       <div className="grid lg:grid-cols-2 grid-cols-2 mt-12 gap-10 w-full min-h-[80vh] px-10">
         <div className="border border-blue-400 rounded-xl ">
-          <Canvas>
-            <ambientLight intensity={Math.PI} />
-            <directionalLight position={[10, 10, 5]} />
-            <Center>
-              <Suspense fallback={<CanvasLoader />}>
-                <group scale={2.1} position={[-0.3, -3, 0]} rotation={[0, 0, 0]}>
-                  <DemoComputer texture={currentProject.texture} />
-                </group>
-              </Suspense>
-            </Center>
-            <OrbitControls maxPolarAngle={Math.PI / 2} enableZoom={false} />
-          </Canvas>
+          <SSRSafeWrapper
+            fallback={
+              <div className="w-full h-full flex items-center justify-center text-white">
+                Loading 3D...
+              </div>
+            }
+          >
+            <Canvas>
+              <ambientLight intensity={Math.PI} />
+              <directionalLight position={[10, 10, 5]} />
+              <Center>
+                <Suspense fallback={<CanvasLoader />}>
+                  <group
+                    scale={2.1}
+                    position={[-0.3, -3, 0]}
+                    rotation={[0, 0, 0]}
+                  >
+                    <DemoComputer texture={currentProject.texture} />
+                  </group>
+                </Suspense>
+              </Center>
+              <OrbitControls maxPolarAngle={Math.PI / 2} enableZoom={false} />
+            </Canvas>
+          </SSRSafeWrapper>
         </div>
         <div className="flex flex-col gap-5 relative sm:p-10 py-10 px-5 shadow-2xl shadow-black-200">
           <div className="absolute top-0 right-0">

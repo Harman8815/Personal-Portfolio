@@ -137,16 +137,17 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
         trigger: el.parentElement,
         start: "top 80%",
         end: "top 20%",
-        toggleActions: "play none none reverse"
-      }
+        toggleActions: "play none none reverse",
+      },
     });
 
     // Staggered entrance animation
-    tl.fromTo(el, 
+    tl.fromTo(
+      el,
       {
         opacity: 0,
         y: 80,
-        scale: 0.9
+        scale: 0.9,
       },
       {
         opacity: 1,
@@ -154,8 +155,8 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
         scale: 1,
         duration: 0.8,
         ease: "power3.out",
-        delay: index * 0.15
-      }
+        delay: index * 0.15,
+      },
     );
 
     // Hover effects
@@ -164,7 +165,7 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
         scale: 1.03,
         y: -4,
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     };
 
@@ -173,16 +174,16 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
         scale: 1,
         y: 0,
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
     };
 
-    el.addEventListener('mouseenter', handleMouseEnter);
-    el.addEventListener('mouseleave', handleMouseLeave);
+    el.addEventListener("mouseenter", handleMouseEnter);
+    el.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      el.removeEventListener('mouseenter', handleMouseEnter);
-      el.removeEventListener('mouseleave', handleMouseLeave);
+      el.removeEventListener("mouseenter", handleMouseEnter);
+      el.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [index, cardRef]);
 
@@ -191,16 +192,16 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
       ref={ref}
       className="education-card relative p-6 h-full"
       style={{
-        '--card-glow-gradient': edu.gradient,
-        '--icon-color': edu.color,
-        '--accent-color': edu.glowColor
+        "--card-glow-gradient": edu.gradient,
+        "--icon-color": edu.color,
+        "--accent-color": edu.glowColor,
       }}
     >
       <div className="card-glow"></div>
       <div className="corner-accent top-left"></div>
       <div className="corner-accent bottom-right"></div>
       <div className="degree-icon"></div>
-      
+
       {/* Header Area */}
       <div className="relative z-10">
         <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
@@ -210,9 +211,7 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
           {edu.field}
         </p>
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm text-gray-400">
-            {edu.institution}
-          </p>
+          <p className="text-sm text-gray-400">{edu.institution}</p>
           <span className="text-xs md:text-sm px-3 py-1 rounded-full bg-white/10 border border-white/20 text-gray-300">
             {edu.duration}
           </span>
@@ -221,10 +220,10 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
 
       {/* Divider */}
       <div className="relative z-10 h-px mb-4">
-        <div 
+        <div
           className="h-full w-full rounded-full"
           style={{
-            background: `linear-gradient(90deg, transparent, ${edu.glowColor}, transparent)`
+            background: `linear-gradient(90deg, transparent, ${edu.glowColor}, transparent)`,
           }}
         ></div>
       </div>
@@ -233,7 +232,9 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
       <div className="relative z-10 space-y-4">
         {/* CGPA */}
         <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Performance</p>
+          <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">
+            Performance
+          </p>
           <p className="text-lg font-bold" style={{ color: edu.color }}>
             {edu.cgpa}
           </p>
@@ -241,15 +242,21 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
 
         {/* Highlights */}
         <div>
-          <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Key Highlights</p>
+          <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">
+            Key Highlights
+          </p>
           <ul className="space-y-2">
             {edu.highlights.slice(0, 3).map((highlight, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span 
+                <span
                   className="text-xs mt-1 flex-shrink-0"
                   style={{ color: edu.color }}
-                >▸</span>
-                <span className="text-xs text-gray-300 leading-relaxed">{highlight}</span>
+                >
+                  ▸
+                </span>
+                <span className="text-xs text-gray-300 leading-relaxed">
+                  {highlight}
+                </span>
               </li>
             ))}
           </ul>
@@ -258,7 +265,9 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
         {/* Achievements */}
         {edu.achievements && edu.achievements.length > 0 && (
           <div>
-            <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Achievements</p>
+            <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">
+              Achievements
+            </p>
             <div className="flex flex-wrap gap-1">
               {edu.achievements.slice(0, 2).map((achievement, idx) => (
                 <span
@@ -267,7 +276,7 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
                   style={{
                     background: `${edu.color}20`,
                     border: `1px solid ${edu.color}40`,
-                    color: edu.color
+                    color: edu.color,
                   }}
                 >
                   {achievement}
@@ -287,14 +296,15 @@ const Education = ({ refs, visible }) => {
 
   useLayoutEffect(() => {
     const header = headerRef.current;
-    
+
     // Only run header animation if not controlled by PortfolioScroll
     if (!refs) {
       // Header animation
-      gsap.fromTo(header,
+      gsap.fromTo(
+        header,
         {
           opacity: 0,
-          y: 30
+          y: 30,
         },
         {
           opacity: 1,
@@ -305,9 +315,9 @@ const Education = ({ refs, visible }) => {
             trigger: sectionRef.current,
             start: "top 85%",
             end: "top 30%",
-            toggleActions: "play none none reverse"
-          }
-        }
+            toggleActions: "play none none reverse",
+          },
+        },
       );
 
       // Exit animation for entire section
@@ -320,7 +330,7 @@ const Education = ({ refs, visible }) => {
             opacity: 0.3,
             y: 20,
             duration: 0.6,
-            ease: "power2.inOut"
+            ease: "power2.inOut",
           });
         },
         onEnterBack: () => {
@@ -328,9 +338,9 @@ const Education = ({ refs, visible }) => {
             opacity: 1,
             y: 0,
             duration: 0.6,
-            ease: "power2.inOut"
+            ease: "power2.inOut",
           });
-        }
+        },
       });
     }
   }, [refs]);
@@ -345,10 +355,7 @@ const Education = ({ refs, visible }) => {
       >
         <div className="max-w-7xl mx-auto w-full">
           {/* Section Header */}
-          <div
-            ref={headerRef}
-            className="text-center mb-16"
-          >
+          <div ref={headerRef} className="text-center mb-16">
             <span className="font-mono text-[10px] md:text-[12px] tracking-[0.8em] uppercase text-cyan-500 mb-2 block">
               Academic_Foundation
             </span>
@@ -361,7 +368,9 @@ const Education = ({ refs, visible }) => {
           {/* Education Cards Grid - 1x3 Layout */}
           <div className="relative" style={{ minHeight: "400px" }}>
             {/* Standard grid layout for standalone use */}
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4 ${refs ? 'opacity-0 pointer-events-none' : ''}`}>
+            <div
+              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 px-4 ${refs ? "opacity-0 pointer-events-none" : ""}`}
+            >
               {educationData.map((edu, index) => (
                 <EducationCard
                   key={edu.id}
@@ -372,7 +381,7 @@ const Education = ({ refs, visible }) => {
                 />
               ))}
             </div>
-            
+
             {/* Absolute positioned cards for PortfolioScroll control */}
             {refs && (
               <>
