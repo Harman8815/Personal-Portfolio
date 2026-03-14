@@ -6,6 +6,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
 import ExperienceBloom from "../pages/experience/ExperienceBloom";
+import Education from "../pages/education/Education";
+import Contact_me from "../contact/Contact_me";
+import EndSequence from "../pages/landing/EndSequence";
 
 const PortfolioScroll = () => {
   const sectionRef = useRef(null);
@@ -50,14 +53,40 @@ const PortfolioScroll = () => {
     card315Ref: useRef(null),
   };
 
+  // Education section refs
+  const educationRefs = {
+    containerRef: useRef(null),
+    headerRef: useRef(null),
+    card1Ref: useRef(null),
+    card2Ref: useRef(null),
+    card3Ref: useRef(null),
+  };
+
+  // Contact section refs
+  const contactRefs = {
+    containerRef: useRef(null),
+    headerRef: useRef(null),
+  };
+
+  // EndSequence refs
+  const endSequenceRefs = {
+    containerRef: useRef(null),
+  };
+
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
+  const [educationVisible, setEducationVisible] = useState(false);
+  const [contactVisible, setContactVisible] = useState(false);
+  const [endSequenceVisible, setEndSequenceVisible] = useState(false);
 
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
   const projectsVisibleRef = useRef(false);
   const experienceVisibleRef = useRef(false);
+  const educationVisibleRef = useRef(false);
+  const contactVisibleRef = useRef(false);
+  const endSequenceVisibleRef = useRef(false);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -67,7 +96,7 @@ const PortfolioScroll = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=1800%",
+          end: "+=4500%", // Further increased to prevent header collisions
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -77,7 +106,7 @@ const PortfolioScroll = () => {
             const progress = self.progress;
 
             // 🚀 BUG FIX: Sync visibility with timeline labels.
-            if (progress > 0.35) {
+            if (progress > 0.25) {
               if (!projectsVisibleRef.current) {
                 projectsVisibleRef.current = true;
                 setProjectsVisible(true);
@@ -91,7 +120,7 @@ const PortfolioScroll = () => {
             }
 
             // Experience bloom visibility - updated to match synchronized transition
-            if (progress > 0.65) {
+            if (progress > 0.45) {
               if (!experienceVisibleRef.current) {
                 experienceVisibleRef.current = true;
                 setExperienceVisible(true);
@@ -99,6 +128,39 @@ const PortfolioScroll = () => {
             } else if (experienceVisibleRef.current) {
               experienceVisibleRef.current = false;
               setExperienceVisible(false);
+            }
+
+            // Education section visibility
+            if (progress > 0.65) {
+              if (!educationVisibleRef.current) {
+                educationVisibleRef.current = true;
+                setEducationVisible(true);
+              }
+            } else if (educationVisibleRef.current) {
+              educationVisibleRef.current = false;
+              setEducationVisible(false);
+            }
+
+            // Contact section visibility
+            if (progress > 0.8) {
+              if (!contactVisibleRef.current) {
+                contactVisibleRef.current = true;
+                setContactVisible(true);
+              }
+            } else if (contactVisibleRef.current) {
+              contactVisibleRef.current = false;
+              setContactVisible(false);
+            }
+
+            // EndSequence visibility
+            if (progress > 0.9) {
+              if (!endSequenceVisibleRef.current) {
+                endSequenceVisibleRef.current = true;
+                setEndSequenceVisible(true);
+              }
+            } else if (endSequenceVisibleRef.current) {
+              endSequenceVisibleRef.current = false;
+              setEndSequenceVisible(false);
             }
           },
         },
@@ -178,7 +240,7 @@ const PortfolioScroll = () => {
 
       gsap.set(projectsRefs.headerRef.current, {
         opacity: 0,
-        scale: 0.2,
+        scale: 0,
         y: 0,
         position: "absolute",
         top: "50%",
@@ -205,7 +267,7 @@ const PortfolioScroll = () => {
         opacity: 0,
         position: "absolute",
         inset: 0,
-        zIndex: 60,
+        zIndex: 80, // Higher than Education for proper layering during exit
       });
 
       gsap.set(experienceRefs.headerRef.current, {
@@ -244,6 +306,53 @@ const PortfolioScroll = () => {
         opacity: 0,
         scale: 0.2,
         rotate: 0,
+      });
+
+      // Education section initial states
+      gsap.set(educationRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 70,
+      });
+
+      gsap.set(educationRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.2,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      // Education cards initial states will be set dynamically in timeline
+
+      // Contact section initial states
+      gsap.set(contactRefs.containerRef.current, {
+        opacity: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 90,
+      });
+
+      gsap.set(contactRefs.headerRef.current, {
+        opacity: 0,
+        scale: 0.2,
+        position: "absolute",
+        top: "50vh",
+        left: "50vw",
+        xPercent: -50,
+        yPercent: -50,
+      });
+
+      // EndSequence initial states
+      gsap.set(endSequenceRefs.containerRef.current, {
+        opacity: 0,
+        scale: 0,
+        position: "absolute",
+        inset: 0,
+        zIndex: 100,
       });
 
       // === TIMELINE CONSTRUCTION ===
@@ -367,15 +476,17 @@ const PortfolioScroll = () => {
         .to(
           aboutRefs.skillsHeaderRef.current,
           {
-            y: "-43vh",
+            y: "-38vh",
             duration: 3,
             ease: "power3.inOut",
           },
           "skills-header-placement",
         )
 
-        // Phase 3 — Skill Cloud Formation: Cloud zooms in while header moves
+        // Phase 3 — Skill Cloud Formation: Two-stage animation
         .addLabel("skills-cloud-formation", "skills-header-placement+=0.5")
+
+        // Stage 1: Cloud appears from center (scale 0 to 1)
         .fromTo(
           aboutRefs.skillsCloudRef.current,
           { opacity: 0, scale: 0, x: 0, y: 0 },
@@ -383,28 +494,56 @@ const PortfolioScroll = () => {
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
-            x: "30vw",
-            y: "5vh",
-            duration: 4,
+            x: 0,
+            y: 0,
+            duration: 2,
             ease: "back.out(1.2)",
           },
           "skills-cloud-formation",
         )
 
-        // Phase 4 — Skill Cards Assembly: Dynamic construction with stagger
-        .addLabel("skills-cards-assembly")
+        // Stage 2: Cloud moves from center to right side
+        .addLabel("skills-cloud-move-right", "skills-cloud-formation+=2")
+        .to(
+          aboutRefs.skillsCloudRef.current,
+          {
+            x: "30vw",
+            y: "5vh",
+            duration: 2,
+            ease: "power3.inOut",
+          },
+          "skills-cloud-move-right",
+        )
+
+        // Phase 4 — Skill Cards Assembly: Starts after cloud stage 1 completes
+        .addLabel("skills-cards-assembly", "skills-cloud-formation+=2")
+
+        // Container appears from center, slightly below skills cloud
         .fromTo(
           aboutRefs.skillsTiersRef.current,
-          { opacity: 0, scale: 0.8, x: 0, y: 0 },
+          { opacity: 0, scale: 0.8, x: 0, y: "2vh" },
           {
             opacity: 1,
             scale: 1,
-            x: "-15vw",
-            y: "5vh",
-            duration: 4,
+            x: 0,
+            y: "2vh",
+            duration: 2,
             ease: "power3.out",
           },
           "skills-cards-assembly",
+        )
+
+        // Container moves from center to left side
+        .addLabel("skills-cards-move-left", "skills-cards-assembly+=2")
+        .to(
+          aboutRefs.skillsTiersRef.current,
+          {
+            x: "-15vw",
+            y: "5vh",
+            duration: 2,
+            ease: "power3.inOut",
+          },
+          "skills-cards-move-left",
         )
         .fromTo(
           ".skill-card-container",
@@ -425,7 +564,7 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "back.out(1.4)",
           },
-          "skills-cards-assembly+=0.8",
+          "skills-cards-move-left+=0.5",
         )
 
         .to({}, { duration: 5 }, "skills-hold") // Buffer for reading skills
@@ -496,11 +635,27 @@ const PortfolioScroll = () => {
           "projects-start",
         )
 
-        // Header Animation: Emerge from center with dramatic zoom
+        // Header Animation: Zoom in from center (size 0 to 100%)
         .fromTo(
           projectsRefs.headerRef.current,
-          { opacity: 0, scale: 0.2, y: 0, yPercent: -50 },
-          { opacity: 1, scale: 1, duration: 3, ease: "back.out(1.6)" },
+          {
+            opacity: 0,
+            scale: 0,
+            y: 0,
+            yPercent: -50,
+            xPercent: -50,
+            left: "50%",
+            top: "50%",
+            position: "absolute",
+            filter: "blur(8px)",
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 2.5,
+            ease: "back.out(1.8)",
+          },
           "projects-start",
         )
 
@@ -508,8 +663,8 @@ const PortfolioScroll = () => {
         .to(
           projectsRefs.headerRef.current,
           {
-            y: "-38vh",
-            duration: 2.5,
+            y: "-36vh",
+            duration: 3,
             ease: "power3.inOut",
           },
           "projects-start+=3",
@@ -581,11 +736,11 @@ const PortfolioScroll = () => {
         // 6. SYNCHRONIZED WHEEL TRANSITION - MAJOR PROJECTS EXIT + EXPERIENCE ENTRY OVERLAP
         .addLabel("wheel-transition")
 
-        // Background transition: dim only (no blur for experience section)
+        // Background transition: keep full opacity for visibility during transition
         .to(
           sectionRef.current,
           {
-            opacity: 0.9,
+            opacity: 1, // Keep full opacity to maintain visibility
             duration: 3,
             ease: "power2.inOut",
           },
@@ -730,7 +885,7 @@ const PortfolioScroll = () => {
           experienceRefs.headerRef.current,
           {
             y: "-38vh", // Same translateY as Major Projects header
-            duration: 2.5, // Same duration as Major Projects header
+            duration: 3, // Same duration as Major Projects header
             ease: "power3.inOut", // Same easing as Major Projects header
           },
           "header-lift",
@@ -899,15 +1054,269 @@ const PortfolioScroll = () => {
 
         .to({}, { duration: 5 }) // Hold for viewing
 
-        // 10. EXPERIENCE SECTION FINAL COLLAPSE ANIMATION
+        // 10. SECONDARY BLOOM EXPANSION PHASE
+        .addLabel("secondary-bloom-start")
+        .call(
+          () => console.log("Secondary bloom phase reached"),
+          [],
+          "secondary-bloom-start",
+        )
+
+        // Phase 1 — Cards expand and reveal detailed content
+        .addLabel("card-expansion", "secondary-bloom-start")
+
+        // Card 45° expansion and content reveal
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            scale: 1.2, // Reduced scale for compact cards
+            width: "18rem", // Compact width
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card45Ref.current,
+          {
+            transform:
+              "rotate(45deg) translateY(-18vw) translateY(-2rem) rotate(-45deg) translateX(-2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card45Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 1,
+            maxHeight: "150px", // Compact height for 2 lines
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.5",
+        )
+
+        // Card 135° expansion and content reveal
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card135Ref.current,
+          {
+            transform:
+              "rotate(135deg) translateY(-18vw) translateY(-2rem) rotate(-135deg) translateX(-2rem) translateY(-2rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card135Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.7",
+        )
+
+        // Card 225° expansion and content reveal
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card225Ref.current,
+          {
+            transform:
+              "rotate(225deg) translateY(-18vw) translateY(-2rem) rotate(-225deg) translateX(-14rem) translateY(-2rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card225Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=0.9",
+        )
+
+        // Card 315° expansion and content reveal
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            scale: 1.2,
+            width: "18rem",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          experienceRefs.card315Ref.current,
+          {
+            transform:
+              "rotate(315deg) translateY(-18vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "card-expansion",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card315Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 1,
+            maxHeight: "150px",
+            padding: "0 0.5rem 0.5rem 0.5rem",
+            duration: 1.5,
+            ease: "power2.inOut",
+          },
+          "card-expansion+=1.1",
+        )
+
+        // Phase 2 — Hold expanded state for viewing
+        .to({}, { duration: 10 }) // Extended hold for reading detailed content
+
+        // Phase 3 — Pre-Exit Content Hide and Card Recompression
+        .addLabel("recompression-start")
+
+        // Hide content first
+        .to(
+          gsap.utils.selector(experienceRefs.card45Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card135Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start+=0.2",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card225Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "recompression-start+=0.4",
+        )
+        .to(
+          gsap.utils.selector(experienceRefs.card315Ref.current)(
+            ".expanded-content",
+          ),
+          {
+            opacity: 0,
+            maxHeight: "0",
+            padding: "0 0.5rem 0 0.5rem",
+            duration: 1,
+            width: "16rem",
+            transform:
+              "rotate(315deg) translateY(-19.25vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
+            duration: 2,
+            ease: "power2.inOut",
+          },
+          "recompression-start",
+        )
+
+        .to({}, { duration: 2 }) // Brief pause before collapse
+
+        // 12. SYNCHRONIZED EXPERIENCE COLLAPSE + EDUCATION ENTRANCE
         .addLabel("experience-collapse-start")
 
-        // Phase 1 — Pre-Collapse Heart Beat (Inner Circle Pulse)
-        .addLabel("heartbeat-phase", "experience-collapse-start")
+        // === SYNCHRONIZED PHASE 1: Experience Wheel Contracts + Education Header Zooms In ===
+        .addLabel("synchronized-transition", "experience-collapse-start")
+
+        // Education container becomes visible ONLY when header starts (after Experience is gone)
+        .set(
+          educationRefs.containerRef.current,
+          { opacity: 1 },
+          "education-header-entrance",
+        )
+
+        // Experience wheel begins shrinking/contracting with blur effect
+        .to(
+          experienceRefs.wheelRef.current,
+          {
+            scale: 0.1, // Shrink dramatically
+            opacity: 0.3, // Fade partially
+            filter: "blur(2px)", // Add subtle blur during exit
+            duration: 3,
+            ease: "power3.in",
+          },
+          "synchronized-transition",
+        )
+
+        // Experience petals collapse with wheel and blur
+        .to(
+          ".experience-petal",
+          {
+            scale: 0.1,
+            opacity: 0,
+            filter: "blur(1.5px)", // Add blur to petals
+            duration: 2.5,
+            ease: "power2.in",
+          },
+          "synchronized-transition+=0.5",
+        )
+
+        // Pre-Collapse Heart Beat (Inner Circle Pulse) - happens simultaneously with header zoom
+        .addLabel("heartbeat-phase", "synchronized-transition")
         .to(
           experienceRefs.centerRef.current,
           {
             scale: 1.15,
+            filter: "blur(0.5px)", // Slight blur during pulse
             duration: 0.3,
             ease: "power2.out",
           },
@@ -917,6 +1326,7 @@ const PortfolioScroll = () => {
           experienceRefs.centerRef.current,
           {
             scale: 0.95,
+            filter: "blur(1px)", // Increase blur
             duration: 0.2,
             ease: "power2.in",
           },
@@ -926,14 +1336,15 @@ const PortfolioScroll = () => {
           experienceRefs.centerRef.current,
           {
             scale: 1,
+            filter: "blur(0px)", // Clear blur briefly
             duration: 0.2,
             ease: "power2.inOut",
           },
           "heartbeat-phase+=0.5",
         )
 
-        // Phase 2 — Card Collapse to Center (starts during heartbeat)
-        .addLabel("card-collapse", "heartbeat-phase+=0.3")
+        // Card Collapse to Center with blur (starts during header movement)
+        .addLabel("card-collapse", "header-lift-phase")
         .to(
           experienceRefs.card45Ref.current,
           {
@@ -941,6 +1352,7 @@ const PortfolioScroll = () => {
             y: 0,
             scale: 0.6,
             opacity: 0,
+            filter: "blur(3px)", // Add blur during collapse
             duration: 2,
             ease: "power2.in",
           },
@@ -953,6 +1365,7 @@ const PortfolioScroll = () => {
             y: 0,
             scale: 0.6,
             opacity: 0,
+            filter: "blur(3px)", // Add blur during collapse
             duration: 2,
             ease: "power2.in",
           },
@@ -965,6 +1378,7 @@ const PortfolioScroll = () => {
             y: 0,
             scale: 0.6,
             opacity: 0,
+            filter: "blur(3px)", // Add blur during collapse
             duration: 2,
             ease: "power2.in",
           },
@@ -977,14 +1391,15 @@ const PortfolioScroll = () => {
             y: 0,
             scale: 0.6,
             opacity: 0,
+            filter: "blur(3px)", // Add blur during collapse
             duration: 2,
             ease: "power2.in",
           },
           "card-collapse",
         )
 
-        // Phase 3 — Radial Line Retraction (starts after cards begin collapsing)
-        .addLabel("line-retraction", "card-collapse+=0.5")
+        // Radial Line Retraction (starts after cards begin collapsing)
+        .addLabel("line-retraction", "card-collapse+0.5")
         .to(
           experienceRefs.line45Ref.current,
           {
@@ -1022,32 +1437,75 @@ const PortfolioScroll = () => {
           "line-retraction",
         )
 
-        // Phase 4 — Final Core Collapse (after heartbeat completes and cards nearly reach center)
-        .addLabel("final-collapse", "heartbeat-phase+1")
+        // Final Core Collapse with increased blur (after heartbeat completes and cards nearly reach center)
+        .addLabel("final-collapse", "header-lift-phase+2") // Sync with header reaching top
         .to(
           experienceRefs.centerRef.current,
           {
             scale: 0,
             opacity: 0,
+            filter: "blur(4px)", // Strong blur for final collapse
             duration: 1.5,
             ease: "power3.in",
           },
           "final-collapse",
         )
 
-        // Header fade out
+        // Experience header fade out with blur
         .to(
           experienceRefs.headerRef.current,
           {
             opacity: 0,
             y: "-60vh",
+            filter: "blur(2px)", // Add blur to header
             duration: 2,
             ease: "power2.in",
           },
           "final-collapse",
         )
+        // Education header appears ONLY AFTER Experience header is completely gone + buffer
+        .addLabel("education-header-entrance", "final-collapse+5") // Start after Experience header finishes its 2s fade + 0.5s buffer
 
-        // Container cleanup
+        // Education header zooms in from center with blur that sharpens
+        .fromTo(
+          educationRefs.headerRef.current,
+          {
+            opacity: 0,
+            scale: 0.1, // Start even smaller for dramatic zoom
+            y: 0,
+            yPercent: -50,
+            xPercent: -50,
+            left: "50%",
+            top: "50%",
+            position: "absolute",
+            filter: "blur(8px)", // Start with blur
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)", // Sharpen as it reaches final position
+            duration: 2.5,
+            ease: "back.out(1.8)",
+          },
+          "education-header-entrance",
+        )
+
+        // === SYNCHRONIZED PHASE 2: Cards Collapse + Header Moves Up ===
+        .addLabel("header-lift-phase", "synchronized-transition+2") // Header starts moving as it finishes zooming
+
+        // Education header moves to top position (same time as cards collapse)
+        .to(
+          educationRefs.headerRef.current,
+          {
+            top: "15%",
+            yPercent: -50,
+            duration: 2,
+            ease: "power3.inOut",
+          },
+          "header-lift-phase",
+        )
+
+        // Experience container cleanup
         .to(
           experienceRefs.containerRef.current,
           {
@@ -1067,6 +1525,296 @@ const PortfolioScroll = () => {
             ease: "power2.inOut",
           },
           "final-collapse",
+        )
+
+        // === EDUCATION CARDS ENTRANCE (AFTER HEADER SETTLES + CLEAR SEPARATION) ===
+        .addLabel("education-cards-start", "education-header-entrance+4"); // Clear separation after header settles
+
+      // Calculate responsive positions
+      const screenWidth = window.innerWidth;
+      let cardWidth, leftOffset, rightOffset;
+
+      if (screenWidth >= 1024) {
+        // Large desktop
+        cardWidth = "18rem";
+        leftOffset = "-23rem";
+        rightOffset = "23rem";
+      } else if (screenWidth >= 768) {
+        // Tablet
+        cardWidth = "16rem";
+        leftOffset = "-19rem";
+        rightOffset = "19rem";
+      } else {
+        // Mobile
+        cardWidth = "14rem";
+        leftOffset = "-14rem";
+        rightOffset = "14rem";
+      }
+
+      // Set initial card states (scaled down, translated down, opacity 0)
+      gsap.set(educationRefs.card1Ref.current, {
+        opacity: 0,
+        scale: 0.9,
+        y: 60,
+        x: 0,
+        xPercent: -50,
+        yPercent: -50,
+        left: "50%",
+        top: "50%",
+        position: "absolute",
+        width: cardWidth,
+        maxWidth: "85vw",
+        maxHeight: "65vh",
+        zIndex: 20,
+        transformOrigin: "center center",
+      });
+
+      gsap.set(educationRefs.card2Ref.current, {
+        opacity: 0,
+        scale: 0.9,
+        y: 60,
+        x: leftOffset,
+        xPercent: -50,
+        yPercent: -50,
+        left: "50%",
+        top: "50%",
+        position: "absolute",
+        width: cardWidth,
+        maxWidth: "85vw",
+        maxHeight: "65vh",
+        zIndex: 10,
+        transformOrigin: "center center",
+      });
+
+      gsap.set(educationRefs.card3Ref.current, {
+        opacity: 0,
+        scale: 0.9,
+        y: 60,
+        x: rightOffset,
+        xPercent: -50,
+        yPercent: -50,
+        left: "50%",
+        top: "50%",
+        position: "absolute",
+        width: cardWidth,
+        maxWidth: "85vw",
+        maxHeight: "65vh",
+        zIndex: 10,
+        transformOrigin: "center center",
+      });
+
+      // Simple staggered card animation (center first, then sides)
+      tl.to(
+        educationRefs.card1Ref.current,
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "back.out(1.3)",
+        },
+        "education-cards-start",
+      )
+        .to(
+          educationRefs.card2Ref.current,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "back.out(1.3)",
+          },
+          "education-cards-start+0.2",
+        )
+        .to(
+          educationRefs.card3Ref.current,
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "back.out(1.3)",
+          },
+          "education-cards-start+0.4",
+        );
+
+      // Hold for viewing
+      tl.to({}, { duration: 6 }, "education-hold");
+
+      // 13. EDUCATION SECTION EXIT
+      tl.addLabel("education-exit");
+
+      // Cards fade and move down
+      tl.to(
+        educationRefs.card1Ref.current,
+        {
+          opacity: 0,
+          y: 50,
+          scale: 0.8,
+          duration: 2,
+          ease: "power2.in",
+        },
+        "education-exit",
+      );
+      tl.to(
+        educationRefs.card2Ref.current,
+        {
+          opacity: 0,
+          y: 50,
+          scale: 0.8,
+          duration: 2,
+          ease: "power2.in",
+        },
+        "education-exit+=0.3",
+      );
+      tl.to(
+        educationRefs.card3Ref.current,
+        {
+          opacity: 0,
+          y: 50,
+          scale: 0.8,
+          duration: 2,
+          ease: "power2.in",
+        },
+        "education-exit+=0.6",
+      );
+
+      // Header fade out
+      tl.to(
+        educationRefs.headerRef.current,
+        {
+          opacity: 0,
+          top: "5%",
+          yPercent: -50,
+          duration: 2,
+          ease: "power2.in",
+        },
+        "education-exit",
+      );
+
+      // Container cleanup
+      tl.to(
+        educationRefs.containerRef.current,
+        {
+          opacity: 0,
+          duration: 1,
+          ease: "power2.in",
+        },
+        "education-exit+=1",
+      )
+
+        // 15. CONTACT SECTION ENTRANCE
+        .addLabel("contact-start", "education-exit+=2")
+
+        // Contact container becomes visible
+        .to(
+          contactRefs.containerRef.current,
+          {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          "contact-start",
+        )
+
+        // STEP 1: Header Animation (Same As Education)
+        .fromTo(
+          contactRefs.headerRef.current,
+          {
+            opacity: 0,
+            scale: 0.1, // Same entry scale as Education header
+            y: 0,
+            yPercent: -50,
+            xPercent: -50,
+            left: "50%",
+            top: "50%",
+            position: "absolute",
+            filter: "blur(8px)", // Start with blur
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)", // Sharpen as it reaches final position
+            duration: 2.5,
+            ease: "back.out(1.8)", // Same easing as Education header
+          },
+          "contact-start",
+        )
+
+        // Header moves to top position (same as Education)
+        .addLabel("contact-header-lift", "contact-start+2.5")
+        .to(
+          contactRefs.headerRef.current,
+          {
+            top: "15vh", // Same top position as Education header
+            transform: "translate(-50%, -50%)",
+            duration: 2,
+            ease: "power3.inOut", // Same easing as Education header
+          },
+          "contact-header-lift",
+        )
+
+        // STEP 2: Contact Container Reveal (after header settles)
+        .addLabel("contact-container-reveal", "contact-start+4.5") // After header settles
+        .fromTo(
+          contactRefs.containerRef.current,
+          {
+            opacity: 0,
+            scale: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            ease: "back.out(1.3)", // Same ease as Education card entrance
+          },
+          "contact-container-reveal",
+        )
+
+        // Hold for viewing
+        .to({}, { duration: 6 }, "contact-hold")
+
+        // STEP 3: Contact Section Fade Out
+        .addLabel("contact-exit")
+        .to(
+          contactRefs.containerRef.current,
+          {
+            opacity: 0,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "contact-exit",
+        )
+        .to(
+          contactRefs.headerRef.current,
+          {
+            opacity: 0,
+            top: "5vh",
+            transform: "translate(-50%, -50%)",
+            filter: "blur(4px)",
+            duration: 2,
+            ease: "power2.in",
+          },
+          "contact-exit",
+        )
+
+        // 17. ENDSEQUENCE ENTRANCE
+        .addLabel("endsequence-start", "contact-exit+1")
+
+        // EndSequence scale and opacity animation
+        .fromTo(
+          endSequenceRefs.containerRef.current,
+          {
+            opacity: 0,
+            scale: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 2,
+            ease: "back.out(1.6)",
+          },
+          "endsequence-start",
         );
     }, sectionRef);
 
@@ -1109,6 +1857,42 @@ const PortfolioScroll = () => {
 
       {/* Experience Bloom Content */}
       <ExperienceBloom refs={experienceRefs} visible={experienceVisible} />
+
+      {/* Education Section Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: educationVisible ? "visible" : "hidden",
+          opacity: educationVisible ? 1 : 0,
+          pointerEvents: educationVisible ? "auto" : "none",
+        }}
+      >
+        <Education refs={educationRefs} visible={educationVisible} />
+      </div>
+
+      {/* Contact Section Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: contactVisible ? "visible" : "hidden",
+          opacity: contactVisible ? 1 : 0,
+          pointerEvents: contactVisible ? "auto" : "none",
+        }}
+      >
+        <Contact_me refs={contactRefs} visible={contactVisible} />
+      </div>
+
+      {/* EndSequence Content */}
+      <div
+        className="absolute inset-0"
+        style={{
+          visibility: endSequenceVisible ? "visible" : "hidden",
+          opacity: endSequenceVisible ? 1 : 0,
+          pointerEvents: endSequenceVisible ? "auto" : "none",
+        }}
+      >
+        <EndSequence refs={endSequenceRefs} visible={endSequenceVisible} />
+      </div>
     </section>
   );
 };

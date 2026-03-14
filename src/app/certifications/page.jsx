@@ -1,12 +1,8 @@
 
-import Certifications from "@/components/pages/certifications/Certifications";
+import CertificationsPage from "@/components/certifications/CertificationsPage";
 
-const CertificationsPage = () => {
-  return (
-    <div className="pt-28">
-      <Certifications />
-    </div>
-  );
+const Page = () => {
+  return <CertificationsPage />;
 };
 
-export default CertificationsPage;
+export default Page;

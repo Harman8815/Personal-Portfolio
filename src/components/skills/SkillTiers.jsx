@@ -111,7 +111,7 @@ const SkillTiers = ({ _skillref } = {}) => {
   return (
     <div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 
-    auto-rows-fr gap-6 w-[85%] mx-auto"
+    auto-rows-fr gap-4 w-[70%] mx-auto max-h-[72vh] mt-8"
     >
       {tiers.map((tier) => (
         <div

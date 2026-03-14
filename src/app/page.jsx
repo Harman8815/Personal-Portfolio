@@ -4,10 +4,10 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import LandingSections from "@/components/pages/landing/LandingSections";
 import LoadingScreen from "@/components/loadingScreen/LoadingScreen";
 import CustomCursor from "@/components/common/CustomCursor";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import { LoadingProvider, useLoadingContext } from "@/context/LoadingContext";
 
-const HomeHero = dynamic(() => import("@/components/r3f/Hero/Home"), {
+const HomeHero = dynamicImport(() => import("@/components/r3f/Hero/Home"), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-primary flex items-center justify-center">
     <div className="text-primary text-2xl">Loading...</div>

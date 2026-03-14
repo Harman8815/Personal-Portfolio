@@ -22,18 +22,20 @@ const LoadingScreen = ({ progress, isExiting }) => {
 
   // Manage scrollbar hiding when loading screen is active
   useEffect(() => {
-    if (!isExiting) {
-      document.documentElement.classList.add('loading-active');
-      document.body.classList.add('loading-active');
-    } else {
-      document.documentElement.classList.remove('loading-active');
-      document.body.classList.remove('loading-active');
-    }
+    if (typeof window !== 'undefined') {
+      if (!isExiting) {
+        document.documentElement.classList.add('loading-active');
+        document.body.classList.add('loading-active');
+      } else {
+        document.documentElement.classList.remove('loading-active');
+        document.body.classList.remove('loading-active');
+      }
 
-    return () => {
-      document.documentElement.classList.remove('loading-active');
-      document.body.classList.remove('loading-active');
-    };
+      return () => {
+        document.documentElement.classList.remove('loading-active');
+        document.body.classList.remove('loading-active');
+      };
+    }
   }, [isExiting]);
 
   return (

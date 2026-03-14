@@ -48,7 +48,9 @@ const NotFound= () => {
       duration: 1,
       ease: "power4.in",
       onComplete: () => {
-        window.location.href = '/';
+        if (typeof window !== 'undefined') {
+          window.location.href = '/';
+        }
       }
     });
   };
