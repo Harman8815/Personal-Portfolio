@@ -242,7 +242,7 @@ const PortfolioScroll = () => {
 
       gsap.set(projectsRefs.headerRef.current, {
         opacity: 0,
-        scale: 0.2,
+        scale: 0,
         y: 0,
         position: "absolute",
         top: "50%",
@@ -639,11 +639,27 @@ const PortfolioScroll = () => {
           "projects-start",
         )
 
-        // Header Animation: Emerge from center with dramatic zoom
+        // Header Animation: Zoom in from center (size 0 to 100%)
         .fromTo(
           projectsRefs.headerRef.current,
-          { opacity: 0, scale: 0.2, y: 0, yPercent: -50 },
-          { opacity: 1, scale: 1, duration: 3, ease: "back.out(1.6)" },
+          {
+            opacity: 0,
+            scale: 0,
+            y: 0,
+            yPercent: -50,
+            xPercent: -50,
+            left: "50%",
+            top: "50%",
+            position: "absolute",
+            filter: "blur(8px)",
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+            duration: 2.5,
+            ease: "back.out(1.8)",
+          },
           "projects-start",
         )
 
