@@ -7,7 +7,6 @@ import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
 import ExperienceBloom from "../pages/experience/ExperienceBloom";
 import Education from "../pages/education/Education";
-import SocialHub from "../pages/social/SocialHub";
 import Contact_me from "../contact/Contact_me";
 import EndSequence from "../pages/landing/EndSequence";
 
@@ -63,14 +62,6 @@ const PortfolioScroll = () => {
     card3Ref: useRef(null),
   };
 
-  // Social section refs
-  const socialRefs = {
-    containerRef: useRef(null),
-    headerRef: useRef(null),
-    timelineLineRef: useRef(null),
-    socialCoreRef: useRef(null),
-    socialIconsRef: useRef([]),
-  };
 
   // Contact section refs
   const contactRefs = {
@@ -87,7 +78,6 @@ const PortfolioScroll = () => {
   const [projectsVisible, setProjectsVisible] = useState(false);
   const [experienceVisible, setExperienceVisible] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
-  const [socialVisible, setSocialVisible] = useState(false);
   const [contactVisible, setContactVisible] = useState(false);
   const [endSequenceVisible, setEndSequenceVisible] = useState(false);
 
@@ -96,7 +86,6 @@ const PortfolioScroll = () => {
   const projectsVisibleRef = useRef(false);
   const experienceVisibleRef = useRef(false);
   const educationVisibleRef = useRef(false);
-  const socialVisibleRef = useRef(false);
   const contactVisibleRef = useRef(false);
   const endSequenceVisibleRef = useRef(false);
 
@@ -153,19 +142,9 @@ const PortfolioScroll = () => {
               setEducationVisible(false);
             }
 
-            // Social section visibility
-            if (progress > 0.8) {
-              if (!socialVisibleRef.current) {
-                socialVisibleRef.current = true;
-                setSocialVisible(true);
-              }
-            } else if (socialVisibleRef.current) {
-              socialVisibleRef.current = false;
-              setSocialVisible(false);
-            }
-
+            
             // Contact section visibility
-            if (progress > 0.9) {
+            if (progress > 0.8) {
               if (!contactVisibleRef.current) {
                 contactVisibleRef.current = true;
                 setContactVisible(true);
@@ -176,7 +155,7 @@ const PortfolioScroll = () => {
             }
 
             // EndSequence visibility
-            if (progress > 0.95) {
+            if (progress > 0.9) {
               if (!endSequenceVisibleRef.current) {
                 endSequenceVisibleRef.current = true;
                 setEndSequenceVisible(true);
@@ -351,34 +330,6 @@ const PortfolioScroll = () => {
 
       // Education cards initial states will be set dynamically in timeline
 
-      // Social section initial states
-      gsap.set(socialRefs.containerRef.current, {
-        opacity: 0,
-        position: "absolute",
-        inset: 0,
-        zIndex: 80,
-      });
-
-      gsap.set(socialRefs.headerRef.current, {
-        opacity: 0,
-        scale: 0.2,
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        xPercent: -50,
-        yPercent: -50,
-      });
-
-      gsap.set(socialRefs.timelineLineRef.current, {
-        height: "0%",
-        opacity: 0,
-      });
-
-      gsap.set(socialRefs.socialCoreRef.current, {
-        scale: 0.6,
-        opacity: 0,
-        filter: "blur(12px)",
-      });
 
       // Contact section initial states
       gsap.set(contactRefs.containerRef.current, {
@@ -407,21 +358,6 @@ const PortfolioScroll = () => {
         zIndex: 100,
       });
 
-      // Social icons initial states - temporarily disabled for debugging
-      // if (socialRefs.socialIconsRef.current) {
-      //   gsap.set(socialRefs.socialIconsRef.current, {
-      //     opacity: 0,
-      //     scale: 0.8,
-      //   });
-      // }
-      
-      // Set initial state for orbital container - temporarily disabled
-      // if (socialRefs.containerRef.current) {
-      //   gsap.set(socialRefs.containerRef.current, {
-      //     opacity: 0,
-      //     scale: 0.9,
-      //   });
-      // }
 
       // === TIMELINE CONSTRUCTION ===
 
@@ -544,15 +480,17 @@ const PortfolioScroll = () => {
         .to(
           aboutRefs.skillsHeaderRef.current,
           {
-            y: "-43vh",
+            y: "-38vh",
             duration: 3,
             ease: "power3.inOut",
           },
           "skills-header-placement",
         )
 
-        // Phase 3 — Skill Cloud Formation: Cloud zooms in while header moves
+        // Phase 3 — Skill Cloud Formation: Two-stage animation
         .addLabel("skills-cloud-formation", "skills-header-placement+=0.5")
+        
+        // Stage 1: Cloud appears from center (scale 0 to 1)
         .fromTo(
           aboutRefs.skillsCloudRef.current,
           { opacity: 0, scale: 0, x: 0, y: 0 },
@@ -560,28 +498,56 @@ const PortfolioScroll = () => {
             opacity: 1,
             scale: 1,
             filter: "blur(0px)",
-            x: "30vw",
-            y: "5vh",
-            duration: 4,
+            x: 0,
+            y: 0,
+            duration: 2,
             ease: "back.out(1.2)",
           },
           "skills-cloud-formation",
         )
+        
+        // Stage 2: Cloud moves from center to right side
+        .addLabel("skills-cloud-move-right", "skills-cloud-formation+=2")
+        .to(
+          aboutRefs.skillsCloudRef.current,
+          {
+            x: "30vw",
+            y: "5vh",
+            duration: 2,
+            ease: "power3.inOut",
+          },
+          "skills-cloud-move-right",
+        )
 
-        // Phase 4 — Skill Cards Assembly: Dynamic construction with stagger
-        .addLabel("skills-cards-assembly")
+        // Phase 4 — Skill Cards Assembly: Starts after cloud stage 1 completes
+        .addLabel("skills-cards-assembly", "skills-cloud-formation+=2")
+        
+        // Container appears from center, slightly below skills cloud
         .fromTo(
           aboutRefs.skillsTiersRef.current,
-          { opacity: 0, scale: 0.8, x: 0, y: 0 },
+          { opacity: 0, scale: 0.8, x: 0, y: "2vh" },
           {
             opacity: 1,
             scale: 1,
-            x: "-15vw",
-            y: "5vh",
-            duration: 4,
+            x: 0,
+            y: "2vh",
+            duration: 2,
             ease: "power3.out",
           },
           "skills-cards-assembly",
+        )
+        
+        // Container moves from center to left side
+        .addLabel("skills-cards-move-left", "skills-cards-assembly+=2")
+        .to(
+          aboutRefs.skillsTiersRef.current,
+          {
+            x: "-15vw",
+            y: "5vh",
+            duration: 2,
+            ease: "power3.inOut",
+          },
+          "skills-cards-move-left",
         )
         .fromTo(
           ".skill-card-container",
@@ -602,7 +568,7 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "back.out(1.4)",
           },
-          "skills-cards-assembly+=0.8",
+          "skills-cards-move-left+=0.5",
         )
 
         .to({}, { duration: 5 }, "skills-hold") // Buffer for reading skills
@@ -1686,203 +1652,8 @@ const PortfolioScroll = () => {
         "education-exit+=1",
       )
 
-        // 14. SOCIAL HUB ENTRANCE - Final Timeline Node
-        .addLabel("social-start", "education-exit+=2")
-
-        // Social container becomes visible
-        .to(
-          socialRefs.containerRef.current,
-          {
-            opacity: 1,
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "social-start",
-        )
-
-        // Timeline line grows downward (extends the vertical timeline)
-        .to(
-          socialRefs.timelineLineRef.current,
-          {
-            height: "40%",
-            opacity: 1,
-            duration: 0.4,
-            ease: "power2.out",
-          },
-          "social-start",
-        )
-
-        // Header emerges from center (same pattern as Experience and Education)
-        .fromTo(
-          socialRefs.headerRef.current,
-          {
-            opacity: 0,
-            scale: 0.2,
-            y: 0,
-            yPercent: -50,
-            filter: "blur(8px)",
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            filter: "blur(0px)",
-            duration: 2.5,
-            ease: "back.out(1.8)",
-          },
-          "social-start+=0.3",
-        )
-
-        // Header moves to top position (same as previous sections)
-        .addLabel("social-header-lift", "social-start+2.8")
-        .to(
-          socialRefs.headerRef.current,
-          {
-            top: "12%",
-            yPercent: -50,
-            duration: 2,
-            ease: "power3.inOut",
-          },
-          "social-header-lift",
-        )
-
-        // Social Hub Core blooms (center node) - temporarily disabled for debugging
-        // .to(
-        //   socialRefs.socialCoreRef.current,
-        //   {
-        //     scale: 1,
-        //     opacity: 1,
-        //     filter: "blur(0px)",
-        //     duration: 1.8,
-        //     ease: "back.out(1.4)",
-        //   },
-        //   "social-start+0.8",
-        // )
-
-        // Orbital system fades in - temporarily disabled for debugging
-        // .addLabel("orbital-reveal", "social-start+1.2")
-        // .to(
-        //   socialRefs.containerRef.current,
-        //   {
-        //     opacity: 1,
-        //     scale: 1,
-        //     duration: 1.5,
-        //     ease: "power2.out",
-        //   },
-        //   "orbital-reveal",
-        // )
-
-        // Social icons fade in with stagger - temporarily disabled for debugging
-        // .to(
-        //   socialRefs.socialIconsRef.current,
-        //   {
-        //     opacity: 1,
-        //     scale: 1,
-        //     duration: 0.8,
-        //     stagger: 0.1,
-        //     ease: "back.out(1.2)",
-        //   },
-        //   "orbital-reveal+0.3",
-        // )
-        
-        // Start rotation only after reveal completes - temporarily disabled for debugging
-        // .call(() => {
-        //   // Start CSS animations - find orbit container within social section
-        //   const socialSection = socialRefs.containerRef.current;
-        //   const orbitContainer = socialSection?.querySelector('.orbit-container');
-        //   const icons = socialSection?.querySelectorAll('[data-social-icon]');
-        //   
-        //   if (orbitContainer) {
-        //     orbitContainer.classList.remove('paused');
-        //     orbitContainer.classList.add('running');
-        //   }
-        //   icons?.forEach(icon => {
-        //     icon.classList.remove('paused');
-        //     icon.classList.add('running');
-        //   });
-        // }, [], "orbital-reveal+1.5")
-
-        // Hold for viewing
-        .to({}, { duration: 8 }, "social-hold")
-
-        // 15. SOCIAL HUB EXIT
-        .addLabel("social-exit")
-
-        // Icons fade and collapse - temporarily disabled for debugging
-        // .to(
-        //   socialRefs.socialIconsRef.current,
-        //   {
-        //     opacity: 0,
-        //     scale: 0.8,
-        //     duration: 1.5,
-        //     stagger: 0.05,
-        //     ease: "power2.in",
-        //   },
-        //   "social-exit",
-        // )
-        
-        // Orbital container fade out - temporarily disabled for debugging
-        // .to(
-        //   socialRefs.containerRef.current,
-        //   {
-        //     opacity: 0,
-        //     scale: 0.9,
-        //     duration: 1.2,
-        //     ease: "power2.in",
-        //   },
-        //   "social-exit+0.3",
-        // )
-
-        // Core node collapses
-        .to(
-          socialRefs.socialCoreRef.current,
-          {
-            scale: 0.6,
-            opacity: 0,
-            filter: "blur(8px)",
-            duration: 1.8,
-            ease: "power3.in",
-          },
-          "social-exit+=0.5",
-        )
-
-        // Timeline line retracts
-        .to(
-          socialRefs.timelineLineRef.current,
-          {
-            height: "0%",
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.in",
-          },
-          "social-exit",
-        )
-
-        // Header fade out
-        .to(
-          socialRefs.headerRef.current,
-          {
-            opacity: 0,
-            top: "5%",
-            yPercent: -50,
-            filter: "blur(4px)",
-            duration: 2,
-            ease: "power2.in",
-          },
-          "social-exit",
-        )
-
-        // Container cleanup
-        .to(
-          socialRefs.containerRef.current,
-          {
-            opacity: 0,
-            duration: 1,
-            ease: "power2.in",
-          },
-          "social-exit+=1",
-        )
-        // 16. CONTACT SECTION ENTRANCE
-        .addLabel("contact-start", "social-exit+=2")
+        // 15. CONTACT SECTION ENTRANCE
+        .addLabel("contact-start", "education-exit+=2")
 
         // Contact container becomes visible
         .to(
@@ -2048,18 +1819,7 @@ const PortfolioScroll = () => {
         <Education refs={educationRefs} visible={educationVisible} />
       </div>
 
-      {/* Social Hub Section Content */}
-      <div
-        className="absolute inset-0"
-        style={{
-          visibility: socialVisible ? "visible" : "hidden",
-          opacity: socialVisible ? 1 : 0,
-          pointerEvents: socialVisible ? "auto" : "none",
-        }}
-      >
-        <SocialHub refs={socialRefs} visible={socialVisible} />
-      </div>
-
+      
       {/* Contact Section Content */}
       <div
         className="absolute inset-0"
