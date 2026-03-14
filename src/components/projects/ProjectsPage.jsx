@@ -94,6 +94,8 @@ const ProjectsPage = () => {
 
   // Intersection Observer for lazy loading
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.IntersectionObserver) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && visibleCount < filteredProjects.length && !isLoading) {

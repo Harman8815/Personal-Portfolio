@@ -112,7 +112,7 @@ const Navbar = () => {
                 </button>
               )}
               <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-500 transition-all duration-300 group-hover:w-full ${
-                (link.type === 'scroll' && activeSection === link.to) || (link.type === 'link' && location.pathname === link.to) ? 'w-full' : ''
+                (link.type === 'scroll' && activeSection === link.to) || (link.type === 'link' && pathname === link.to) ? 'w-full' : ''
               }`} />
             </div>
           ))}

@@ -27,7 +27,7 @@ const FilterModal = ({ isOpen, onClose, onApply, initialFilters, availableTech }
 
   // Lock body scroll when modal is open
   useEffect(() => {
-    if (isOpen) {
+    if (typeof window !== 'undefined' && isOpen) {
       const originalStyle = window.getComputedStyle(document.body).overflow;
       document.body.style.overflow = 'hidden';
       return () => {
@@ -306,7 +306,7 @@ const FilterModal = ({ isOpen, onClose, onApply, initialFilters, availableTech }
     </AnimatePresence>
   );
 
-  return createPortal(modalContent, document.body);
+  return typeof document !== 'undefined' ? createPortal(modalContent, document.body) : null;
 };
 
 export default FilterModal;

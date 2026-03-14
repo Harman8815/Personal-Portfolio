@@ -11,6 +11,7 @@ import { Stars } from "@react-three/drei";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ModelLoader from "./ModelLoader.jsx";
 import { useLoadingContext } from "@/context/LoadingContext";
+import SSRSafeWrapper from "@/components/common/SSRSafeWrapper";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -146,60 +147,62 @@ const Home = ({ onLoad, onLoaderExit }) => {
       </div>
 
       <div className="z-6 laptopmodel w-full h-screen max-w-screen overflow-hidden">
-        <Canvas
-          shadows
-          gl={{ antialias: true, alpha: true, stencil: false, depth: true }}
-          camera={{ position: [0, 2, -12], fov: 32 }}
-        >
-          <Stars
-            radius={100}
-            depth={50}
-            count={5000}
-            factor={4}
-            saturation={0}
-            fade
-            speed={1}
-          />
+        <SSRSafeWrapper fallback={<div className="w-full h-screen bg-primary flex items-center justify-center text-white">Loading 3D Scene...</div>}>
+          <Canvas
+            shadows
+            gl={{ antialias: true, alpha: true, stencil: false, depth: true }}
+            camera={{ position: [0, 2, -12], fov: 32 }}
+          >
+            <Stars
+              radius={100}
+              depth={50}
+              count={5000}
+              factor={4}
+              saturation={0}
+              fade
+              speed={1}
+            />
 
-          <ambientLight intensity={0.5} />
-          <hemisphereLight
-            color="#22d3ee"
-            groundColor="#000000"
-            intensity={0.8}
-          />
+            <ambientLight intensity={0.5} />
+            <hemisphereLight
+              color="#22d3ee"
+              groundColor="#000000"
+              intensity={0.8}
+            />
 
-          <spotLight
-            position={[5, 15, 5]}
-            intensity={2.5}
-            angle={0.3}
-            penumbra={1}
-            color="#22d3ee"
-            castShadow
-          />
-          <pointLight position={[-5, 5, -5]} intensity={1.5} color="#6366f1" />
+            <spotLight
+              position={[5, 15, 5]}
+              intensity={2.5}
+              angle={0.3}
+              penumbra={1}
+              color="#22d3ee"
+              castShadow
+            />
+            <pointLight position={[-5, 5, -5]} intensity={1.5} color="#6366f1" />
 
-          <OrbitControls
-            enableZoom={false}
-            // minPolarAngle={Math.PI / 4}
-            // maxPolarAngle={Math.PI / 1.8}
-            // minAzimuthAngle={-Math.PI / 4}
-            // maxAzimuthAngle={Math.PI / 4}
-            enablePan={false}
-            makeDefault
-          />
+            <OrbitControls
+              enableZoom={false}
+              // minPolarAngle={Math.PI / 4}
+              // maxPolarAngle={Math.PI / 1.8}
+              // minAzimuthAngle={-Math.PI / 4}
+              // maxAzimuthAngle={Math.PI / 4}
+              enablePan={false}
+              makeDefault
+            />
 
-          <Suspense fallback={<ModelLoader />}>
-            <group position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
-              {/* <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}> */}
-              <Laptop
-                LaptopRef={LaptopRef}
-                shouldAnimate={shouldAnimateLaptop}
-                onLoadComplete={() => setLaptopFullyLoaded(true)}
-              />
-              {/* </Float> */}
-            </group>
-          </Suspense>
-        </Canvas>
+            <Suspense fallback={<ModelLoader />}>
+              <group position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
+                {/* <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}> */}
+                <Laptop
+                  LaptopRef={LaptopRef}
+                  shouldAnimate={shouldAnimateLaptop}
+                  onLoadComplete={() => setLaptopFullyLoaded(true)}
+                />
+                {/* </Float> */}
+              </group>
+            </Suspense>
+          </Canvas>
+        </SSRSafeWrapper>
       </div>
     </section>
   );

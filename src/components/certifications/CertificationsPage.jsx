@@ -58,12 +58,14 @@ const CertificationsPage = () => {
   };
 
   useEffect(() => {
-    if (selectedCertIndex !== null) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    if (typeof window !== 'undefined') {
+      if (selectedCertIndex !== null) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'unset';
+      }
+      return () => { document.body.style.overflow = 'unset'; };
     }
-    return () => { document.body.style.overflow = 'unset'; };
   }, [selectedCertIndex]);
 
   // Stats for the header
