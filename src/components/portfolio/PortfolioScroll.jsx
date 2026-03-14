@@ -667,8 +667,8 @@ const PortfolioScroll = () => {
         .to(
           projectsRefs.headerRef.current,
           {
-            y: "-38vh",
-            duration: 2.5,
+            y: "-36vh",
+            duration: 3,
             ease: "power3.inOut",
           },
           "projects-start+=3",
@@ -889,7 +889,7 @@ const PortfolioScroll = () => {
           experienceRefs.headerRef.current,
           {
             y: "-38vh", // Same translateY as Major Projects header
-            duration: 2.5, // Same duration as Major Projects header
+            duration: 3, // Same duration as Major Projects header
             ease: "power3.inOut", // Same easing as Major Projects header
           },
           "header-lift",
