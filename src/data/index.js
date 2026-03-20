@@ -122,6 +122,190 @@ export const myProjects = [
       { label: 'Response Time', value: '<100', suffix: 'ms' },
       { label: 'Uptime', value: '99.9', suffix: '%' }
     ]
+  }, {
+    id: '4',
+    name: 'Intrusion Detection System (IDS)',
+    description: 'A system that monitors network activity and detects suspicious behavior using rule-based and machine learning techniques.',
+    techStack: ['Python', 'Flask', 'React'],
+    githubUrl: 'https://github.com/Harman8815/IDS',
+    demoUrl: '',
+    image: '/assets/project/project4.mp4',
+    category: 'Cybersecurity',
+    sizeType: 'featured',
+    projectType: 'Full Stack',
+    status: 'In Progress',
+    complexity: 'Advanced',
+    year: 2024,
+
+    problemStatement: 'Traditional security systems fail to detect evolving threats and require intelligent anomaly detection.',
+
+    solutionApproach: 'Developed a hybrid IDS combining rule-based filtering with ML-based anomaly detection using a Flask backend and React dashboard.',
+
+    features: [
+      'Real-time Traffic Monitoring',
+      'Anomaly Detection',
+      'Rule-based Alerts',
+      'Dashboard Visualization'
+    ],
+
+    architecture: 'Dual-layer architecture with Flask handling detection logic and React visualizing logs and alerts.',
+
+    challenges: 'Handling large datasets and improving detection accuracy with minimal false positives.',
+
+    learnings: 'Gained knowledge in cybersecurity, ML basics, and real-time system design.',
+
+    media: [
+      { type: 'video', url: '/assets/project/project4.mp4', caption: 'IDS Monitoring Demo' }
+    ],
+
+    timeline: [
+      { stage: 'Research', description: 'Studied IDS systems and datasets.' },
+      { stage: 'Development', description: 'Implemented rule-based engine.' },
+      { stage: 'ML Integration', description: 'Added anomaly detection models.' }
+    ],
+
+    metrics: [
+      { label: 'Detection Accuracy', value: '85', suffix: '%' },
+      { label: 'Logs Processed', value: '50k+', suffix: '' }
+    ]
+  },
+
+  {
+    id: '5',
+    name: 'Harvest Horizon',
+    description: 'A machine learning-based system for predicting crop yield and providing farming recommendations.',
+    techStack: ['Python', 'Flask', 'Machine Learning'],
+    githubUrl: 'https://github.com/Harman8815/Harvest-Horizon',
+    demoUrl: '',
+    image: '/assets/project/video/Harvest-Horizon.mp4',
+    category: 'AI',
+    sizeType: 'medium',
+    projectType: 'Full Stack',
+    status: 'Completed',
+    complexity: 'Intermediate',
+    year: 2024,
+
+    problemStatement: 'Farmers lack data-driven insights for crop planning and yield prediction.',
+
+    solutionApproach: 'Built ML models trained on environmental data and integrated them into a web interface for real-time predictions.',
+
+    features: [
+      'Crop Yield Prediction',
+      'Soil & Weather Analysis',
+      'Recommendation Engine'
+    ],
+
+    architecture: 'Flask backend serving ML models with a lightweight frontend interface.',
+
+    challenges: 'Data preprocessing and model accuracy tuning.',
+
+    learnings: 'Practical ML pipeline implementation and real-world dataset handling.',
+
+    media: [
+      { type: 'video', url: '/assets/project/video/Harvest-Horizon.mp4', caption: 'Prediction Demo' }
+    ],
+
+    timeline: [
+      { stage: 'Data Collection', description: 'Gathered datasets.' },
+      { stage: 'Model Training', description: 'Built ML models.' },
+      { stage: 'Integration', description: 'Connected with frontend.' }
+    ],
+
+    metrics: [
+      { label: 'Prediction Accuracy', value: '78', suffix: '%' }
+    ]
+  },
+
+  {
+    id: '6',
+    name: 'Personal Portfolio',
+    description: 'A modern developer portfolio showcasing projects, skills, and experience with cinematic animations.',
+    techStack: ['React', 'Tailwind CSS', 'Framer Motion'],
+    githubUrl: '',
+    demoUrl: 'https://harman-portfolio.vercel.app/',
+    image: '/assets/project/project6.mp4',
+    category: 'Portfolio',
+    sizeType: 'medium',
+    projectType: 'Frontend',
+    status: 'Production',
+    complexity: 'Intermediate',
+    year: 2024,
+
+    problemStatement: 'Developers need visually engaging portfolios to stand out in competitive environments.',
+
+    solutionApproach: 'Designed an immersive UI with animations, smooth scrolling, and modular sections.',
+
+    features: [
+      'Animated Sections',
+      'Responsive Layout',
+      'Project Showcase',
+      'Contact Integration'
+    ],
+
+    architecture: 'React-based SPA with animation-driven UI components.',
+
+    challenges: 'Balancing performance with heavy animations.',
+
+    learnings: 'Advanced UI/UX design and animation handling.',
+
+    media: [
+      { type: 'video', url: '/assets/project/project6.mp4', caption: 'Portfolio Demo' }
+    ],
+
+    timeline: [
+      { stage: 'Design', description: 'Planned UI/UX.' },
+      { stage: 'Development', description: 'Built components.' },
+      { stage: 'Deployment', description: 'Hosted live.' }
+    ],
+
+    metrics: [
+      { label: 'Sections Built', value: '8+', suffix: '' }
+    ]
+  },
+
+  {
+    id: '7',
+    name: 'ResourceHub',
+    description: 'A centralized platform to store and manage development resources.',
+    techStack: ['MongoDB', 'Express.js', 'React', 'Node.js'],
+    githubUrl: 'https://github.com/Harman8815/resourcehub',
+    demoUrl: '',
+    image: '/assets/project/project8.mp4',
+    category: 'Productivity',
+    sizeType: 'medium',
+    projectType: 'Full Stack',
+    status: 'Completed',
+    complexity: 'Intermediate',
+    year: 2024,
+
+    problemStatement: 'Developers struggle to organize and retrieve useful resources efficiently.',
+
+    solutionApproach: 'Built a categorized resource management system with tagging and bookmarking.',
+
+    features: [
+      'Bookmarking System',
+      'Tag-based Filtering',
+      'Search Functionality'
+    ],
+
+    architecture: 'MERN stack with structured resource storage.',
+
+    challenges: 'Efficient search and tagging implementation.',
+
+    learnings: 'Database structuring and UX optimization.',
+
+    media: [
+      { type: 'video', url: '/assets/project/project8.mp4', caption: 'Platform Overview' }
+    ],
+
+    timeline: [
+      { stage: 'Planning', description: 'Defined features.' },
+      { stage: 'Development', description: 'Built system.' }
+    ],
+
+    metrics: [
+      { label: 'Resources Managed', value: '500+', suffix: '' }
+    ]
   }
 ];
 export const socialData = [
@@ -132,7 +316,7 @@ export const socialData = [
     url: "https://github.com/harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
       </svg>
     ),
     color: "#6B7280",
@@ -146,7 +330,7 @@ export const socialData = [
     url: "https://linkedin.com/in/harman-singh-8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
       </svg>
     ),
     color: "#3B82F6",
@@ -160,7 +344,7 @@ export const socialData = [
     url: "https://twitter.com/harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
       </svg>
     ),
     color: "#06B6D4",
@@ -174,7 +358,7 @@ export const socialData = [
     url: "mailto:harman.singh8815@example.com",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
     color: "#8B5CF6",
@@ -188,7 +372,7 @@ export const socialData = [
     url: "https://harman-portfolio.vercel.app/",
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+        <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
       </svg>
     ),
     color: "#10B981",
@@ -202,7 +386,7 @@ export const socialData = [
     url: "https://leetcode.com/harman8815/",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.293a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
+        <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.293a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z" />
       </svg>
     ),
     color: "#F59E0B",
@@ -216,7 +400,7 @@ export const socialData = [
     url: "https://codepen.io/harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 8.182l-.018-.087-.017-.05c-.01-.024-.018-.05-.03-.075-.003-.018-.015-.034-.02-.05l-.034-.06-.046-.068-.015-.02c-.02-.03-.043-.053-.06-.075l-.04-.046L12.58.12c-.34-.29-.85-.29-1.19 0L.262 7.67l-.04.046c-.02.022-.043.045-.06.075l-.016.02-.046.068-.034.06c-.006.016-.017.032-.022.05-.012.025-.02.05-.03.075l-.016.05L0 8.182v7.636l.018.087.017.05c.01.024.018.05.03.075.003.018.015.034.02.05l.034.06.046.068.015.02c.02.03.043.053.06.075l.04.046 11.13 7.55c.17.15.38.22.59.22s.42-.07.6-.22l11.13-7.55.04-.046c.02-.022.043-.045.06-.075l.016-.02.046-.068.034-.06c.006-.016.017-.032.022-.05.012-.025.02-.05.03-.075l.016-.05.018-.087V8.182zm-2.31 1.48v5.676L18.45 12l3.24-3.338zm-1.51-1.26L15.55 12l4.63 3.598V8.402zm-6.18 8.833L9.31 12l4.63-3.235v6.47zm-1.19-8.23L8.31 12l4.63 3.235V8.402zM4.37 15.598L9 12l-4.63-3.598v7.196zm-1.51-1.26V9.662L6.1 12l-3.24 3.338zm1.51 2.762L9 14.5l4.63 3.598v4.796L4.37 17.1zm6.82 6.796v-4.796L15.69 14.5l4.63 3.598-9.13 6.796zm10.44-6.796L15.55 14.5l4.63-3.598v4.796z"/>
+        <path d="M24 8.182l-.018-.087-.017-.05c-.01-.024-.018-.05-.03-.075-.003-.018-.015-.034-.02-.05l-.034-.06-.046-.068-.015-.02c-.02-.03-.043-.053-.06-.075l-.04-.046L12.58.12c-.34-.29-.85-.29-1.19 0L.262 7.67l-.04.046c-.02.022-.043.045-.06.075l-.016.02-.046.068-.034.06c-.006.016-.017.032-.022.05-.012.025-.02.05-.03.075l-.016.05L0 8.182v7.636l.018.087.017.05c.01.024.018.05.03.075.003.018.015.034.02.05l.034.06.046.068.015.02c.02.03.043.053.06.075l.04.046 11.13 7.55c.17.15.38.22.59.22s.42-.07.6-.22l11.13-7.55.04-.046c.02-.022.043-.045.06-.075l.016-.02.046-.068.034-.06c.006-.016.017-.032.022-.05.012-.025.02-.05.03-.075l.016-.05.018-.087V8.182zm-2.31 1.48v5.676L18.45 12l3.24-3.338zm-1.51-1.26L15.55 12l4.63 3.598V8.402zm-6.18 8.833L9.31 12l4.63-3.235v6.47zm-1.19-8.23L8.31 12l4.63 3.235V8.402zM4.37 15.598L9 12l-4.63-3.598v7.196zm-1.51-1.26V9.662L6.1 12l-3.24 3.338zm1.51 2.762L9 14.5l4.63 3.598v4.796L4.37 17.1zm6.82 6.796v-4.796L15.69 14.5l4.63 3.598-9.13 6.796zm10.44-6.796L15.55 14.5l4.63-3.598v4.796z" />
       </svg>
     ),
     color: "#000000",
@@ -230,7 +414,7 @@ export const socialData = [
     url: "https://dev.to/harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44h.56c.36 0 .63-.07.82-.22.19-.15.28-.4.28-.78s-.09-.6-.26-.75zm2.17-.67c-.4 0-.73.32-.73.73 0 .4.33.73.73.73.4 0 .73-.33.73-.73 0-.4-.33-.73-.73-.73zm-2.24 5.86c-.2-.17-.48-.26-.86-.26H6v2.9h.52c.38 0 .67-.09.86-.26.2-.17.3-.43.3-.8 0-.36-.1-.62-.33-.8zM24 8.6v6.8c0 1.86-1.5 3.36-3.36 3.36H3.36A3.36 3.36 0 0 1 0 15.4V8.6C0 6.74 1.5 5.24 3.36 5.24h17.28C22.5 5.24 24 6.74 24 8.6zm-6.82 3.92c0-1.1-.4-1.96-1.18-2.58-.78-.62-1.87-.93-3.27-.93h-2.54v7.94h2.5c1.42 0 2.53-.3 3.33-.92.8-.62 1.2-1.48 1.2-2.58v-.93zm-8.68 1.9c.32.33.48.78.48 1.35 0 .57-.16 1.02-.48 1.35-.32.33-.78.5-1.38.5H4.5V7.88h2.8c.6 0 1.06.17 1.38.5.32.33.48.78.48 1.35s-.16 1.02-.48 1.35c-.32.33-.78.5-1.38.5h-.56v2.44h.56c.6 0 1.06.17 1.38.5z"/>
+        <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44h.56c.36 0 .63-.07.82-.22.19-.15.28-.4.28-.78s-.09-.6-.26-.75zm2.17-.67c-.4 0-.73.32-.73.73 0 .4.33.73.73.73.4 0 .73-.33.73-.73 0-.4-.33-.73-.73-.73zm-2.24 5.86c-.2-.17-.48-.26-.86-.26H6v2.9h.52c.38 0 .67-.09.86-.26.2-.17.3-.43.3-.8 0-.36-.1-.62-.33-.8zM24 8.6v6.8c0 1.86-1.5 3.36-3.36 3.36H3.36A3.36 3.36 0 0 1 0 15.4V8.6C0 6.74 1.5 5.24 3.36 5.24h17.28C22.5 5.24 24 6.74 24 8.6zm-6.82 3.92c0-1.1-.4-1.96-1.18-2.58-.78-.62-1.87-.93-3.27-.93h-2.54v7.94h2.5c1.42 0 2.53-.3 3.33-.92.8-.62 1.2-1.48 1.2-2.58v-.93zm-8.68 1.9c.32.33.48.78.48 1.35 0 .57-.16 1.02-.48 1.35-.32.33-.78.5-1.38.5H4.5V7.88h2.8c.6 0 1.06.17 1.38.5.32.33.48.78.48 1.35s-.16 1.02-.48 1.35c-.32.33-.78.5-1.38.5h-.56v2.44h.56c.6 0 1.06.17 1.38.5z" />
       </svg>
     ),
     color: "#0A0A0A",
@@ -244,7 +428,7 @@ export const socialData = [
     url: "https://instagram.com/harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z"/>
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1 1 12.324 0 6.162 6.162 0 0 1-12.324 0zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm4.965-10.405a1.44 1.44 0 1 1 2.881.001 1.44 1.44 0 0 1-2.881-.001z" />
       </svg>
     ),
     color: "#E4405F",
@@ -258,7 +442,7 @@ export const socialData = [
     url: "https://youtube.com/@harman8815",
     icon: (
       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
       </svg>
     ),
     color: "#FF0000",
@@ -334,45 +518,45 @@ export const educationData = [
 ];
 
 export const skillTags = {
-  javascript:      { label: "JavaScript", color: "from-yellow-400 to-yellow-500", icon: "/assets/js.svg" },
-  typescript:      { label: "TypeScript", color: "from-blue-400 to-blue-600", icon: "/assets/typescript.png" },
-  python:          { label: "Python", color: "from-indigo-400 to-indigo-600", icon: "/assets/python.svg" },
-  java:            { label: "Java", color: "from-red-500 to-red-600", icon: "/assets/java.svg" },
-  html5:           { label: "HTML5", color: "from-orange-400 to-orange-500", icon: "/assets/html.svg" },
-  css3:            { label: "CSS3", color: "from-blue-300 to-blue-500", icon: "/assets/css.svg" },
-  react:           { label: "React", color: "from-cyan-400 to-blue-500", icon: "/assets/react.svg" },
-  redux:           { label: "Redux", color: "from-purple-400 to-purple-600", icon: "/icons/redux.png" },
-  "node.js":       { label: "Node.js", color: "from-green-400 to-green-600", icon: "/assets/nodejs.svg" },
-  "express.js":         { label: "Express.js", color: "from-gray-400 to-gray-600", icon: "/assets/express.svg" },
-  flask:           { label: "Flask", color: "from-gray-200 to-gray-400", icon: "/assets/flask.svg" },
-  "socket.io":     { label: "Socket.IO", color: "from-red-400 to-red-600", icon: "/icons/socketio.png" },
-  "three.js":      { label: "Three.js", color: "from-indigo-400 to-purple-500", icon: "/assets/threejs.svg" },
-  mui:             { label: "MUI", color: "from-blue-400 to-blue-600", icon: "/icons/mui.png" },
-  mongodb:         { label: "MongoDB", color: "from-green-400 to-green-600", icon: "/assets/mongodb.svg" },
-  mysql:           { label: "MySQL", color: "from-blue-500 to-blue-700", icon: "/icons/mysql.png" },
-  bootstrap:       { label: "Bootstrap", color: "from-purple-400 to-purple-600", icon: "/assets/bootstrap.svg" },
-  tailwindcss:     { label: "TailwindCSS", color: "from-teal-400 to-teal-600", icon: "/assets/tailwindcss.png" },
-  sass:            { label: "Sass", color: "from-pink-400 to-pink-500", icon: "/icons/sass.png" },
-  docker:          { label: "Docker", color: "from-blue-400 to-blue-600", icon: "/icons/docker.png" },
-  netlify:         { label: "Netlify", color: "from-green-400 to-green-600", icon: "/icons/netlify.png" },
-  vercel:          { label: "Vercel", color: "from-black to-gray-700", icon: "/icons/vercel.png" },
-  github:          { label: "GitHub", color: "from-gray-600 to-gray-800", icon: "/assets/github.svg" },
-  postman:         { label: "Postman", color: "from-orange-400 to-orange-500", icon: "/icons/postman.png" },
-  tensorflow:      { label: "TensorFlow", color: "from-orange-400 to-red-500", icon: "/icons/tensorflow.png" },
-  pytorch:         { label: "PyTorch", color: "from-red-400 to-red-600", icon: "/icons/pytorch.png" },
-  pandas:          { label: "Pandas", color: "from-blue-400 to-blue-600", icon: "/icons/pandas.png" },
-  numpy:           { label: "NumPy", color: "from-yellow-400 to-yellow-500", icon: "/icons/numpy.png" },
+  javascript: { label: "JavaScript", color: "from-yellow-400 to-yellow-500", icon: "/assets/js.svg" },
+  typescript: { label: "TypeScript", color: "from-blue-400 to-blue-600", icon: "/assets/typescript.png" },
+  python: { label: "Python", color: "from-indigo-400 to-indigo-600", icon: "/assets/python.svg" },
+  java: { label: "Java", color: "from-red-500 to-red-600", icon: "/assets/java.svg" },
+  html5: { label: "HTML5", color: "from-orange-400 to-orange-500", icon: "/assets/html.svg" },
+  css3: { label: "CSS3", color: "from-blue-300 to-blue-500", icon: "/assets/css.svg" },
+  react: { label: "React", color: "from-cyan-400 to-blue-500", icon: "/assets/react.svg" },
+  redux: { label: "Redux", color: "from-purple-400 to-purple-600", icon: "/icons/redux.png" },
+  "node.js": { label: "Node.js", color: "from-green-400 to-green-600", icon: "/assets/nodejs.svg" },
+  "express.js": { label: "Express.js", color: "from-gray-400 to-gray-600", icon: "/assets/express.svg" },
+  flask: { label: "Flask", color: "from-gray-200 to-gray-400", icon: "/assets/flask.svg" },
+  "socket.io": { label: "Socket.IO", color: "from-red-400 to-red-600", icon: "/icons/socketio.png" },
+  "three.js": { label: "Three.js", color: "from-indigo-400 to-purple-500", icon: "/assets/threejs.svg" },
+  mui: { label: "MUI", color: "from-blue-400 to-blue-600", icon: "/icons/mui.png" },
+  mongodb: { label: "MongoDB", color: "from-green-400 to-green-600", icon: "/assets/mongodb.svg" },
+  mysql: { label: "MySQL", color: "from-blue-500 to-blue-700", icon: "/icons/mysql.png" },
+  bootstrap: { label: "Bootstrap", color: "from-purple-400 to-purple-600", icon: "/assets/bootstrap.svg" },
+  tailwindcss: { label: "TailwindCSS", color: "from-teal-400 to-teal-600", icon: "/assets/tailwindcss.png" },
+  sass: { label: "Sass", color: "from-pink-400 to-pink-500", icon: "/icons/sass.png" },
+  docker: { label: "Docker", color: "from-blue-400 to-blue-600", icon: "/icons/docker.png" },
+  netlify: { label: "Netlify", color: "from-green-400 to-green-600", icon: "/icons/netlify.png" },
+  vercel: { label: "Vercel", color: "from-black to-gray-700", icon: "/icons/vercel.png" },
+  github: { label: "GitHub", color: "from-gray-600 to-gray-800", icon: "/assets/github.svg" },
+  postman: { label: "Postman", color: "from-orange-400 to-orange-500", icon: "/icons/postman.png" },
+  tensorflow: { label: "TensorFlow", color: "from-orange-400 to-red-500", icon: "/icons/tensorflow.png" },
+  pytorch: { label: "PyTorch", color: "from-red-400 to-red-600", icon: "/icons/pytorch.png" },
+  pandas: { label: "Pandas", color: "from-blue-400 to-blue-600", icon: "/icons/pandas.png" },
+  numpy: { label: "NumPy", color: "from-yellow-400 to-yellow-500", icon: "/icons/numpy.png" },
 
   // Additional skills from profile
-  electron:        { label: "Electron", color: "from-gray-500 to-gray-700", icon: "/icons/electron.png" },
-  firebase:        { label: "Firebase", color: "from-orange-400 to-yellow-500", icon: "/icons/firebase.png" },
-  prisma:          { label: "Prisma", color: "from-indigo-400 to-indigo-600", icon: "/icons/prisma.png" },
-  postgresql:      { label: "PostgreSQL", color: "from-blue-400 to-blue-600", icon: "/icons/postgresql.png" },
-  gsap:            { label: "GSAP", color: "from-purple-400 to-pink-500", icon: "/icons/gsap.png" },
-  threefiber:      { label: "React Three Fiber", color: "from-indigo-400 to-purple-500", icon: "/icons/r3f.png" },
-  fabricjs:        { label: "Fabric.js", color: "from-yellow-400 to-orange-500", icon: "/icons/fabricjs.png" },
-  mqtt:            { label: "MQTT", color: "from-green-400 to-green-600", icon: "/icons/mqtt.png" },
-  jwt:             { label: "JWT", color: "from-red-400 to-red-600", icon: "/icons/jwt.png" },
+  electron: { label: "Electron", color: "from-gray-500 to-gray-700", icon: "/icons/electron.png" },
+  firebase: { label: "Firebase", color: "from-orange-400 to-yellow-500", icon: "/icons/firebase.png" },
+  prisma: { label: "Prisma", color: "from-indigo-400 to-indigo-600", icon: "/icons/prisma.png" },
+  postgresql: { label: "PostgreSQL", color: "from-blue-400 to-blue-600", icon: "/icons/postgresql.png" },
+  gsap: { label: "GSAP", color: "from-purple-400 to-pink-500", icon: "/icons/gsap.png" },
+  threefiber: { label: "React Three Fiber", color: "from-indigo-400 to-purple-500", icon: "/icons/r3f.png" },
+  fabricjs: { label: "Fabric.js", color: "from-yellow-400 to-orange-500", icon: "/icons/fabricjs.png" },
+  mqtt: { label: "MQTT", color: "from-green-400 to-green-600", icon: "/icons/mqtt.png" },
+  jwt: { label: "JWT", color: "from-red-400 to-red-600", icon: "/icons/jwt.png" },
 };
 export const projectsDat = [
   {

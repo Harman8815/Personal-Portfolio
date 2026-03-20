@@ -17,7 +17,7 @@ function cn(...inputs) {
 
 const ProjectCard = ({ project, index }) => {
   const router = useRouter();
-  
+
   if (!project) {
     return (
       <div className="flex items-center justify-center h-[240px] rounded-2xl border border-white/5 bg-slate-900/40 text-slate-500">
@@ -25,10 +25,10 @@ const ProjectCard = ({ project, index }) => {
       </div>
     );
   }
-  
+
   const isFeatured = project.sizeType === 'featured';
   const isMedium = project.sizeType === 'medium';
-  
+
   // Safely get project data with fallbacks
   const projectName = project.name || 'Untitled Project';
   const projectDescription = project.description || 'No description available';
@@ -36,10 +36,10 @@ const ProjectCard = ({ project, index }) => {
   const projectTechStack = Array.isArray(project.techStack) ? project.techStack : [];
   const githubUrl = project.githubUrl;
   const demoUrl = project.demoUrl;
-  
+
   // Generate project ID from name (slugify)
-  const projectId = projectName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-  
+  const projectId = project?.id || 1;
+
   const handleCardClick = () => {
     router.push(`/project/${projectId}`);
   };
@@ -50,8 +50,8 @@ const ProjectCard = ({ project, index }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        duration: 0.6, 
+      transition={{
+        duration: 0.6,
         delay: (index % 5) * 0.1,
         ease: [0.215, 0.61, 0.355, 1]
       }}
@@ -59,9 +59,9 @@ const ProjectCard = ({ project, index }) => {
       onClick={handleCardClick}
       className={cn(
         "group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-md transition-all duration-500 hover:border-cyan-500/30 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.2)] cursor-pointer",
-        isFeatured ? "md:col-span-2 md:row-span-2 h-[500px]" : 
-        isMedium ? "md:col-span-1 md:row-span-2 h-[500px]" : 
-        "h-[240px]"
+        isFeatured ? "md:col-span-2 md:row-span-2 h-[500px]" :
+          isMedium ? "md:col-span-1 md:row-span-2 h-[500px]" :
+            "h-[240px]"
       )}
     >
       {/* Background Image with Parallax-like effect on hover */}
@@ -82,8 +82,8 @@ const ProjectCard = ({ project, index }) => {
       <div className="relative z-10 flex h-full flex-col justify-end p-6 md:p-8">
         <div className="mb-4 flex flex-wrap gap-2">
           {projectTechStack.slice(0, isFeatured ? 6 : 3).map((tech) => (
-            <span 
-              key={tech || 'unknown'} 
+            <span
+              key={tech || 'unknown'}
               className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider text-cyan-400/80 backdrop-blur-sm"
             >
               {tech || 'Unknown'}
@@ -110,9 +110,9 @@ const ProjectCard = ({ project, index }) => {
 
         <div className="mt-6 flex items-center gap-4 opacity-0 transition-all duration-300 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0">
           {githubUrl && (
-            <a 
-              href={githubUrl} 
-              target="_blank" 
+            <a
+              href={githubUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
             >
@@ -121,9 +121,9 @@ const ProjectCard = ({ project, index }) => {
             </a>
           )}
           {demoUrl && (
-            <a 
-              href={demoUrl} 
-              target="_blank" 
+            <a
+              href={demoUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-lg bg-cyan-500/20 px-4 py-2 text-xs font-bold uppercase tracking-widest text-cyan-400 transition-colors hover:bg-cyan-500 hover:text-white"
             >

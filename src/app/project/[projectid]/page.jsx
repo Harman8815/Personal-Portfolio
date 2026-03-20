@@ -39,7 +39,12 @@ myProjects.forEach(project => {
     techStack: project.techStack,
     artifacts: project.media,
     githubUrl: project.githubUrl,
-    demoUrl: project.demoUrl
+    demoUrl: project.demoUrl,
+    architecture: project.architecture,
+    challenges: project.challenges,
+    metrics: project.metrics,
+    learnings: project.learnings,
+    timeline: project.timeline
   };
 });
 
@@ -90,13 +95,21 @@ export default function ProjectDetailPage() {
           features={project.features}
         />
         
-        <ProjectArchitecture />
+        <ProjectArchitecture 
+          architecture={project.architecture}
+          challenges={project.challenges}
+        />
         
         <ProjectTechStack techStack={project.techStack} />
         
-        <ProjectMetrics />
+        <ProjectMetrics 
+          metrics={project.metrics}
+        />
         
-        <ProjectLearnings />
+        <ProjectLearnings 
+          learnings={project.learnings}
+          timeline={project.timeline}
+        />
         
         <ProjectArtifacts artifacts={project.artifacts} />
         
