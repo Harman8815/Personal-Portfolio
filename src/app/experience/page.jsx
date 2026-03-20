@@ -1,5 +1,5 @@
 
-import Experience from "@/components/pages/experience/Experience";
+import Experience from "../../components/pages/experience/Experience.jsx";
 
 const ExperiencePage = () => {
   return (

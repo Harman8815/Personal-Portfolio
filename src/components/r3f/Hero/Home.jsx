@@ -10,8 +10,8 @@ import { Suspense, useRef, useEffect, useState } from "react";
 import { Stars } from "@react-three/drei";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ModelLoader from "./ModelLoader.jsx";
-import { useLoadingContext } from "@/context/LoadingContext";
-import SSRSafeWrapper from "@/components/common/SSRSafeWrapper";
+import { useLoadingContext } from "../../../context/LoadingContext.jsx";
+import SSRSafeWrapper from "../../common/SSRSafeWrapper.jsx";
 
 gsap.registerPlugin(ScrollTrigger);
 

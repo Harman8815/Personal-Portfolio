@@ -34,7 +34,7 @@ import { UnifiedModal } from "./components/UnifiedModal";
 import {
   leetCodeBadges,
   interviewBitBadges,
-} from "@/data/achievementsPageData";
+} from "../../../data/achievementsPageData.js";
 
 gsap.registerPlugin(ScrollTrigger);
 

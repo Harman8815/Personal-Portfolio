@@ -9,7 +9,7 @@ import { Center, OrbitControls } from "@react-three/drei";
 import { myProjects } from "../../../data/index.js";
 import CanvasLoader from "../../../components/shared/Loading.jsx";
 import DemoComputer from "./DemoComputer.jsx";
-import SSRSafeWrapper from "@/components/common/SSRSafeWrapper";
+import SSRSafeWrapper from "../../common/SSRSafeWrapper.jsx";
 
 const projectCount = myProjects.length;
 

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import LandingSections from "@/components/pages/landing/LandingSections";
-import LoadingScreen from "@/components/loadingScreen/LoadingScreen";
-import CustomCursor from "@/components/common/CustomCursor";
+import LandingSections from "../components/pages/landing/LandingSections.jsx";
+import LoadingScreen from "../components/loadingScreen/LoadingScreen.jsx";
+import CustomCursor from "../components/common/CustomCursor.jsx";
 import dynamicImport from "next/dynamic";
-import { LoadingProvider, useLoadingContext } from "@/context/LoadingContext";
+import { LoadingProvider, useLoadingContext } from "../context/LoadingContext.jsx";
 
-const HomeHero = dynamicImport(() => import("@/components/r3f/Hero/Home"), {
+const HomeHero = dynamicImport(() => import("../components/r3f/Hero/Home.jsx"), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-primary flex items-center justify-center">
     <div className="text-primary text-2xl">Loading...</div>

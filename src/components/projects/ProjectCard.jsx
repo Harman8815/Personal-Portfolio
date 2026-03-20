@@ -2,9 +2,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, Code2 } from 'lucide-react';
-import { Project } from '@/data';
+import { Project } from '../../data/index.js';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useRouter } from 'next/navigation';
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -15,6 +16,8 @@ function cn(...inputs) {
 // index: number for animation delay
 
 const ProjectCard = ({ project, index }) => {
+  const router = useRouter();
+  
   if (!project) {
     return (
       <div className="flex items-center justify-center h-[240px] rounded-2xl border border-white/5 bg-slate-900/40 text-slate-500">
@@ -33,6 +36,13 @@ const ProjectCard = ({ project, index }) => {
   const projectTechStack = Array.isArray(project.techStack) ? project.techStack : [];
   const githubUrl = project.githubUrl;
   const demoUrl = project.demoUrl;
+  
+  // Generate project ID from name (slugify)
+  const projectId = projectName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+  
+  const handleCardClick = () => {
+    router.push(`/project/${projectId}`);
+  };
 
   return (
     <motion.div
@@ -46,8 +56,9 @@ const ProjectCard = ({ project, index }) => {
         ease: [0.215, 0.61, 0.355, 1]
       }}
       whileHover={{ y: -8 }}
+      onClick={handleCardClick}
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-md transition-all duration-500 hover:border-cyan-500/30 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.2)]",
+        "group relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/40 backdrop-blur-md transition-all duration-500 hover:border-cyan-500/30 hover:shadow-[0_0_30px_-10px_rgba(34,211,238,0.2)] cursor-pointer",
         isFeatured ? "md:col-span-2 md:row-span-2 h-[500px]" : 
         isMedium ? "md:col-span-1 md:row-span-2 h-[500px]" : 
         "h-[240px]"

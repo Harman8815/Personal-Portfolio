@@ -3,7 +3,7 @@
 import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-import SSRSafeWrapper from "@/components/common/SSRSafeWrapper";
+import SSRSafeWrapper from "../common/SSRSafeWrapper.jsx";
 
 const Earth = () => {
   const earth = useGLTF("./models/planet/scene.gltf");

@@ -1,5 +1,5 @@
 
-import CertificationsPage from "@/components/certifications/CertificationsPage";
+import CertificationsPage from "../../components/certifications/CertificationsPage.jsx";
 
 const Page = () => {
   return <CertificationsPage />;

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Loader2, Sparkles, X, SlidersHorizontal } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { projectsDat, Project } from '@/data';
+import { myProjects, Project } from '../../data/index.js';
 import ProjectCard from './ProjectCard';
 import FilterModal from './FilterModal';
 
@@ -35,8 +35,8 @@ const ProjectsPage = () => {
   // Extract all unique tech from data
   const allTech = useMemo(() => {
     const tech = new Set();
-    if (Array.isArray(projectsDat)) {
-      projectsDat.forEach(p => {
+    if (Array.isArray(myProjects)) {
+      myProjects.forEach(p => {
         if (p && Array.isArray(p.techStack)) {
           p.techStack.forEach(t => {
             if (t && typeof t === 'string') tech.add(t);
@@ -45,13 +45,13 @@ const ProjectsPage = () => {
       });
     }
     return Array.from(tech);
-  }, []);
+  }, [myProjects]);
 
   // Filter projects based on search, category, and advanced filters
   const filteredProjects = useMemo(() => {
-    if (!Array.isArray(projectsDat)) return [];
+    if (!Array.isArray(myProjects)) return [];
     
-    return projectsDat.filter((project) => {
+    return myProjects.filter((project) => {
       if (!project) return false;
       
       // Basic Search
@@ -88,7 +88,7 @@ const ProjectsPage = () => {
       return matchesSearch && matchesQuickCategory && matchesTech && matchesCategory && 
              matchesType && matchesStatus && matchesComplexity && matchesYear;
     });
-  }, [searchQuery, activeCategory, advancedFilters]);
+  }, [searchQuery, activeCategory, advancedFilters, myProjects]);
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
 
@@ -110,12 +110,12 @@ const ProjectsPage = () => {
     }
 
     return () => observer.disconnect();
-  }, [visibleCount, filteredProjects.length, isLoading]);
+  }, [visibleCount, myProjects.length, isLoading]);
 
   const loadMore = () => {
     setIsLoading(true);
     setTimeout(() => {
-      setVisibleCount(prev => Math.min(prev + 8, filteredProjects.length));
+      setVisibleCount(prev => Math.min(prev + 8, myProjects.length));
       setIsLoading(false);
     }, 800);
   };

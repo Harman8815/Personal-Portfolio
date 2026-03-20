@@ -8,15 +8,18 @@ Source: https://sketchfab.com/3d-models/laptop-dell-latitude-5400-c3dfc53a600e42
 Title: Laptop Dell Latitude 5400
 */
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useImperativeHandle } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useLoader } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
-function Laptop(props) {
+function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
   const { nodes, materials } = useGLTF("/models/laptop.glb");
   const laptopRef = useRef();
+  
+  // Forward the ref if provided
+  useImperativeHandle(LaptopRef, () => laptopRef.current);
   // console.log(materials["8th_gen_core_i5_logo"]);
   const [targetRotation, setTargetRotation] = useState(Math.PI / 2); // Start closed
   const [currentRotation, setCurrentRotation] = useState(Math.PI / 2);
@@ -27,23 +30,21 @@ function Laptop(props) {
   );
   const delltexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/delllogo3_diffuse.png",
+    "models/textures/dell_logo_diffuse.png",
   );
+
+  useEffect(() => {
+    if (shouldAnimate) {
+      setTargetRotation(-Math.PI / 2); // Open position
+    }
+  }, [shouldAnimate]);
+
   const screenRef = useRef();
   const backpanelRef = useRef();
   const [showScreen, setShowScreen] = useState(false);
   const [hologramOpacity, setHologramOpacity] = useState(0);
 
   const beamRef = useRef(null);
-  // Trigger opening animation when shouldAnimate becomes true
-  useEffect(() => {
-    if (props.shouldAnimate) {
-      console.log("[Laptop] Opening animation triggered");
-      setTargetRotation(0); // Open the laptop
-
-      setShowScreen(false);
-    }
-  }, [props.shouldAnimate]);
 
   useFrame(() => {
     const rotationSpeed = 0.01;
@@ -65,7 +66,7 @@ function Laptop(props) {
     if (currentRotation === targetRotation) {
       setShowScreen(true);
       console.log("[Laptop] Animation complete, calling onLoadComplete");
-      props.onLoadComplete?.();
+      onLoadComplete?.();
     }
     // Hologram Reveal Logic
     const revealStart = 1.0;

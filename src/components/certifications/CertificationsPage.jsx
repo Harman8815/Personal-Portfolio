@@ -5,7 +5,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Filter, Search, Award, GraduationCap, Trophy, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
-import { certificationsData } from '@/data';
+import { certificationsData } from '../../data/index.js';
 import CertificationCard from './CertificationCard';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
