@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Filter, Search, Award, GraduationCap, Trophy, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
@@ -9,6 +9,14 @@ import { certificationsData } from '../../data/index.js';
 import CertificationCard from './CertificationCard';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+// Register GSAP plugins
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -24,6 +32,14 @@ const CertificationsPage = () => {
   const [selectedCertIndex, setSelectedCertIndex] = useState(null);
   const [activeTab, setActiveTab] = useState('description');
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  // GSAP refs
+  const heroRef = useRef(null);
+  const statsRef = useRef(null);
+  const controlBarRef = useRef(null);
+  const gridRef = useRef(null);
+  const containerRef = useRef(null);
 
   // Filter certifications
   const filteredCertifications = useMemo(() => {
@@ -45,6 +61,7 @@ const CertificationsPage = () => {
       setSelectedCertIndex((prev) => (prev > 0 ? prev - 1 : filteredCertifications.length - 1));
       setActiveTab('description');
       setImageLoaded(false);
+      setImageError(false);
     }
   };
 
@@ -54,6 +71,7 @@ const CertificationsPage = () => {
       setSelectedCertIndex((prev) => (prev < filteredCertifications.length - 1 ? prev + 1 : 0));
       setActiveTab('description');
       setImageLoaded(false);
+      setImageError(false);
     }
   };
 
@@ -68,6 +86,101 @@ const CertificationsPage = () => {
     }
   }, [selectedCertIndex]);
 
+  useEffect(() => {
+    if (selectedCert) {
+      setImageLoaded(false);
+      setImageError(false);
+    }
+  }, [selectedCert]);
+
+  // GSAP Scroll Animations
+  useGSAP(() => {
+    if (!containerRef.current) return;
+
+    // Hero Section Animation
+    const heroTimeline = gsap.timeline();
+    heroTimeline
+      .from(heroRef.current.querySelector('h1'), {
+        y: 100,
+        opacity: 0,
+        duration: 1.2,
+        ease: "power4.out"
+      })
+      .from(heroRef.current.querySelector('p'), {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out"
+      }, "-=0.6")
+      .from(heroRef.current.querySelector('.font-mono'), {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power2.out"
+      }, "-=0.4");
+
+    // Stats Animation
+    gsap.from(statsRef.current.children, {
+      y: 60,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.1,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: statsRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Control Bar Animation
+    gsap.from(controlBarRef.current, {
+      y: -50,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: controlBarRef.current,
+        start: "top 85%",
+        end: "bottom 15%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Grid Animation
+    const gridItems = gridRef.current?.querySelectorAll('[data-cert-card]') || [];
+    gsap.from(gridItems, {
+      y: 80,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.08,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: gridRef.current,
+        start: "top 75%",
+        end: "bottom 25%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // Parallax effect on hero
+    gsap.to(heroRef.current, {
+      yPercent: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, { scope: containerRef, dependencies: [filteredCertifications.length] });
+
   // Stats for the header
   const stats = useMemo(() => {
     return {
@@ -79,15 +192,11 @@ const CertificationsPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
+    <div ref={containerRef} className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
       <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
         {/* Hero Section */}
-        <div className="mb-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
+        <div ref={heroRef} className="mb-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
+          <div>
             <span className="font-mono text-[10px] tracking-[0.6em] text-cyan-500 uppercase mb-4 block">Professional_Recognition</span>
             <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">
               Verified_Skills<span className="text-cyan-400">.</span>
@@ -95,13 +204,11 @@ const CertificationsPage = () => {
             <p className="mt-8 max-w-2xl text-lg font-light text-slate-400 md:text-xl">
               A curated archive of professional certifications and academic credentials validating expertise across the technical spectrum.
             </p>
-          </motion.div>
+          </div>
 
           {/* Stats Grid */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          <div 
+            ref={statsRef}
             className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4"
           >
             {[
@@ -118,11 +225,14 @@ const CertificationsPage = () => {
                 <div className="font-mono text-[8px] uppercase tracking-widest text-slate-500">{stat.label}</div>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
 
         {/* Control Bar */}
-        <div className="sticky top-24 z-40 mb-12 flex flex-col gap-4 rounded-2xl border border-white/5 bg-slate-900/40 p-4 backdrop-blur-xl">
+        <div 
+          ref={controlBarRef}
+          className="sticky top-24 z-40 mb-12 flex flex-col gap-4 rounded-2xl border border-white/5 bg-slate-900/40 p-4 backdrop-blur-xl"
+        >
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
@@ -179,18 +289,22 @@ const CertificationsPage = () => {
         </div>
 
         {/* Certifications Grid - Dynamic Adaptive Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min grid-flow-dense">
+        <div 
+          ref={gridRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min grid-flow-dense"
+        >
           <AnimatePresence mode="popLayout">
             {filteredCertifications.map((cert, index) => (
-              <CertificationCard 
-                key={cert.id} 
-                certification={cert} 
-                index={index} 
-                onClick={() => {
-                  setSelectedCertIndex(index);
-                  setActiveTab('description');
-                }}
-              />
+              <div key={cert.id} data-cert-card>
+                <CertificationCard 
+                  certification={cert} 
+                  index={index} 
+                  onClick={() => {
+                    setSelectedCertIndex(index);
+                    setActiveTab('description');
+                  }}
+                />
+              </div>
             ))}
           </AnimatePresence>
         </div>
@@ -335,11 +449,12 @@ const CertificationsPage = () => {
                         exit={{ opacity: 0, scale: 1.05 }}
                         className="flex flex-col items-center justify-center py-4"
                       >
-                        <div className="relative group/img w-full max-w-[500px] h-[450px] rounded-[2rem] overflow-hidden bg-white/5 p-8 md:p-12 border border-white/10 shadow-2xl flex items-center justify-center mx-auto">
+                        <div className="relative group/img w-full w-[500px] h-fit
+                         rounded-[2rem] overflow-hidden bg-white/5  border border-white/10 shadow-2xl flex items-center justify-center mx-auto">
                           <div className="absolute inset-0 bg-cyan-500/5 blur-3xl rounded-full" />
                           
                           {/* Image Loading State */}
-                          {!imageLoaded && (
+                          {!imageLoaded && !imageError && (
                             <div className="absolute inset-0 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm z-20">
                               <motion.div
                                 animate={{ rotate: 360 }}
@@ -350,13 +465,28 @@ const CertificationsPage = () => {
                             </div>
                           )}
 
+                          {/* Image Error State */}
+                          {imageError && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/50 backdrop-blur-sm z-20 p-8">
+                              <ImageIcon size={48} className="text-slate-500 mb-4" />
+                              <p className="text-slate-400 text-sm text-center">Image not available</p>
+                            </div>
+                          )}
+
                           <img 
                             src={selectedCert.logo} 
                             alt={selectedCert.title} 
-                            onLoad={() => setImageLoaded(true)}
+                            onLoad={() => {
+                              setImageLoaded(true);
+                              setImageError(false);
+                            }}
+                            onError={() => {
+                              setImageLoaded(true);
+                              setImageError(true);
+                            }}
                             className={cn(
                               "relative z-10 max-w-full max-h-full object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-opacity duration-500",
-                              imageLoaded ? "opacity-100" : "opacity-0"
+                              imageLoaded && !imageError ? "opacity-100" : "opacity-0"
                             )}
                             referrerPolicy="no-referrer"
                           />

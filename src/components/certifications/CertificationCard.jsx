@@ -24,7 +24,7 @@ const CertificationCard = ({ certification, index, onClick }) => {
       transition={{ duration: 0.5, delay: index * 0.05 }}
       onClick={onClick}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-slate-900/40 backdrop-blur-sm transition-all duration-500 hover:border-cyan-500/30 hover:bg-slate-900/60 cursor-pointer",
+        "group relative h-full flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-slate-900/40 backdrop-blur-sm transition-all duration-500 hover:border-cyan-500/30 hover:bg-slate-900/60 cursor-pointer",
         isFeatured ? "min-h-[400px] p-8 md:p-10" : isMedium ? "min-h-[400px] p-6 md:p-8" : "min-h-[200px] p-5"
       )}
     >
