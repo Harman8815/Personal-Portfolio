@@ -30,7 +30,7 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
   );
   const delltexture = useLoader(
     THREE.TextureLoader,
-    "models/textures/dell_logo_diffuse.png",
+    "models/textures/delllogo3_diffuse.png",
   );
 
   useEffect(() => {

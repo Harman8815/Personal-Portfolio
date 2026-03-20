@@ -150,8 +150,25 @@ const Home = ({ onLoad, onLoaderExit }) => {
         <SSRSafeWrapper fallback={<div className="w-full h-screen bg-primary flex items-center justify-center text-white">Loading 3D Scene...</div>}>
           <Canvas
             shadows
-            gl={{ antialias: true, alpha: true, stencil: false, depth: true }}
+            gl={{ 
+              antialias: true, 
+              alpha: true, 
+              stencil: false, 
+              depth: true,
+              preserveDrawingBuffer: true,
+              powerPreference: "high-performance"
+            }}
             camera={{ position: [0, 2, -12], fov: 32 }}
+            onError={(error) => {
+              console.error("[Canvas] WebGL Error:", error);
+            }}
+            onContextLost={(event) => {
+              console.warn("[Canvas] WebGL Context Lost:", event);
+              event.preventDefault();
+            }}
+            onContextRestored={() => {
+              console.log("[Canvas] WebGL Context Restored");
+            }}
           >
             <Stars
               radius={100}
