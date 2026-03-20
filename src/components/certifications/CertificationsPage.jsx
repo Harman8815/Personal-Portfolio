@@ -5,6 +5,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Filter, Search, Award, GraduationCap, Trophy, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { certificationsData } from '../../data/index.js';
 import CertificationCard from './CertificationCard';
 import { clsx } from 'clsx';
@@ -22,6 +23,65 @@ function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+// Skeleton Components
+const HeroSkeleton = () => (
+  <div className="mb-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
+    <div className="space-y-4">
+      <div className="h-4 w-32 bg-slate-800 rounded animate-pulse" />
+      <div className="h-16 w-3/4 bg-slate-800 rounded animate-pulse" />
+      <div className="h-20 w-full bg-slate-800 rounded animate-pulse" />
+    </div>
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-2xl min-w-[140px]">
+          <div className="h-6 w-6 bg-slate-700 rounded animate-pulse mb-2" />
+          <div className="h-8 w-8 bg-slate-700 rounded animate-pulse" />
+          <div className="h-3 w-20 bg-slate-700 rounded animate-pulse mt-2" />
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const ControlBarSkeleton = () => (
+  <div className="sticky top-24 z-40 mb-12 flex flex-col gap-4 rounded-2xl border border-white/5 bg-slate-900/40 p-4 backdrop-blur-xl">
+    <div className="flex flex-col md:flex-row gap-4">
+      <div className="relative flex-1 h-12 bg-slate-800 rounded-xl animate-pulse" />
+      <div className="flex items-center gap-2 overflow-x-auto">
+        <div className="h-8 w-16 bg-slate-800 rounded-lg animate-pulse" />
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="h-8 w-20 bg-slate-800 rounded-lg animate-pulse" />
+        ))}
+      </div>
+    </div>
+    <div className="h-[1px] w-full bg-slate-800" />
+    <div className="flex items-center gap-2 overflow-x-auto">
+      <div className="h-8 w-16 bg-slate-800 rounded-lg animate-pulse" />
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="h-8 w-20 bg-slate-800 rounded-lg animate-pulse" />
+      ))}
+    </div>
+  </div>
+);
+
+const GridSkeleton = () => (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min grid-flow-dense">
+    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
+      <div key={i} className="group relative h-full flex flex-col overflow-hidden rounded-3xl border border-white/5 bg-slate-900/40 backdrop-blur-sm">
+        <div className="p-6 space-y-3">
+          <div className="h-4 w-24 bg-slate-800 rounded animate-pulse" />
+          <div className="h-6 w-full bg-slate-800 rounded animate-pulse" />
+          <div className="h-4 w-32 bg-slate-800 rounded animate-pulse" />
+          <div className="flex gap-2 mt-4">
+            <div className="h-6 w-16 bg-slate-700 rounded-full animate-pulse" />
+            <div className="h-6 w-20 bg-slate-700 rounded-full animate-pulse" />
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 const CATEGORIES = ['All', 'AI', 'Web Development', 'Cloud', 'Data Science', 'Cybersecurity'];
 const ISSUERS = ['All', 'Google', 'AWS', 'Meta', 'Microsoft', 'IBM', 'Stanford Online'];
 
@@ -33,6 +93,55 @@ const CertificationsPage = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(9);
+  const [isPageChanging, setIsPageChanging] = useState(false);
+
+  // Handle URL params
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Initialize from URL params
+  useEffect(() => {
+    const pageParam = searchParams.get('page');
+    const categoryParam = searchParams.get('category');
+    const issuerParam = searchParams.get('issuer');
+    const certParam = searchParams.get('cert');
+    const searchParam = searchParams.get('search');
+
+    if (pageParam) setCurrentPage(parseInt(pageParam) || 1);
+    if (categoryParam && CATEGORIES.includes(categoryParam)) setActiveCategory(categoryParam);
+    if (issuerParam && ISSUERS.includes(issuerParam)) setActiveIssuer(issuerParam);
+    if (searchParam) setSearchQuery(searchParam);
+
+    // Handle certificate selection from URL
+    if (certParam) {
+      const certIndex = filteredCertifications.findIndex(cert => cert.id === certParam);
+      if (certIndex !== -1) {
+        setSelectedCertIndex(certIndex);
+        // Calculate which page this cert is on
+        const targetPage = Math.floor(certIndex / itemsPerPage) + 1;
+        setCurrentPage(targetPage);
+      }
+    }
+  }, [searchParams]);
+
+  // Update URL when state changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (currentPage > 1) params.set('page', currentPage.toString());
+    if (activeCategory !== 'All') params.set('category', activeCategory);
+    if (activeIssuer !== 'All') params.set('issuer', activeIssuer);
+    if (searchQuery) params.set('search', searchQuery);
+    if (selectedCertIndex !== null && filteredCertifications[selectedCertIndex]) {
+      params.set('cert', filteredCertifications[selectedCertIndex].id);
+    }
+
+    const newUrl = `${pathname}${params.toString() ? '?' + params.toString() : ''}`;
+    router.replace(newUrl, { scroll: false });
+  }, [currentPage, activeCategory, activeIssuer, searchQuery, selectedCertIndex]);
 
   // GSAP refs
   const heroRef = useRef(null);
@@ -51,6 +160,17 @@ const CertificationsPage = () => {
       
       return matchesCategory && matchesIssuer && matchesSearch;
     });
+  }, [activeCategory, activeIssuer, searchQuery]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCertifications.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCertifications = filteredCertifications.slice(startIndex, endIndex);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
   }, [activeCategory, activeIssuer, searchQuery]);
 
   const selectedCert = selectedCertIndex !== null ? filteredCertifications[selectedCertIndex] : null;
@@ -75,6 +195,51 @@ const CertificationsPage = () => {
     }
   };
 
+  // Pagination handlers
+  const handlePageChange = (page) => {
+    setIsPageChanging(true);
+    setCurrentPage(page);
+    // Smooth scroll to top of grid
+    const gridElement = gridRef.current?.parentElement;
+    if (gridElement) {
+      gridElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setTimeout(() => setIsPageChanging(false), 300);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      const startPage = Math.max(1, currentPage - 2);
+      const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+    }
+    
+    return pages;
+  };
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       if (selectedCertIndex !== null) {
@@ -93,93 +258,101 @@ const CertificationsPage = () => {
     }
   }, [selectedCert]);
 
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // Simulate 1.5 second loading time
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // GSAP Scroll Animations
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isLoading) return;
 
-    // Hero Section Animation
-    const heroTimeline = gsap.timeline();
-    heroTimeline
-      .from(heroRef.current.querySelector('h1'), {
-        y: 100,
-        opacity: 0,
-        duration: 1.2,
-        ease: "power4.out"
-      })
-      .from(heroRef.current.querySelector('p'), {
-        y: 50,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out"
-      }, "-=0.6")
-      .from(heroRef.current.querySelector('.font-mono'), {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power2.out"
-      }, "-=0.4");
-
-    // Stats Animation
-    gsap.from(statsRef.current.children, {
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: statsRef.current,
-        start: "top 80%",
-        end: "bottom 20%",
-        toggleActions: "play none none reverse"
+    // Delay animations to ensure cards are rendered
+    setTimeout(() => {
+      // Hero Section Animation
+      if (heroRef.current && heroRef.current.querySelector('h1')) {
+        const heroTimeline = gsap.timeline();
+        heroTimeline
+          .from(heroRef.current.querySelector('h1'), {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            ease: "power4.out"
+          })
+          .from(heroRef.current.querySelector('p'), {
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
+          }, "-=0.6")
+          .from(heroRef.current.querySelector('.font-mono'), {
+            y: 30,
+            opacity: 0,
+            duration: 0.6,
+            ease: "power2.out"
+          }, "-=0.4");
       }
-    });
 
-    // Control Bar Animation
-    gsap.from(controlBarRef.current, {
-      y: -50,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: controlBarRef.current,
-        start: "top 85%",
-        end: "bottom 15%",
-        toggleActions: "play none none reverse"
+      // Stats Animation
+      if (statsRef.current && statsRef.current.children) {
+        gsap.from(statsRef.current.children, {
+          y: 60,
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
+          }
+        });
       }
-    });
 
-    // Grid Animation
-    const gridItems = gridRef.current?.querySelectorAll('[data-cert-card]') || [];
-    gsap.from(gridItems, {
-      y: 80,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: gridRef.current,
-        start: "top 75%",
-        end: "bottom 25%",
-        toggleActions: "play none none reverse"
+      // Control Bar Animation
+      if (controlBarRef.current) {
+        gsap.from(controlBarRef.current, {
+          y: -50,
+          opacity: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: controlBarRef.current,
+            start: "top 85%",
+            end: "bottom 15%",
+            toggleActions: "play none none reverse"
+          }
+        });
       }
-    });
 
-    // Parallax effect on hero
-    gsap.to(heroRef.current, {
-      yPercent: -50,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
+      // Grid Animation - Removed card animations for static display
+      const gridItems = gridRef.current?.querySelectorAll('[data-cert-card]') || [];
+      // No GSAP animations applied to cards
+
+      // Parallax effect on hero
+      if (heroRef.current) {
+        gsap.to(heroRef.current, {
+          yPercent: -50,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true
+          }
+        });
       }
-    });
+    }, 100); // Small delay to ensure DOM is ready
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, { scope: containerRef, dependencies: [filteredCertifications.length] });
+  }, { scope: containerRef, dependencies: [currentCertifications.length, currentPage, isLoading] });
 
   // Stats for the header
   const stats = useMemo(() => {
@@ -194,140 +367,240 @@ const CertificationsPage = () => {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
       <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
-        {/* Hero Section */}
-        <div ref={heroRef} className="mb-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
-          <div>
-            <span className="font-mono text-[10px] tracking-[0.6em] text-cyan-500 uppercase mb-4 block">Professional_Recognition</span>
-            <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">
-              Verified_Skills<span className="text-cyan-400">.</span>
-            </h1>
-            <p className="mt-8 max-w-2xl text-lg font-light text-slate-400 md:text-xl">
-              A curated archive of professional certifications and academic credentials validating expertise across the technical spectrum.
-            </p>
-          </div>
-
-          {/* Stats Grid */}
-          <div 
-            ref={statsRef}
-            className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4"
-          >
-            {[
-              { label: 'Total_Certs', value: stats.total, icon: GraduationCap },
-              { label: 'AI_Specialist', value: stats.ai, icon: Sparkles },
-              { label: 'Cloud_Arch', value: stats.cloud, icon: Award },
-              { label: 'Web_Mastery', value: stats.web, icon: Trophy }
-            ].map((stat, i) => (
-              <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-2xl min-w-[140px]">
-                <div className="flex items-center justify-between mb-2">
-                  <stat.icon size={14} className="text-cyan-500/50" />
-                  <span className="text-xl font-black text-white">{stat.value}</span>
-                </div>
-                <div className="font-mono text-[8px] uppercase tracking-widest text-slate-500">{stat.label}</div>
+        {isLoading ? (
+          <>
+            <HeroSkeleton />
+            <ControlBarSkeleton />
+            <GridSkeleton />
+          </>
+        ) : (
+          <>
+            {/* Hero Section */}
+            <div ref={heroRef} className="mb-16 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-end">
+              <div>
+                <span className="font-mono text-[10px] tracking-[0.6em] text-cyan-500 uppercase mb-4 block">Professional_Recognition</span>
+                <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none">
+                  Verified_Skills<span className="text-cyan-400">.</span>
+                </h1>
+                <p className="mt-8 max-w-2xl text-lg font-light text-slate-400 md:text-xl">
+                  A curated archive of professional certifications and academic credentials validating expertise across the technical spectrum.
+                </p>
               </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Control Bar */}
-        <div 
-          ref={controlBarRef}
-          className="sticky top-24 z-40 mb-12 flex flex-col gap-4 rounded-2xl border border-white/5 bg-slate-900/40 p-4 backdrop-blur-xl"
-        >
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Search */}
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search by title or issuer..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-xl border border-white/5 bg-white/5 py-3 pl-12 pr-4 text-sm font-light text-white placeholder:text-slate-600 focus:border-cyan-500/50 focus:outline-none transition-all"
-              />
-            </div>
-
-            {/* Issuer Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-              <div className="font-mono text-[9px] uppercase tracking-widest text-slate-500 mr-2 whitespace-nowrap">Issuer:</div>
-              {ISSUERS.map(issuer => (
-                <button
-                  key={issuer}
-                  onClick={() => setActiveIssuer(issuer)}
-                  className={cn(
-                    "rounded-lg px-4 py-2 text-[9px] font-bold uppercase tracking-widest transition-all whitespace-nowrap",
-                    activeIssuer === issuer 
-                      ? 'bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]' 
-                      : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-                  )}
-                >
-                  {issuer}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="h-[1px] w-full bg-white/5" />
-
-          {/* Category Filter */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-            <div className="font-mono text-[9px] uppercase tracking-widest text-slate-500 mr-2 whitespace-nowrap">Category:</div>
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={cn(
-                  "rounded-lg px-4 py-2 text-[9px] font-bold uppercase tracking-widest transition-all whitespace-nowrap",
-                  activeCategory === cat 
-                    ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' 
-                    : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
-                )}
+              {/* Stats Grid */}
+              <div 
+                ref={statsRef}
+                className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4"
               >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Certifications Grid - Dynamic Adaptive Layout */}
-        <div 
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min grid-flow-dense"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredCertifications.map((cert, index) => (
-              <div key={cert.id} data-cert-card>
-                <CertificationCard 
-                  certification={cert} 
-                  index={index} 
-                  onClick={() => {
-                    setSelectedCertIndex(index);
-                    setActiveTab('description');
-                  }}
-                />
+                {[
+                  { label: 'Total_Certs', value: stats.total, icon: GraduationCap },
+                  { label: 'AI_Specialist', value: stats.ai, icon: Sparkles },
+                  { label: 'Cloud_Arch', value: stats.cloud, icon: Award },
+                  { label: 'Web_Mastery', value: stats.web, icon: Trophy }
+                ].map((stat, i) => (
+                  <div key={i} className="bg-white/5 border border-white/5 p-4 rounded-2xl min-w-[140px]">
+                    <div className="flex items-center justify-between mb-2">
+                      <stat.icon size={14} className="text-cyan-500/50" />
+                      <span className="text-xl font-black text-white">{stat.value}</span>
+                    </div>
+                    <div className="font-mono text-[8px] uppercase tracking-widest text-slate-500">{stat.label}</div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </AnimatePresence>
-        </div>
-
-        {/* Empty State */}
-        {filteredCertifications.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex flex-col items-center justify-center py-40 text-center"
-          >
-            <div className="mb-6 rounded-full bg-white/5 p-8 text-slate-700">
-              <Award size={48} />
             </div>
-            <h3 className="text-2xl font-bold uppercase tracking-tighter text-white">No Credentials Found</h3>
-            <p className="mt-2 text-slate-500">Try adjusting your search or filters to locate the specific certification.</p>
-            <button 
-              onClick={() => {setSearchQuery(''); setActiveCategory('All'); setActiveIssuer('All');}}
-              className="mt-8 rounded-lg border border-white/10 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all hover:bg-white hover:text-black"
+
+            {/* Control Bar */}
+            <div 
+              ref={controlBarRef}
+              className="sticky top-24 z-40 mb-12 flex flex-col gap-4 rounded-2xl border border-white/5 bg-slate-900/40 p-4 backdrop-blur-xl"
             >
-              Reset_Filters
-            </button>
-          </motion.div>
+              <div className="flex flex-col gap-4">
+                {/* Search */}
+                <div className="relative flex-1">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
+                  <input 
+                    type="text" 
+                    placeholder="Search by title or issuer..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full rounded-xl border border-white/5 bg-white/5 py-3 pl-12 pr-4 text-sm font-light text-white placeholder:text-slate-600 focus:border-cyan-500/50 focus:outline-none transition-all"
+                  />
+                </div>
+
+                {/* Issuer Filter */}
+                <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                  <div className="font-mono text-[9px] uppercase tracking-widest text-slate-500 mr-2 whitespace-nowrap">Issuer:</div>
+                  {ISSUERS.map(issuer => (
+                    <button
+                      key={issuer}
+                      onClick={() => setActiveIssuer(issuer)}
+                      className={cn(
+                        "rounded-lg px-4 py-2 text-[9px] font-bold uppercase tracking-widest transition-all whitespace-nowrap",
+                        activeIssuer === issuer 
+                          ? 'bg-cyan-500 text-white shadow-[0_0_15px_rgba(6,182,212,0.4)]' 
+                          : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+                      )}
+                    >
+                      {issuer}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="h-[1px] w-full bg-white/5" />
+
+              {/* Category Filter */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                <div className="font-mono text-[9px] uppercase tracking-widest text-slate-500 mr-2 whitespace-nowrap">Category:</div>
+                {CATEGORIES.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={cn(
+                      "rounded-lg px-4 py-2 text-[9px] font-bold uppercase tracking-widest transition-all whitespace-nowrap",
+                      activeCategory === cat 
+                        ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' 
+                        : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+                    )}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Grid Container with Loading Overlay */}
+            <div className="relative">
+              {/* Page Change Loading Overlay */}
+              <AnimatePresence>
+                {isPageChanging && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm rounded-2xl"
+                  >
+                    <div className="flex flex-col items-center gap-4">
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Loader2 size={32} className="text-cyan-500" />
+                      </motion.div>
+                      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-slate-400">Loading Page...</p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Certifications Grid - Dynamic Adaptive Layout */}
+              <div 
+                ref={gridRef}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-min grid-flow-dense"
+              >
+              <AnimatePresence mode="popLayout">
+                {currentCertifications.map((cert, index) => {
+                  const globalIndex = startIndex + index;
+                  return (
+                    <div 
+                      key={cert.id} 
+                      data-cert-card
+                      className="transform transition-all duration-300 hover:scale-105 hover:-translate-y-1"
+                    >
+                      <CertificationCard 
+                        certification={cert} 
+                        index={index} 
+                        onClick={() => {
+                          setSelectedCertIndex(globalIndex);
+                          setActiveTab('description');
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </AnimatePresence>
+              </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-12 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2">
+                  {/* Previous Button */}
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1}
+                    className={cn(
+                      "p-3 rounded-xl border transition-all",
+                      currentPage === 1 
+                        ? "border-white/10 text-slate-600 cursor-not-allowed" 
+                        : "border-white/20 text-white hover:border-cyan-500/50 hover:text-cyan-400 hover:bg-white/5"
+                    )}
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-1">
+                    {getPageNumbers().map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        onClick={() => handlePageChange(pageNum)}
+                        className={cn(
+                          "w-10 h-10 rounded-xl font-mono text-sm font-bold transition-all",
+                          currentPage === pageNum
+                            ? "bg-cyan-500 text-white border border-cyan-500 shadow-lg shadow-cyan-500/20"
+                            : "border border-white/20 text-slate-400 hover:border-cyan-500/50 hover:text-cyan-400 hover:bg-white/5"
+                        )}
+                      >
+                        {pageNum}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className={cn(
+                      "p-3 rounded-xl border transition-all",
+                      currentPage === totalPages 
+                        ? "border-white/10 text-slate-600 cursor-not-allowed" 
+                        : "border-white/20 text-white hover:border-cyan-500/50 hover:text-cyan-400 hover:bg-white/5"
+                    )}
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+
+                {/* Results Info */}
+                <div className="text-center font-mono text-[10px] uppercase tracking-[0.3em] text-slate-500">
+                  Showing {startIndex + 1}-{Math.min(endIndex, filteredCertifications.length)} of {filteredCertifications.length} results
+                </div>
+              </div>
+            )}
+
+            {/* Empty State */}
+            {filteredCertifications.length === 0 && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center py-40 text-center"
+              >
+                <div className="mb-6 rounded-full bg-white/5 p-8 text-slate-700">
+                  <Award size={48} />
+                </div>
+                <h3 className="text-2xl font-bold uppercase tracking-tighter text-white">No Credentials Found</h3>
+                <p className="mt-2 text-slate-500">Try adjusting your search or filters to locate the specific certification.</p>
+                <button 
+                  onClick={() => {setSearchQuery(''); setActiveCategory('All'); setActiveIssuer('All');}}
+                  className="mt-8 rounded-lg border border-white/10 px-6 py-3 text-xs font-bold uppercase tracking-widest text-white transition-all hover:bg-white hover:text-black"
+                >
+                  Reset Filters
+                </button>
+              </motion.div>
+            )}
+            </div>
+          </> 
         )}
       </main>
 
