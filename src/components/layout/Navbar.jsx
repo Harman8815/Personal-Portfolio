@@ -44,13 +44,11 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', to: 'hero', type: 'scroll' },
-    { name: 'About', to: 'about', type: 'scroll' },
+    { name: 'Home', to: '/', type: 'scroll' },
     { name: 'All Projects', to: '/projects', type: 'link' },
     { name: 'Experience', to: 'experience', type: 'scroll' },
     { name: 'Achievements', to: '/achievements', type: 'link' },
     { name: 'Certifications', to: '/certifications', type: 'link' },
-    { name: 'Education', to: 'education', type: 'scroll' },
   ];
 
   const handleNavClick = (link) => {
@@ -95,7 +93,7 @@ const Navbar = () => {
                   offset={-100}
                   duration={800}
                   onSetActive={() => setActiveSection(link.to)}
-                  className={`cursor-pointer font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                  className={`cursor-pointer font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${
                     activeSection === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -104,7 +102,7 @@ const Navbar = () => {
               ) : (
                 <button
                   onClick={() => handleNavClick(link)}
-                  className={`font-mono text-[10px] uppercase tracking-[0.2em] transition-all duration-300 ${
+                  className={`font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${
                     pathname === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -145,14 +143,14 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed inset-0 top-[72px] bg-[#020617] z-40 transition-all duration-500 ease-in-out ${
-        isMenuOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+      <div className={`lg:hidden fixed top-[72px] left-0 right-0 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 z-40 transition-all duration-500 ease-in-out ${
+        isMenuOpen ? 'translate-y-0 opacity-100 max-h-[calc(100vh-72px)]' : '-translate-y-full opacity-0 max-h-0'
       }`}>
-        <div className="flex flex-col h-full p-8 gap-8 overflow-y-auto">
+        <div className="flex flex-col p-6 gap-6 overflow-y-auto max-h-[calc(100vh-72px)]">
           {navLinks.map((link, i) => (
             <div 
               key={link.name}
-              className="border-b border-white/5 pb-4"
+              className="border-b border-white/5 pb-3"
               style={{ transitionDelay: `${i * 50}ms` }}
             >
               {link.type === 'scroll' && isHomePage ? (
@@ -163,14 +161,14 @@ const Navbar = () => {
                   offset={-80}
                   duration={800}
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-3xl font-black uppercase tracking-tighter text-white hover:text-cyan-400 transition-colors"
+                  className="font-mono text-[14px] uppercase tracking-[0.2em] text-white hover:text-cyan-400 transition-all duration-300"
                 >
                   {link.name}
                 </ScrollLink>
               ) : (
                 <button
                   onClick={() => handleNavClick(link)}
-                  className="text-3xl font-black uppercase tracking-tighter text-white hover:text-cyan-400 transition-colors"
+                  className="font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 text-white hover:text-cyan-400"
                 >
                   {link.name}
                 </button>
@@ -178,7 +176,7 @@ const Navbar = () => {
             </div>
           ))}
 
-          <div className="mt-auto pt-8 flex flex-col gap-6">
+          <div className="mt-auto  flex flex-col gap-4">
             <div className="flex items-center justify-between text-slate-400 font-mono text-xs uppercase tracking-widest">
               <span>Appearance</span>
               <button 
@@ -188,7 +186,7 @@ const Navbar = () => {
                 {isDark ? <Moon size={20} /> : <Sun size={20} />}
               </button>
             </div>
-            <button className="w-full py-5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl text-sm font-black uppercase tracking-[0.3em] text-white shadow-xl">
+            <button className="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl text-sm font-black uppercase tracking-[0.3em] text-white shadow-lg">
               Download_Resume
             </button>
           </div>
