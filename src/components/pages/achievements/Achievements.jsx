@@ -31,6 +31,7 @@ import {
 import { LeetCodeCard, GFGCard, InterviewBitCard } from "./components/Cards";
 import { GitHubHeatmap } from "./components/GitHubHeatmap";
 import { UnifiedModal } from "./components/UnifiedModal";
+import { useGitHubData } from "../../../hooks/useGitHubData";
 import {
   leetCodeBadges,
   interviewBitBadges,
@@ -45,6 +46,19 @@ const AchievementsPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalContent, setModalContent] = useState(null);
+
+  // Fetch GitHub data with caching
+  const { data: githubData, isLoading: githubLoading, error: githubError } = useGitHubData();
+
+  // Handle GitHub error
+  if (githubError) {
+    console.error('GitHub data fetch error:', githubError);
+  }
+
+  // Debug: Log the GitHub data when available
+  if (githubData) {
+    console.log('GitHub data loaded:', githubData.stats);
+  }
 
   const openBadgeModal = (badge) => {
     setModalType("badge");
@@ -72,10 +86,10 @@ const AchievementsPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !githubLoading) {
       ScrollTrigger.refresh();
     }
-  }, [activeTab, isLoading]);
+  }, [activeTab, isLoading, githubLoading]);
 
   const tabs = [
     {
@@ -100,7 +114,7 @@ const AchievementsPage = () => {
     },
   ];
 
-  if (isLoading) {
+  if (isLoading || githubLoading) {
     return (
       <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12">
         <div className="max-w-7xl mx-auto space-y-20">
@@ -161,11 +175,10 @@ const AchievementsPage = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`relative flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-500 ${
-                      activeTab === tab.id
+                    className={`relative flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-500 ${activeTab === tab.id
                         ? "text-white"
                         : "text-slate-500 hover:text-slate-300"
-                    }`}
+                      }`}
                   >
                     {activeTab === tab.id && (
                       <motion.div
@@ -251,37 +264,72 @@ const AchievementsPage = () => {
                     </h2>
                     <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
                   </div>
-                  <GitHubHeatmap />
+
+                  <GitHubHeatmap githubData={githubData} />
                 </section>
 
                 <section>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {[
-                      {
-                        label: "Coding Hours",
-                        value: 3500,
-                        icon: <Clock className="w-8 h-8" />,
-                        color: "text-cyan-400",
-                      },
-                      {
-                        label: "Tech Explored",
-                        value: 24,
-                        icon: <BookOpen className="w-8 h-8" />,
-                        color: "text-blue-400",
-                      },
-                      {
-                        label: "Features Shipped",
-                        value: 180,
-                        icon: <Rocket className="w-8 h-8" />,
-                        color: "text-purple-400",
-                      },
-                      {
-                        label: "Active Months",
-                        value: 36,
-                        icon: <Calendar className="w-8 h-8" />,
-                        color: "text-emerald-400",
-                      },
-                    ].map((stat, i) => (
+                    {(githubData
+                      ? [
+                        {
+                          label: "Total Contributions",
+                          value: Number(githubData.stats.totalContributions) || 0,
+                          icon: <Github className="w-8 h-8" />,
+                          color: "text-cyan-400",
+                        },
+                        {
+                          label: "2026 Contributions",
+                          value: Number(githubData.stats.currentYearContributions) || 0,
+                          icon: <Calendar className="w-8 h-8" />,
+                          color: "text-green-400",
+                        },
+                        {
+                          label: "Current Streak",
+                          value: Number(githubData.stats.currentStreak) || 0,
+                          icon: <Zap className="w-8 h-8" />,
+                          color: "text-orange-400",
+                        },
+                        {
+                          label: "Longest Streak",
+                          value: Number(githubData.stats.longestStreak) || 0,
+                          icon: <Trophy className="w-8 h-8" />,
+                          color: "text-purple-400",
+                        },
+                        {
+                          label: "Repositories",
+                          value: Number(githubData.stats.repositories) || 0,
+                          icon: <Code2 className="w-8 h-8" />,
+                          color: "text-blue-400",
+                        },
+                        {
+                          label: "Followers",
+                          value: Number(githubData.stats.followers) || 0,
+                          icon: <Activity className="w-8 h-8" />,
+                          color: "text-pink-400",
+                        },
+                        {
+                          label: "Following",
+                          value: Number(githubData.stats.following) || 0,
+                          icon: <Rocket className="w-8 h-8" />,
+                          color: "text-indigo-400",
+                        },
+                        {
+                          label: "Pull Requests",
+                          value: Number(githubData.stats.pullRequests) || 0,
+                          icon: <ExternalLink className="w-8 h-8" />,
+                          color: "text-emerald-400",
+                        },
+                      ]
+                      : [
+                        {
+                          label: "Loading...",
+                          value: 0,
+                          icon: <Github className="w-8 h-8" />,
+                          color: "text-cyan-400",
+                        },
+                      ]
+                    ).map((stat, i) => (
                       <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 30 }}
@@ -290,13 +338,15 @@ const AchievementsPage = () => {
                         className="p-12 rounded-[3rem] bg-white/5 border border-white/10 text-center group hover:bg-white/10 transition-all"
                       >
                         <div
-                          className={`inline-flex p-5 rounded-3xl bg-white/5 ${stat.color} mb-8 group-hover:scale-110 transition-transform`}
+                          className={`inline-flex p-5 rounded-3xl bg-white/5 ${stat.color || "text-white"} mb-8 group-hover:scale-110 transition-transform`}
                         >
                           {stat.icon}
                         </div>
+
                         <div className="text-6xl font-black text-white mb-4">
                           <Counter value={stat.value} />
                         </div>
+
                         <div className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">
                           {stat.label}
                         </div>
@@ -378,11 +428,11 @@ const AchievementsPage = () => {
                         transition={{ delay: i * 0.1 }}
                         className="p-8 rounded-[3rem] bg-gradient-to-br bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500"
                         style={{
-                          backgroundImage: `linear-gradient(135deg, ${milestone.bgGradient})`
+                          backgroundImage: milestone.bgGradient ? `linear-gradient(135deg, ${milestone.bgGradient})` : 'none'
                         }}
                       >
                         <div className="flex items-start justify-between mb-6">
-                          <div className={`inline-flex p-4 rounded-2xl bg-white/5 ${milestone.color} group-hover:scale-110 transition-transform`}>
+                          <div className={`inline-flex p-4 rounded-2xl bg-white/5 ${milestone.color || 'text-white'} group-hover:scale-110 transition-transform`}>
                             {milestone.icon}
                           </div>
                           <div className="text-4xl font-black text-white">
