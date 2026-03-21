@@ -28,7 +28,7 @@ const Navbar = () => {
   useEffect(() => {
     // Entrance animation
     const ctx = gsap.context(() => {
-      gsap.fromTo(navRef.current, 
+      gsap.fromTo(navRef.current,
         { y: -100, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, ease: 'power4.out' }
       );
@@ -44,11 +44,12 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', to: '/', type: 'scroll' },
-    { name: 'All Projects', to: '/projects', type: 'link' },
-    { name: 'Experience', to: 'experience', type: 'scroll' },
+    { name: 'Home', to: '/', type: 'link' },
+    { name: 'Experience', to: 'experience', type: 'link' },
     { name: 'Achievements', to: '/achievements', type: 'link' },
+    { name: 'All Projects', to: '/projects', type: 'link' },
     { name: 'Certifications', to: '/certifications', type: 'link' },
+    { name: 'Social', to: '/links', type: 'link' },
   ];
 
   const handleNavClick = (link) => {
@@ -63,15 +64,14 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'py-4 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 shadow-2xl' 
-          : 'py-8 bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${isScrolled
+        ? 'py-4 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 shadow-2xl'
+        : 'py-8 bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
         {/* Branding */}
-        <div 
+        <div
           className="relative group cursor-pointer"
           onClick={() => isHomePage ? scroll.scrollToTop() : navigate('/')}
         >
@@ -93,32 +93,29 @@ const Navbar = () => {
                   offset={-100}
                   duration={800}
                   onSetActive={() => setActiveSection(link.to)}
-                  className={`cursor-pointer font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${
-                    activeSection === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
-                  }`}
+                  className={`cursor-pointer font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${activeSection === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
+                    }`}
                 >
                   {link.name}
                 </ScrollLink>
               ) : (
                 <button
                   onClick={() => handleNavClick(link)}
-                  className={`font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${
-                    pathname === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
-                  }`}
+                  className={`font-mono text-[14px] uppercase tracking-[0.2em] transition-all duration-300 ${pathname === link.to ? 'text-cyan-400' : 'text-slate-400 hover:text-white'
+                    }`}
                 >
                   {link.name}
                 </button>
               )}
-              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-500 transition-all duration-300 group-hover:w-full ${
-                (link.type === 'scroll' && activeSection === link.to) || (link.type === 'link' && pathname === link.to) ? 'w-full' : ''
-              }`} />
+              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-500 transition-all duration-300 group-hover:w-full ${(link.type === 'scroll' && activeSection === link.to) || (link.type === 'link' && pathname === link.to) ? 'w-full' : ''
+                }`} />
             </div>
           ))}
         </div>
 
         {/* Right Side Controls */}
         <div className="hidden lg:flex items-center gap-6">
-          <button 
+          <button
             onClick={() => setIsDark(!isDark)}
             className="p-2 text-slate-400 hover:text-cyan-400 transition-colors"
           >
@@ -134,7 +131,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           className="lg:hidden text-white p-2"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
@@ -143,12 +140,11 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`lg:hidden fixed top-[72px] left-0 right-0 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 z-40 transition-all duration-500 ease-in-out ${
-        isMenuOpen ? 'translate-y-0 opacity-100 max-h-[calc(100vh-72px)]' : '-translate-y-full opacity-0 max-h-0'
-      }`}>
+      <div className={`lg:hidden fixed top-[72px] left-0 right-0 bg-[#020617]/80 backdrop-blur-xl border-b border-white/5 z-40 transition-all duration-500 ease-in-out ${isMenuOpen ? 'translate-y-0 opacity-100 max-h-[calc(100vh-72px)]' : '-translate-y-full opacity-0 max-h-0'
+        }`}>
         <div className="flex flex-col p-6 gap-6 overflow-y-auto max-h-[calc(100vh-72px)]">
           {navLinks.map((link, i) => (
-            <div 
+            <div
               key={link.name}
               className="border-b border-white/5 pb-3"
               style={{ transitionDelay: `${i * 50}ms` }}
@@ -179,7 +175,7 @@ const Navbar = () => {
           <div className="mt-auto  flex flex-col gap-4">
             <div className="flex items-center justify-between text-slate-400 font-mono text-xs uppercase tracking-widest">
               <span>Appearance</span>
-              <button 
+              <button
                 onClick={() => setIsDark(!isDark)}
                 className="p-2 bg-white/5 rounded-lg"
               >
