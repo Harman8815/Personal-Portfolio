@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy,
@@ -31,31 +31,49 @@ import {
 import { LeetCodeCard, GFGCard, InterviewBitCard } from "./components/Cards";
 import { GitHubHeatmap } from "./components/GitHubHeatmap";
 import { UnifiedModal } from "./components/UnifiedModal";
+import { EnhancedCardWrapper } from "./components/EnhancedCardStyles";
+import {
+  CodeBracketOpen,
+  CodeBracketClose,
+  CodeSlash,
+  CodeBrackets,
+  CodeCurly,
+  CodeSquare,
+  CodeFunction,
+  CodeConst,
+  CodeLet,
+  CodeReturn,
+  CodeExport,
+  CodeAsync,
+  CodeAwait
+} from "./components/CodingSymbols";
 import { useGitHubData } from "../../../hooks/useGitHubData";
 import {
   leetCodeBadges,
   interviewBitBadges,
-} from "../../../data/achievementsPageData.js";
+  achievementsTabs,
+  careerMilestones,
+  impactData,
+  getIcon,
+  getCustomIcon,
+} from "../../../data/achievements/index.js";
+import "./components/AchievementsBackground.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AchievementsPage = () => {
   const [activeTab, setActiveTab] = useState("mastery");
   const [isLoading, setIsLoading] = useState(true);
-
   const [modalOpen, setModalOpen] = useState(false);
   const [modalType, setModalType] = useState(null);
   const [modalContent, setModalContent] = useState(null);
 
-  // Fetch GitHub data with caching
   const { data: githubData, isLoading: githubLoading, error: githubError } = useGitHubData();
 
-  // Handle GitHub error
   if (githubError) {
     console.error('GitHub data fetch error:', githubError);
   }
 
-  // Debug: Log the GitHub data when available
   if (githubData) {
     console.log('GitHub data loaded:', githubData.stats);
   }
@@ -91,28 +109,10 @@ const AchievementsPage = () => {
     }
   }, [activeTab, isLoading, githubLoading]);
 
-  const tabs = [
-    {
-      id: "mastery",
-      label: "Coding Mastery",
-      icon: <Trophy className="w-4 h-4" />,
-    },
-    {
-      id: "activity",
-      label: "Development Activity",
-      icon: <Activity className="w-4 h-4" />,
-    },
-    {
-      id: "impact",
-      label: "Impact & Milestones",
-      icon: <Zap className="w-4 h-4" />,
-    },
-    {
-      id: "awards",
-      label: "Awards & Badges",
-      icon: <Award className="w-4 h-4" />,
-    },
-  ];
+  const tabs = achievementsTabs.map(tab => ({
+    ...tab,
+    icon: getIcon(tab.icon, "w-4 h-4")
+  }));
 
   if (isLoading || githubLoading) {
     return (
@@ -134,7 +134,35 @@ const AchievementsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12 selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12 selection:bg-cyan-500/30 relative overflow-hidden">
+      {/* Background Design Effects */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Floating Geometric Shapes */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-cyan-500/5 to-transparent rounded-full blur-3xl opacity-30"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-tl from-purple-500/5 to-transparent rounded-full blur-2xl opacity-20"></div>
+        <div className="absolute bottom-32 left-1/4 w-40 h-40 bg-gradient-to-r from-blue-500/5 to-transparent rounded-full blur-3xl opacity-25"></div>
+
+        {/* Subtle Grid Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="h-full w-full bg-grid-pattern"></div>
+        </div>
+
+        {/* Floating Particles */}
+        <div className="absolute top-1/4 left-1/3 w-2 h-2 bg-cyan-400/30 rounded-full animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-purple-400/20 rounded-full animate-ping"></div>
+        <div className="absolute bottom-1/4 left-1/2 w-2 h-2 bg-blue-400/25 rounded-full animate-bounce"></div>
+        <div className="absolute top-1/2 right-1/3 w-1 h-1 bg-indigo-400/30 rounded-full animate-pulse"></div>
+
+        {/* Light Beams */}
+        <div className="absolute top-0 left-1/4 w-px h-64 bg-gradient-to-b from-cyan-400/20 to-transparent transform rotate-45"></div>
+        <div className="absolute top-0 right-1/4 w-px h-48 bg-gradient-to-b from-purple-400/15 to-transparent transform -rotate-45"></div>
+        <div className="absolute bottom-0 left-1/3 w-px h-56 bg-gradient-to-t from-blue-400/20 to-transparent transform rotate-45"></div>
+
+        {/* Orbital Rings */}
+        <div className="absolute top-1/3 left-1/2 w-64 h-64 border border-cyan-400/10 rounded-full animate-spin-slow"></div>
+        <div className="absolute bottom-1/3 right-1/2 w-48 h-48 border border-purple-400/10 rounded-full animate-spin-slow-reverse"></div>
+      </div>
+
       <BackgroundLayer type="mesh" />
 
       <AnimatePresence>
@@ -152,17 +180,19 @@ const AchievementsPage = () => {
                   Data-Driven Evolution
                 </span>
               </div>
+
               <h1 className="text-7xl md:text-9xl font-black text-white uppercase tracking-tighter mb-8 leading-[0.85]">
                 Achieve
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600">
                   ments
                 </span>
               </h1>
+
               <p className="text-slate-400 text-xl md:text-2xl max-w-3xl mx-auto font-light leading-relaxed">
                 A cinematic visualization of technical growth, competitive
                 mastery, and the measurable impact of engineering excellence.
               </p>
-            </motion.div>
+            </motion.div> {/* ✅ FIX: this was missing */}
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -176,8 +206,8 @@ const AchievementsPage = () => {
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
                     className={`relative flex items-center gap-3 px-8 py-4 rounded-2xl text-[10px] font-mono uppercase tracking-[0.2em] transition-all duration-500 ${activeTab === tab.id
-                        ? "text-white"
-                        : "text-slate-500 hover:text-slate-300"
+                      ? "text-white"
+                      : "text-slate-500 hover:text-slate-300"
                       }`}
                   >
                     {activeTab === tab.id && (
@@ -197,437 +227,352 @@ const AchievementsPage = () => {
                 ))}
               </div>
             </motion.div>
+
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-7xl mx-auto space-y-32"
+            >
+              {activeTab === "mastery" && (
+                <div className="space-y-16">
+                  <section className="relative w-full overflow-hidden">
+                    {/* Background Coding Symbols */}
+                    <div className="absolute inset-0 pointer-events-none z-0">
+                      {/* Floating Code Brackets */}
+                      <div className="absolute top-10 left-10 text-cyan-500/10 font-mono text-6xl opacity-20">
+                        {'< />'}
+                      </div>
+                      <div className="absolute top-20 right-10 text-cyan-500/10 font-mono text-6xl opacity-20 rotate-12">
+                        {'</>'}
+                      </div>
+                      {/* ... */}
+                    </div>
+
+                    <div className="flex items-center gap-6 mb-16 max-w-[80%] mx-auto relative z-10">
+                      <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-400">
+                        <Trophy className="w-8 h-8" />
+                      </div>
+                      <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
+                        Coding Mastery
+                      </h2>
+                      <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                    </div>
+
+                    <div className="space-y-8 max-w-7xl mx-auto relative z-10">
+                      {/* Row 1: LeetCode (2 columns width) */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <EnhancedCardWrapper 
+                          key="leetcode"
+                          variant="impact"
+                          delay={0}
+                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 lg:col-span-2"
+                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                        >
+                          <LeetCodeCard />
+                        </EnhancedCardWrapper>
+                      </div>
+
+                      {/* Row 2: GFG and InterviewBit (50:50 ratio) */}
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <EnhancedCardWrapper 
+                          key="gfg"
+                          variant="impact"
+                          delay={0.2}
+                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                        >
+                          <GFGCard />
+                        </EnhancedCardWrapper>
+
+                        <EnhancedCardWrapper 
+                          key="interviewbit"
+                          variant="impact"
+                          delay={0.4}
+                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                        >
+                          <InterviewBitCard />
+                        </EnhancedCardWrapper>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              )}
+
+              {activeTab === "activity" && (
+                <div className="space-y-32">
+                  <section>
+                    <div className="flex items-center gap-6 mb-16">
+                      <div className="p-4 rounded-2xl bg-green-500/10 text-green-400">
+                        <Github className="w-8 h-8" />
+                      </div>
+                      <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
+                        Development Activity
+                      </h2>
+                      <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                    </div>
+
+                    <GitHubHeatmap githubData={githubData} />
+                  </section>
+
+                  <section>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                      {(githubData
+                        ? [
+                          {
+                            label: "Total Contributions",
+                            value: Number(githubData.stats.totalContributions) || 0,
+                            icon: <Github className="w-8 h-8" />,
+                            color: "text-cyan-400",
+                          },
+                          {
+                            label: "2026 Contributions",
+                            value: Number(githubData.stats.currentYearContributions) || 0,
+                            icon: <Calendar className="w-8 h-8" />,
+                            color: "text-green-400",
+                          },
+                          {
+                            label: "Current Streak",
+                            value: Number(githubData.stats.currentStreak) || 0,
+                            icon: <Zap className="w-8 h-8" />,
+                            color: "text-orange-400",
+                          },
+                          {
+                            label: "Longest Streak",
+                            value: Number(githubData.stats.longestStreak) || 0,
+                            icon: <Trophy className="w-8 h-8" />,
+                            color: "text-purple-400",
+                          },
+                          {
+                            label: "Repositories",
+                            value: Number(githubData.stats.repositories) || 0,
+                            icon: <Code2 className="w-8 h-8" />,
+                            color: "text-blue-400",
+                          },
+                          {
+                            label: "Followers",
+                            value: Number(githubData.stats.followers) || 0,
+                            icon: <Activity className="w-8 h-8" />,
+                            color: "text-pink-400",
+                          },
+                          {
+                            label: "Following",
+                            value: Number(githubData.stats.following) || 0,
+                            icon: <Rocket className="w-8 h-8" />,
+                            color: "text-indigo-400",
+                          },
+                        ]
+                        : Array(8).fill(null).map((_, i) => ({
+                          label: "Loading",
+                          value: null,
+                          icon: <div className="w-8 h-8 bg-white/10 rounded-lg animate-pulse" />,
+                          color: "text-slate-400",
+                        })))
+                        .map((stat, i) => (
+                          <EnhancedCardWrapper
+                            key={i}
+                            variant="stat"
+                            delay={i * 0.1}
+                            className="relative p-6 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                            style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                          >
+                            <div className="flex items-center gap-4">
+                              <div className="p-2 rounded-xl bg-white/10">
+                                {stat.icon}
+                              </div>
+                              <div className="flex-1">
+                                <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest mb-1">
+                                  {stat.label}
+                                </div>
+                                <div className="text-4xl font-bold text-white">
+                                  {stat.value !== null ? stat.value.toLocaleString() : "---"}
+                                </div>
+                              </div>
+                            </div>
+                          </EnhancedCardWrapper>
+                        ))}
+                    </div>
+                  </section>
+                </div>
+              )}
+
+              {activeTab === "impact" && (
+                <div className="space-y-16">
+                  <section>
+                    <div className="flex items-center gap-6 mb-16">
+                      <div className="p-4 rounded-2xl bg-purple-500/10 text-purple-400">
+                        <Zap className="w-8 h-8" />
+                      </div>
+                      <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
+                        Impact & Milestones
+                      </h2>
+                      <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {impactData.map((milestone, i) => (
+                        <EnhancedCardWrapper 
+                          key={milestone.id} 
+                          variant="impact"
+                          delay={i * 0.1}
+                          className="p-8 rounded-[3rem] bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500"
+                          style={{
+                            '--card-bg': milestone.bgGradient ? `linear-gradient(135deg, ${milestone.bgGradient})` : 'rgba(255,255,255,0.05)',
+                            backgroundImage: `linear-gradient(135deg, ${milestone.bgGradient}), var(--card-bg)`
+                          }}
+                        >
+                          <div className="flex items-start justify-between mb-6">
+                            <div className={`inline-flex p-4 rounded-2xl bg-white/5 ${milestone.color || 'text-white'} group-hover:scale-110 transition-transform`}>
+                              {getIcon(milestone.icon)}
+                            </div>
+                            <div className="text-4xl font-black text-white">
+                              {milestone.value}
+                            </div>
+                          </div>
+                          <h3 className="text-xl font-bold text-white mb-3">
+                            {milestone.title}
+                          </h3>
+                          <p className="text-slate-400 text-sm leading-relaxed">
+                            {milestone.description}
+                          </p>
+                        </EnhancedCardWrapper>
+                      ))}
+                    </div>
+                  </section>
+                </div>
+              )}
+
+              {activeTab === "awards" && (
+                <div className="space-y-16">
+                  <section>
+                    <div className="flex items-center gap-6 mb-16">
+                      <div className="p-4 rounded-2xl bg-orange-500/10 text-orange-400">
+                        <Award className="w-8 h-8" />
+                      </div>
+                      <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
+                        Awards & Badges
+                      </h2>
+                      <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8">
+                      {/* Row 1: LeetCode Badges */}
+                      <EnhancedCardWrapper 
+                        variant="award"
+                        className="p-12 rounded-[3rem] bg-[#282828] border border-white/10"
+                        style={{ '--card-bg': '#282828' }}
+                      >
+                        <div className="flex items-center justify-between mb-12">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-lg bg-[#1a1a1a] flex items-center justify-center">
+                              {getCustomIcon('leetcode', 'w-full h-full')}
+                            </div>
+                            <div>
+                              <div className="text-2xl font-bold text-white">
+                                LeetCode Badges
+                              </div>
+                              <div className="text-[12px] text-white/50">
+                                {leetCodeBadges.length} Achievements
+                              </div>
+                            </div>
+                          </div>
+                          <Award className="w-8 h-8 text-[#ffa116]" />
+                        </div>
+                        <BadgeGrid
+                          badges={leetCodeBadges}
+                          onBadgeClick={openBadgeModal}
+                          maxDisplay={50}
+                        />
+                      </EnhancedCardWrapper>
+
+                      {/* Row 2: InterviewBit Badges */}
+                      <EnhancedCardWrapper 
+                        variant="award"
+                        className="p-12 rounded-[3rem] bg-[#0170fe] border border-white/10"
+                        style={{ '--card-bg': '#0170fe' }}
+                      >
+                        <div className="flex items-center justify-between mb-12">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center">
+                              {getCustomIcon('interviewbit', 'w-8 h-8')}
+                            </div>
+                            <div>
+                              <div className="text-2xl font-bold text-white">
+                                InterviewBit Badges
+                              </div>
+                              <div className="text-[12px] text-white/70">
+                                Topic Mastery
+                              </div>
+                            </div>
+                          </div>
+                          <Award className="w-8 h-8 text-white" />
+                        </div>
+                        <BadgeGrid
+                          badges={interviewBitBadges}
+                          onBadgeClick={openBadgeModal}
+                          maxDisplay={50}
+                        />
+                      </EnhancedCardWrapper>
+                    </div>
+                  </section>
+                </div>
+              )}
+            </motion.div>
           </>
         )}
       </AnimatePresence>
 
-      <div className="max-w-7xl mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-32"
-          >
-            {activeTab === "mastery" && (
-              <div className="space-y-16">
-                <section className="relative w-full">
-                  <div className="flex items-center gap-6 mb-16 max-w-[80%] mx-auto">
-                    <div className="p-4 rounded-2xl bg-cyan-500/10 text-cyan-400">
-                      <Trophy className="w-8 h-8" />
-                    </div>
-                    <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
-                      Coding Mastery
-                    </h2>
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
-                  </div>
+      <UnifiedModal
+        isOpen={modalOpen}
+        type={modalType}
+        content={modalContent}
+        onClose={closeModal}
+      />
 
-                  <CardProvider
-                    openCardModal={openCardModal}
-                    closeModal={closeModal}
-                  >
-                    <div className="relative min-h-[800px] space-y-8">
-                      <div className="relative h-[500px]">
-                        <DraggableCard id="leetcode" className="ml-0">
-                          <LeetCodeCard />
-                        </DraggableCard>
-                      </div>
-
-                      <div className="relative h-[500px]">
-                        <DraggableCard id="gfg" className="ml-4">
-                          <GFGCard />
-                        </DraggableCard>
-                      </div>
-
-                      <div className="relative h-[500px]">
-                        <DraggableCard id="interviewbit" className="ml-8">
-                          <InterviewBitCard />
-                        </DraggableCard>
-                      </div>
-                    </div>
-                  </CardProvider>
-                </section>
-              </div>
-            )}
-
-            {activeTab === "activity" && (
-              <div className="space-y-32">
-                <section>
-                  <div className="flex items-center gap-6 mb-16">
-                    <div className="p-4 rounded-2xl bg-green-500/10 text-green-400">
-                      <Github className="w-8 h-8" />
-                    </div>
-                    <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
-                      Development Activity
-                    </h2>
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
-                  </div>
-
-                  <GitHubHeatmap githubData={githubData} />
-                </section>
-
-                <section>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {(githubData
-                      ? [
-                        {
-                          label: "Total Contributions",
-                          value: Number(githubData.stats.totalContributions) || 0,
-                          icon: <Github className="w-8 h-8" />,
-                          color: "text-cyan-400",
-                        },
-                        {
-                          label: "2026 Contributions",
-                          value: Number(githubData.stats.currentYearContributions) || 0,
-                          icon: <Calendar className="w-8 h-8" />,
-                          color: "text-green-400",
-                        },
-                        {
-                          label: "Current Streak",
-                          value: Number(githubData.stats.currentStreak) || 0,
-                          icon: <Zap className="w-8 h-8" />,
-                          color: "text-orange-400",
-                        },
-                        {
-                          label: "Longest Streak",
-                          value: Number(githubData.stats.longestStreak) || 0,
-                          icon: <Trophy className="w-8 h-8" />,
-                          color: "text-purple-400",
-                        },
-                        {
-                          label: "Repositories",
-                          value: Number(githubData.stats.repositories) || 0,
-                          icon: <Code2 className="w-8 h-8" />,
-                          color: "text-blue-400",
-                        },
-                        {
-                          label: "Followers",
-                          value: Number(githubData.stats.followers) || 0,
-                          icon: <Activity className="w-8 h-8" />,
-                          color: "text-pink-400",
-                        },
-                        {
-                          label: "Following",
-                          value: Number(githubData.stats.following) || 0,
-                          icon: <Rocket className="w-8 h-8" />,
-                          color: "text-indigo-400",
-                        },
-                        {
-                          label: "Pull Requests",
-                          value: Number(githubData.stats.pullRequests) || 0,
-                          icon: <ExternalLink className="w-8 h-8" />,
-                          color: "text-emerald-400",
-                        },
-                      ]
-                      : [
-                        {
-                          label: "Loading...",
-                          value: 0,
-                          icon: <Github className="w-8 h-8" />,
-                          color: "text-cyan-400",
-                        },
-                      ]
-                    ).map((stat, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="p-12 rounded-[3rem] bg-white/5 border border-white/10 text-center group hover:bg-white/10 transition-all"
-                      >
-                        <div
-                          className={`inline-flex p-5 rounded-3xl bg-white/5 ${stat.color || "text-white"} mb-8 group-hover:scale-110 transition-transform`}
-                        >
-                          {stat.icon}
-                        </div>
-
-                        <div className="text-6xl font-black text-white mb-4">
-                          <Counter value={stat.value} />
-                        </div>
-
-                        <div className="text-[10px] font-mono text-slate-500 uppercase tracking-[0.3em]">
-                          {stat.label}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </section>
-              </div>
-            )}
-
-            {activeTab === "impact" && (
-              <div className="space-y-32">
-                <section>
-                  <div className="flex items-center gap-6 mb-16">
-                    <div className="p-4 rounded-2xl bg-purple-500/10 text-purple-400">
-                      <Zap className="w-8 h-8" />
-                    </div>
-                    <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
-                      Impact & Milestones
-                    </h2>
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {[
-                      {
-                        title: "Open Source Contributions",
-                        value: "850+",
-                        description: "Commits across 50+ repositories",
-                        icon: <Github className="w-8 h-8" />,
-                        color: "text-purple-400",
-                        bgGradient: "from-purple-500/10 to-pink-500/10"
-                      },
-                      {
-                        title: "Technical Articles",
-                        value: "42",
-                        description: "Published on dev.to and medium",
-                        icon: <BookOpen className="w-8 h-8" />,
-                        color: "text-blue-400",
-                        bgGradient: "from-blue-500/10 to-cyan-500/10"
-                      },
-                      {
-                        title: "Mentorship Hours",
-                        value: "320+",
-                        description: "Helping developers grow their skills",
-                        icon: <Trophy className="w-8 h-8" />,
-                        color: "text-emerald-400",
-                        bgGradient: "from-emerald-500/10 to-green-500/10"
-                      },
-                      {
-                        title: "Code Reviews",
-                        value: "1.2k",
-                        description: "Constructive feedback on pull requests",
-                        icon: <Code2 className="w-8 h-8" />,
-                        color: "text-orange-400",
-                        bgGradient: "from-orange-500/10 to-red-500/10"
-                      },
-                      {
-                        title: "Workshops Conducted",
-                        value: "28",
-                        description: "Technical workshops and webinars",
-                        icon: <Rocket className="w-8 h-8" />,
-                        color: "text-pink-400",
-                        bgGradient: "from-pink-500/10 to-rose-500/10"
-                      },
-                      {
-                        title: "Community Recognition",
-                        value: "15+",
-                        description: "Awards and acknowledgments",
-                        icon: <Award className="w-8 h-8" />,
-                        color: "text-yellow-400",
-                        bgGradient: "from-yellow-500/10 to-amber-500/10"
-                      }
-                    ].map((milestone, i) => (
-                      <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="p-8 rounded-[3rem] bg-gradient-to-br bg-white/5 border border-white/10 group hover:bg-white/10 transition-all duration-500"
-                        style={{
-                          backgroundImage: milestone.bgGradient ? `linear-gradient(135deg, ${milestone.bgGradient})` : 'none'
-                        }}
-                      >
-                        <div className="flex items-start justify-between mb-6">
-                          <div className={`inline-flex p-4 rounded-2xl bg-white/5 ${milestone.color || 'text-white'} group-hover:scale-110 transition-transform`}>
-                            {milestone.icon}
-                          </div>
-                          <div className="text-4xl font-black text-white">
-                            <Counter value={parseInt(milestone.value.replace(/[^0-9]/g, ''))} suffix={milestone.value.replace(/[0-9]/g, '')} />
-                          </div>
-                        </div>
-                        <h3 className="text-xl font-bold text-white mb-3">
-                          {milestone.title}
-                        </h3>
-                        <p className="text-slate-400 text-sm leading-relaxed">
-                          {milestone.description}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </section>
-
-                <section>
-                  <div className="p-16 rounded-[4rem] bg-gradient-to-br from-purple-500/10 via-pink-500/5 to-transparent border border-white/10">
-                    <div className="text-center mb-12">
-                      <h3 className="text-4xl font-black text-white uppercase tracking-tighter mb-6">
-                        Career Milestones
-                      </h3>
-                      <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-                        Key achievements and recognition throughout the professional journey
-                      </p>
-                    </div>
-                    <div className="space-y-6">
-                      {[
-                        {
-                          year: "2024",
-                          title: "Senior Full Stack Developer",
-                          company: "Tech Innovation Labs",
-                          achievement: "Led architecture redesign serving 1M+ users"
-                        },
-                        {
-                          year: "2023",
-                          title: "Technical Lead",
-                          company: "Digital Solutions Inc",
-                          achievement: "Mentored team of 12 developers, improved code quality by 40%"
-                        },
-                        {
-                          year: "2022",
-                          title: "Full Stack Developer",
-                          company: "StartupHub",
-                          achievement: "Built MVP that secured $2M Series A funding"
-                        }
-                      ].map((milestone, i) => (
-                        <motion.div
-                          key={i}
-                          initial={{ opacity: 0, x: -50 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                          className="flex gap-6 p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
-                        >
-                          <div className="flex-shrink-0">
-                            <div className="w-16 h-16 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
-                              <span className="text-lg font-bold text-purple-400">{milestone.year}</span>
-                            </div>
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="text-xl font-bold text-white mb-1">{milestone.title}</h4>
-                            <p className="text-purple-400 text-sm mb-2">{milestone.company}</p>
-                            <p className="text-slate-400">{milestone.achievement}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )}
-
-            {activeTab === "awards" && (
-              <div className="space-y-32">
-                <section>
-                  <div className="flex items-center gap-6 mb-16">
-                    <div className="p-4 rounded-2xl bg-amber-500/10 text-amber-400">
-                      <Award className="w-8 h-8" />
-                    </div>
-                    <h2 className="text-5xl font-black text-white uppercase tracking-tighter">
-                      Awards & Badges
-                    </h2>
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-12">
-                    <div className="p-12 rounded-[3rem] bg-[#282828] border border-white/10">
-                      <div className="flex items-center justify-between mb-12">
-                        <div className="flex items-center gap-4">
-                          <LogoWithLoading
-                            src="https://leetcode.com/_next/static/images/logo-dark-c96c407d175e36c81e236fcf903997f7.png"
-                            alt="LC"
-                            fallbackIcon={<Code2 className="w-6 h-6" />}
-                          />
-                          <div>
-                            <div className="text-2xl font-bold text-white">
-                              LeetCode Badges
-                            </div>
-                            <div className="text-[12px] text-white/50">
-                              {leetCodeBadges.length} Achievements
-                            </div>
-                          </div>
-                        </div>
-                        <Award className="w-8 h-8 text-[#ffa116]" />
-                      </div>
-                      <BadgeGrid
-                        badges={leetCodeBadges}
-                        onBadgeClick={openBadgeModal}
-                        maxDisplay={50}
-                      />
-                    </div>
-
-                    <div className="p-12 rounded-[3rem] bg-[#0170fe] border border-white/10">
-                      <div className="flex items-center justify-between mb-12">
-                        <div className="flex items-center gap-4">
-                          <LogoWithLoading
-                            src="https://www.interviewbit.com/assets/interviewbit/logo-640x640-3435678.png"
-                            alt="IB"
-                            className="bg-white"
-                            fallbackIcon={<Brain className="w-6 h-6" />}
-                          />
-                          <div>
-                            <div className="text-2xl font-bold text-white">
-                              InterviewBit Badges
-                            </div>
-                            <div className="text-[12px] text-white/70">
-                              Topic Mastery
-                            </div>
-                          </div>
-                        </div>
-                        <Award className="w-8 h-8 text-white" />
-                      </div>
-                      <BadgeGrid
-                        badges={interviewBitBadges}
-                        onBadgeClick={openBadgeModal}
-                        maxDisplay={50}
-                      />
-                    </div>
-                  </div>
-                </section>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        <UnifiedModal
-          isOpen={modalOpen}
-          type={modalType}
-          content={modalContent}
-          onClose={closeModal}
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="mt-48 p-20 rounded-[4rem] bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-transparent border border-white/10 text-center relative overflow-hidden"
-        >
-          <BackgroundLayer type="dots" />
-          <div className="relative z-10">
-            <h3 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-8">
-              Infinite Evolution
-            </h3>
-            <p className="text-slate-400 mb-12 max-w-3xl mx-auto text-xl font-light leading-relaxed">
-              These metrics are just the beginning. Every line of code, every
-              solved challenge, and every deployed feature is a step towards
-              technical perfection.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 px-12 py-6 rounded-full bg-white text-black font-black uppercase text-sm tracking-[0.3em] shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-              >
-                <Github size={20} />
-                Explore_GitHub
-              </motion.a>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="https://leetcode.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-4 px-12 py-6 rounded-full bg-white/5 text-white border border-white/10 font-black uppercase text-sm tracking-[0.3em] hover:bg-white/10"
-              >
-                <ExternalLink size={20} />
-                View_LeetCode
-              </motion.a>
-            </div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        className="mt-48 p-20 rounded-[4rem] bg-gradient-to-br from-cyan-500/10 via-blue-500/5 to-transparent border border-white/10 text-center relative overflow-hidden"
+      >
+        <BackgroundLayer type="dots" />
+        <div className="relative z-10">
+          <h3 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter mb-8">
+            Infinite Evolution
+          </h3>
+          <p className="text-slate-400 mb-12 max-w-3xl mx-auto text-xl font-light leading-relaxed">
+            These metrics are just the beginning. Every line of code, every
+            solved challenge, and every deployed feature is a step towards
+            technical perfection.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6">
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://github.com/harman8815?utm_source=portfolio&utm_medium=achievements&utm_campaign=social_links"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 px-12 py-6 rounded-full bg-white text-black font-black uppercase text-sm tracking-[0.3em] shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+            >
+              <Github size={20} />
+              Explore_GitHub
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="https://leetcode.com/harman8815?utm_source=portfolio&utm_medium=achievements&utm_campaign=social_links&referral=harman8815"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-4 px-12 py-6 rounded-full bg-white/5 text-white border border-white/10 font-black uppercase text-sm tracking-[0.3em] hover:bg-white/10"
+            >
+              <ExternalLink size={20} />
+              View_LeetCode
+            </motion.a>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

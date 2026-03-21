@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { LeetCodeCard, GFGCard, InterviewBitCard } from "./Cards";
+import { EnhancedCardWrapper } from "./EnhancedCardStyles";
 
 export const UnifiedModal = ({ isOpen, type, content, onClose }) => {
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   return (
     <AnimatePresence mode="wait">
       {isOpen && type === "badge" && (
@@ -15,26 +30,12 @@ export const UnifiedModal = ({ isOpen, type, content, onClose }) => {
           className="fixed inset-0 z-[5000] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/60"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.5, opacity: 0, rotate: -5 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            exit={{ scale: 0.5, opacity: 0, rotate: 5 }}
-            transition={{
-              type: "spring",
-              damping: 20,
-              stiffness: 300,
-              duration: 0.5,
-            }}
+          <EnhancedCardWrapper 
+            variant="impact"
+            randomColor={true} // Always use random colors for badge modals
             className="relative max-w-lg w-full bg-[#1e293b] border border-white/10 rounded-[3rem] p-12 text-center shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            style={{ '--card-bg': '#1e293b' }}
           >
-            <button
-              onClick={onClose}
-              className="absolute top-8 right-8 p-2 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors z-50"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
             <div className="relative mb-10 mx-auto w-48 h-48 flex items-center justify-center">
               <div className="absolute inset-0 bg-cyan-500/20 blur-2xl rounded-full scale-125 pointer-events-none" />
               <img
@@ -82,7 +83,7 @@ export const UnifiedModal = ({ isOpen, type, content, onClose }) => {
                 </div>
               </motion.div>
             </motion.div>
-          </motion.div>
+          </EnhancedCardWrapper>
         </motion.div>
       )}
 
@@ -95,26 +96,18 @@ export const UnifiedModal = ({ isOpen, type, content, onClose }) => {
           className="fixed inset-0 z-[5000] flex items-center justify-center p-6 backdrop-blur-2xl bg-black/60"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0, y: 50 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.8, opacity: 0, y: 50 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+          <EnhancedCardWrapper 
+            variant="award"
+            randomColor={true} // Always use random colors for card modals
             className="relative max-w-4xl w-full bg-[#0f172a]/95 backdrop-blur-2xl border border-white/10 rounded-[3rem] p-12 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            style={{ '--card-bg': 'rgba(15, 23, 42, 0.95)' }}
           >
-            <button
-              onClick={onClose}
-              className="absolute top-8 right-8 p-3 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors z-20"
-            >
-              <X className="w-6 h-6" />
-            </button>
             <div className="relative z-10">
               {content === "leetcode" && <LeetCodeCard />}
               {content === "gfg" && <GFGCard />}
               {content === "interviewbit" && <InterviewBitCard />}
             </div>
-          </motion.div>
+          </EnhancedCardWrapper>
         </motion.div>
       )}
     </AnimatePresence>

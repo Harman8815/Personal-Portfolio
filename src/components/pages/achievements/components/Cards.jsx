@@ -22,6 +22,7 @@ import {
   YAxis,
 } from "recharts";
 import { DraggableCard } from "./UIComponents";
+import { getCustomIcon } from "../../../../data/achievements/iconMappings.js";
 
 export const JackrankCard = () => {
   const domains = [
@@ -33,63 +34,65 @@ export const JackrankCard = () => {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="flex items-center justify-between p-5 rounded-2xl bg-[#10b981] border border-white/10">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center shadow-lg">
-            <ShieldCheck className="w-8 h-8 text-[#10b981]" />
+      <div className="flex flex-col sm:flex-row items-center justify-between p-4 sm:p-5 rounded-2xl bg-[#282828] border border-white/5">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white flex items-center justify-center shadow-lg">
+            <ShieldCheck className="w-6 h-6 sm:w-8 sm:h-8 text-[#10b981]" />
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">Jackrank</div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-white/20 text-[9px] font-bold text-white uppercase tracking-wider">
+          <div className="text-center sm:text-left">
+            <div className="text-lg sm:text-xl font-bold text-white">Jackrank</div>
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+              <span className="px-2 py-0.5 rounded bg-white/20 text-[8px] sm:text-[9px] font-bold text-white uppercase tracking-wider">
                 Verified Developer
               </span>
-              <span className="text-[10px] text-white/70">
+              <span className="text-[10px] sm:text-[10px] text-white/70">
                 Global Rank: #842
               </span>
             </div>
           </div>
         </div>
-        <div className="text-right">
-          <div className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
+        <div className="text-center sm:text-right">
+          <div className="text-[9px] sm:text-[9px] font-mono text-white/50 uppercase tracking-widest">
             Skill Score
           </div>
-          <div className="text-lg font-bold text-white">9,840</div>
+          <div className="text-2xl sm:text-lg font-bold text-white">9,840</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        <div className="md:col-span-6 p-5 rounded-2xl bg-white border border-slate-200">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">
-            Domain Proficiency
+        <div className="md:col-span-6 p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+          <div className="text-center sm:text-left mb-4">
+            <div className="text-[10px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Domain Proficiency
+            </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {domains.map((domain) => (
-              <div key={domain.name} className="space-y-1">
+              <div key={domain.name} className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <div className="text-xs font-bold text-slate-700">
+                  <div className="text-xs sm:text-sm font-bold text-slate-700">
                     {domain.name}
                   </div>
                   <div className="flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-2.5 h-2.5 ${i < domain.stars ? "text-yellow-400 fill-yellow-400" : "text-slate-200"}`}
+                        className={`w-2 h-2 sm:w-2.5 sm:h-2.5 ${i < domain.stars ? "text-yellow-400 fill-yellow-400" : "text-slate-200"}`}
                       />
                     ))}
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1 sm:h-1.5 bg-slate-100 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${domain.score}%` }}
                       className="h-full bg-[#10b981] rounded-full"
                     />
                   </div>
-                  <span className="text-[9px] font-bold text-slate-400">
+                  <div className="text-[9px] sm:text-[9px] font-bold text-slate-400">
                     #{domain.rank}
-                  </span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -97,60 +100,22 @@ export const JackrankCard = () => {
         </div>
 
         <div className="md:col-span-6 space-y-4">
-          <div className="p-5 rounded-2xl bg-white border border-slate-200">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
-              Recent Certifications
-            </div>
-            <div className="space-y-2">
-              {[
-                {
-                  name: "Frontend Developer (React)",
-                  date: "Mar 2024",
-                  level: "Advanced",
-                },
-                {
-                  name: "Backend Developer (Node)",
-                  date: "Feb 2024",
-                  level: "Intermediate",
-                },
-              ].map((cert) => (
-                <div
-                  key={cert.name}
-                  className="flex items-center gap-3 p-2 rounded-lg bg-slate-50 border border-slate-100"
-                >
-                  <Award className="w-5 h-5 text-[#10b981]" />
-                  <div className="flex-1">
-                    <div className="text-[10px] font-bold text-slate-700">
-                      {cert.name}
-                    </div>
-                    <div className="text-[8px] text-slate-400">
-                      {cert.date} • {cert.level}
-                    </div>
-                  </div>
-                  <div className="px-1.5 py-0.5 rounded bg-[#10b981]/10 text-[7px] font-bold text-[#10b981]">
-                    VERIFIED
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="p-4 rounded-xl bg-[#ecfdf5] border border-emerald-100 flex items-center justify-between">
+          <div className="p-4 sm:p-5 rounded-2xl bg-[#ecfdf5] border border-emerald-100 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-emerald-700">
+              <div className="text-[10px] sm:text-[10px] font-bold text-emerald-700">
                 Skills Verified
               </div>
-              <div className="text-[9px] text-emerald-600">
+              <div className="text-[9px] sm:text-[8px] text-emerald-600">
                 12 Skills across 4 domains
               </div>
             </div>
-            <div className="flex -space-x-2">
+            <div className="flex -space-x-1 sm:-space-x-2">
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="w-7 h-7 rounded-full border-2 border-white bg-emerald-500 flex items-center justify-center"
+                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white bg-emerald-500 flex items-center justify-center"
                 >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                  <CheckCircle2 className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
                 </div>
               ))}
             </div>
@@ -181,39 +146,34 @@ export const LeetCodeCard = () => {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="flex items-center justify-between p-5 rounded-2xl bg-[#282828] border border-white/5 flex-shrink-0">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-[#1a1a1a] flex items-center justify-center border border-white/10">
-            <img
-              src="https://leetcode.com/_next/static/images/logo-dark-c96c407d175e36c81e236fcf903997f7.png"
-              alt="LC"
-              className="w-7 h-7 object-contain"
-              referrerPolicy="no-referrer"
-            />
+      <div className="flex flex-col sm:flex-row items-center justify-between p-3 sm:p-5 rounded-2xl bg-[#282828] border border-white/5">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#1a1a1a] flex items-center justify-center border border-white/10">
+            {getCustomIcon('leetcode', 'w-6 h-6 sm:w-7 sm:h-7')}
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">LeetCode</div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-[#ffa116]/20 text-[9px] font-bold text-[#ffa116] uppercase">
+          <div className="text-center sm:text-left">
+            <div className="text-lg sm:text-xl font-bold text-white">LeetCode</div>
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+              <span className="px-2 py-0.5 rounded bg-[#ffa116]/20 text-[8px] sm:text-[9px] font-bold text-[#ffa116] uppercase">
                 Guardian
               </span>
-              <span className="text-[10px] text-white/50">
-                Top 1.2% • Rank: #12,450
+              <span className="text-[9px] sm:text-[10px] text-white/50">
+                Top 1.2% • <span className="hidden sm:inline">Rank: #12,450</span>
               </span>
             </div>
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-center sm:text-right mt-2 sm:mt-0">
           <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
             Contest Rating
           </div>
-          <div className="text-lg font-bold text-[#ffa116]">2,245</div>
+          <div className="text-lg sm:text-lg font-bold text-[#ffa116]">2,245</div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1">
-        <div className="lg:col-span-4 p-6 rounded-2xl bg-[#282828] border border-white/5 flex flex-col h-full">
-          <div className="relative flex-1 mb-6 min-h-[200px]">
+        <div className="lg:col-span-4 p-4 sm:p-6 rounded-2xl bg-[#282828] border border-white/5 flex flex-col">
+          <div className="relative mb-4 min-h-[180px] sm:min-h-[200px]">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -233,16 +193,16 @@ export const LeetCodeCard = () => {
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="text-3xl font-bold text-white">{totalSolved}</div>
-              <div className="text-[8px] font-mono text-slate-500 uppercase tracking-widest">
+              <div className="text-2xl sm:text-3xl font-bold text-white">{totalSolved}</div>
+              <div className="text-[7px] sm:text-[8px] font-mono text-slate-500 uppercase tracking-widest">
                 Solved
               </div>
             </div>
           </div>
-          <div className="w-full space-y-3 flex-shrink-0">
+          <div className="space-y-2 sm:space-y-3">
             {solvedData.map((item) => (
               <div key={item.name} className="space-y-1">
-                <div className="flex justify-between text-[9px] font-mono uppercase tracking-widest">
+                <div className="flex justify-between text-[8px] sm:text-[9px] font-mono uppercase tracking-widest">
                   <span style={{ color: item.color }}>{item.name}</span>
                   <span className="text-white font-bold">
                     {item.value}
@@ -264,13 +224,13 @@ export const LeetCodeCard = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-8 flex flex-col h-full space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 flex-1">
-            <div className="p-5 rounded-2xl bg-[#282828] border border-white/5 flex flex-col h-full">
-              <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-4 flex-shrink-0">
+        <div className="lg:col-span-8 flex flex-col space-y-3 sm:space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 flex-1">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#282828] border border-white/5 flex flex-col">
+              <div className="text-[9px] sm:text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-3 sm:mb-4">
                 Rating History
               </div>
-              <div className="flex-1 min-h-[100px]">
+              <div className="flex-1 min-h-[80px] sm:min-h-[100px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={ratingData}>
                     <defs>
@@ -308,11 +268,11 @@ export const LeetCodeCard = () => {
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#282828] border border-white/5 flex flex-col h-full">
-              <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-4 flex-shrink-0">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#282828] border border-white/5 flex flex-col">
+              <div className="text-[9px] sm:text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-3 sm:mb-4">
                 Community
               </div>
-              <div className="space-y-3 flex-1">
+              <div className="space-y-2 sm:space-y-3 flex-1">
                 {[
                   {
                     label: "Views",
@@ -333,11 +293,11 @@ export const LeetCodeCard = () => {
                   <div key={i} className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-slate-400">
                       {stat.icon}
-                      <span className="text-[9px] font-mono uppercase tracking-widest">
+                      <span className="text-[8px] sm:text-[9px] font-mono uppercase tracking-widest">
                         {stat.label}
                       </span>
                     </div>
-                    <span className="text-xs font-bold text-white">
+                    <span className="text-xs sm:text-xs font-bold text-white">
                       {stat.value}
                     </span>
                   </div>
@@ -346,7 +306,7 @@ export const LeetCodeCard = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-3 flex-shrink-0">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {[
               { label: "Submissions", value: "4.2k" },
               { label: "Beats", value: "98.5%" },
@@ -355,10 +315,10 @@ export const LeetCodeCard = () => {
             ].map((stat, i) => (
               <div
                 key={i}
-                className="p-3 rounded-xl bg-[#282828] border border-white/5 text-center"
+                className="p-2 sm:p-3 rounded-xl bg-[#282828] border border-white/5 text-center"
               >
-                <div className="text-sm font-bold text-white">{stat.value}</div>
-                <div className="text-[7px] font-mono text-slate-500 uppercase tracking-widest mt-0.5">
+                <div className="text-xs sm:text-sm font-bold text-white">{stat.value}</div>
+                <div className="text-[6px] sm:text-[7px] font-mono text-slate-500 uppercase tracking-widest mt-0.5">
                   {stat.label}
                 </div>
               </div>
@@ -383,52 +343,54 @@ export const GFGCard = () => {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="flex items-center justify-between p-5 rounded-2xl bg-[#004d26] border border-white/10">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center">
+      <div className="flex flex-col sm:flex-row items-center justify-between p-3 sm:p-5 rounded-2xl bg-[#004d26] border border-white/10">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white flex items-center justify-center">
             <img
               src="https://media.geeksforgeeks.org/gfg-gg-logo.svg"
               alt="GFG"
-              className="w-8 h-8"
+              className="w-7 h-7 sm:w-8 sm:h-8"
               referrerPolicy="no-referrer"
             />
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">GeeksForGeeks</div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-white/20 text-[9px] font-bold text-white uppercase">
+          <div className="text-center sm:text-left">
+            <div className="text-lg sm:text-xl font-bold text-white">GeeksForGeeks</div>
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+              <span className="px-2 py-0.5 rounded bg-white/20 text-[8px] sm:text-[9px] font-bold text-white uppercase">
                 Master
               </span>
-              <span className="text-[10px] text-white/70">Rank: #4,210</span>
+              <span className="text-[9px] sm:text-[10px] text-white/70">
+                Rank: #4,210
+              </span>
             </div>
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-center sm:text-right mt-2 sm:mt-0">
           <div className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
             Institute Rank
           </div>
-          <div className="text-lg font-bold text-white">#12</div>
+          <div className="text-lg sm:text-lg font-bold text-white">#12</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        <div className="md:col-span-5 p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
-          <div className="flex justify-between items-center mb-4">
-            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 flex-1">
+        <div className="md:col-span-5 p-4 sm:p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
+            <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest">
               Problems Solved
             </div>
-            <div className="text-xl font-bold text-[#2f8d46]">
+            <div className="text-lg sm:text-xl font-bold text-[#2f8d46]">
               {totalSolved}
             </div>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3 flex-1">
             {gfgData.map((item) => (
               <div key={item.name} className="space-y-1">
-                <div className="flex justify-between text-[9px] font-bold text-slate-600 uppercase">
+                <div className="flex justify-between text-[8px] sm:text-[9px] font-bold text-slate-600 uppercase">
                   <span>{item.name}</span>
                   <span>{item.value}</span>
                 </div>
-                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-1 sm:h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${(item.value / 400) * 100}%` }}
@@ -441,38 +403,38 @@ export const GFGCard = () => {
           </div>
         </div>
 
-        <div className="md:col-span-7 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+        <div className="md:col-span-7 flex flex-col space-y-3 sm:space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                 PotD Streak
               </div>
               <div className="flex items-end gap-2">
-                <div className="text-3xl font-bold text-[#2f8d46]">124</div>
-                <Flame className="w-5 h-5 text-orange-500 mb-1" />
+                <div className="text-2xl sm:text-3xl font-bold text-[#2f8d46]">124</div>
+                <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 mb-1" />
               </div>
-              <div className="mt-4 flex gap-0.5">
+              <div className="mt-3 sm:mt-4 flex gap-0.5">
                 {[1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1].map((active, i) => (
                   <div
                     key={i}
-                    className={`h-4 flex-1 rounded-sm ${active ? "bg-[#2f8d46]" : "bg-slate-200"}`}
+                    className={`h-3 sm:h-4 flex-1 rounded-sm ${active ? "bg-[#2f8d46]" : "bg-slate-200"}`}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-[#f8f9fa] border border-slate-200">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                 Contest Rating
               </div>
-              <div className="text-3xl font-bold text-[#2f8d46]">1,845</div>
-              <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1">
+              <div className="text-2xl sm:text-3xl font-bold text-[#2f8d46]">1,845</div>
+              <div className="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1">
                 Top 5% Globally
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {[
               { label: "Monthly Score", value: "1,450" },
               { label: "Total Score", value: "12.8k" },
@@ -480,12 +442,12 @@ export const GFGCard = () => {
             ].map((stat, i) => (
               <div
                 key={i}
-                className="p-3 rounded-xl bg-[#f8f9fa] border border-slate-200 text-center"
+                className="p-3 sm:p-3 rounded-xl bg-[#f8f9fa] border border-slate-200 text-center"
               >
-                <div className="text-sm font-bold text-[#2f8d46]">
+                <div className="text-sm sm:text-sm font-bold text-[#2f8d46]">
                   {stat.value}
                 </div>
-                <div className="text-[7px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                <div className="text-[6px] sm:text-[7px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
                   {stat.label}
                 </div>
               </div>
@@ -508,49 +470,44 @@ export const InterviewBitCard = () => {
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="flex items-center justify-between p-5 rounded-2xl bg-[#0170fe] border border-white/10">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center">
-            <img
-              src="https://www.interviewbit.com/assets/interviewbit/logo-640x640-3435678.png"
-              alt="IB"
-              className="w-8 h-8"
-              referrerPolicy="no-referrer"
-            />
+      <div className="flex flex-col sm:flex-row items-center justify-between p-3 sm:p-5 rounded-2xl bg-[#0170fe] border border-white/10">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-white flex items-center justify-center">
+            {getCustomIcon('interviewbit', 'w-7 h-7 sm:w-8 sm:h-8')}
           </div>
-          <div>
-            <div className="text-xl font-bold text-white">InterviewBit</div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-white/20 text-[9px] font-bold text-white uppercase">
+          <div className="text-center sm:text-left">
+            <div className="text-lg sm:text-xl font-bold text-white">InterviewBit</div>
+            <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
+              <span className="px-2 py-0.5 rounded bg-white/20 text-[8px] sm:text-[9px] font-bold text-white uppercase">
                 Level 18
               </span>
-              <span className="text-[10px] text-white/70 font-mono">
+              <span className="text-[9px] sm:text-[10px] text-white/70 font-mono">
                 Elite Status
               </span>
             </div>
           </div>
         </div>
-        <div className="text-right">
+        <div className="text-center sm:text-right mt-2 sm:mt-0">
           <div className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
             Global Rank
           </div>
-          <div className="text-lg font-bold text-white">#1,840</div>
+          <div className="text-lg sm:text-lg font-bold text-white">#1,840</div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        <div className="md:col-span-5 p-5 rounded-2xl bg-white border border-slate-200">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 flex-1">
+        <div className="md:col-span-5 p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+          <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 sm:mb-4">
             Topic Mastery
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3 flex-1">
             {topics.map((topic) => (
               <div key={topic.name} className="space-y-1">
-                <div className="flex justify-between text-[9px] font-bold text-slate-600 uppercase">
+                <div className="flex justify-between text-[8px] sm:text-[9px] font-bold text-slate-600 uppercase">
                   <span>{topic.name}</span>
                   <span>{topic.progress}%</span>
                 </div>
-                <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-1 sm:h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${topic.progress}%` }}
@@ -562,48 +519,48 @@ export const InterviewBitCard = () => {
           </div>
         </div>
 
-        <div className="md:col-span-7 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-5 rounded-2xl bg-white border border-slate-200">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+        <div className="md:col-span-7 flex flex-col space-y-3 sm:space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                 Streak
               </div>
               <div className="flex items-end gap-2">
-                <div className="text-3xl font-bold text-[#0170fe]">48</div>
-                <div className="text-xs font-bold text-slate-400 mb-1">
+                <div className="text-2xl sm:text-3xl font-bold text-[#0170fe]">48</div>
+                <div className="text-xs sm:text-xs font-bold text-slate-400 mb-1">
                   Days
                 </div>
               </div>
-              <div className="mt-4 flex -space-x-2">
+              <div className="mt-3 sm:mt-4 flex -space-x-1 sm:-space-x-2">
                 {[1, 2, 3, 4, 5].map((i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white bg-slate-50 flex items-center justify-center"
+                    className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white bg-slate-50 flex items-center justify-center"
                   >
-                    <Trophy className="w-4 h-4 text-[#0170fe]" />
+                    <Trophy className="w-3 h-3 sm:w-4 sm:h-4 text-[#0170fe]" />
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-white border border-slate-200">
-              <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+              <div className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">
                 Coins & Points
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-bold text-slate-500 uppercase">
+                  <span className="text-[8px] sm:text-[9px] font-bold text-slate-500 uppercase">
                     Coins
                   </span>
-                  <span className="text-sm font-bold text-[#0170fe]">
+                  <span className="text-sm sm:text-sm font-bold text-[#0170fe]">
                     4,250
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[9px] font-bold text-slate-500 uppercase">
+                  <span className="text-[8px] sm:text-[9px] font-bold text-slate-500 uppercase">
                     Points
                   </span>
-                  <span className="text-sm font-bold text-[#0170fe]">
+                  <span className="text-sm sm:text-sm font-bold text-[#0170fe]">
                     12,450
                   </span>
                 </div>
@@ -611,16 +568,16 @@ export const InterviewBitCard = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="p-4 rounded-xl bg-white border border-slate-200 text-center">
-              <div className="text-lg font-bold text-[#0170fe]">92%</div>
-              <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 text-center">
+              <div className="text-lg sm:text-lg font-bold text-[#0170fe]">92%</div>
+              <div className="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest">
                 Accuracy
               </div>
             </div>
-            <div className="p-4 rounded-xl bg-white border border-slate-200 text-center">
-              <div className="text-lg font-bold text-[#0170fe]">156</div>
-              <div className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">
+            <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 text-center">
+              <div className="text-lg sm:text-lg font-bold text-[#0170fe]">156</div>
+              <div className="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest">
                 Problems
               </div>
             </div>
