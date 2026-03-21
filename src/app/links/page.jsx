@@ -1,10 +1,10 @@
 
-import Links from "../../components/pages/links/Links.jsx";
+import SocialHub from "../../components/pages/links/Links.jsx";
 
 const LinksPage = () => {
   return (
     <div className="pt-28">
-      <Links />
+      <SocialHub />
     </div>
   );
 };
