@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import Link from 'next/link';
 import ErrorBoundary from "../../../components/ErrorBoundary.jsx";
 import { AutoScrollProvider } from "../../../components/autoScroll/AutoScrollContext.jsx";
+import BackgroundSymbols from "../../../components/common/BackgroundSymbols";
+import { getTechSymbols } from "../../../components/common/BackgroundSymbolsConfig";
 
 // Dynamically import all project detail components
 const ProjectHero = dynamic(() => import("../../../components/projectDetail/ProjectHero.jsx"), { ssr: false });
@@ -71,6 +73,13 @@ export default function ProjectDetailPage() {
     <AutoScrollProvider>
       <ErrorBoundary>
         <div className="relative min-h-screen bg-[#020617] overflow-x-hidden">
+        {/* Dynamic Background Decoration */}
+        <div className="absolute inset-0 z-0">
+          <BackgroundSymbols 
+            symbols={getTechSymbols(project.techStack)} 
+            count={20} 
+          />
+        </div>
         {/* Background Layers */}
         <ParallaxBackground />
         <MarqueeLayer activeKeyword={project.name.split(' ')[0]} />

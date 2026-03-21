@@ -7,6 +7,8 @@ import { twMerge } from 'tailwind-merge';
 import { myProjects, Project } from '../../data/index.js';
 import ProjectCard from './ProjectCard';
 import FilterModal from './FilterModal';
+import BackgroundSymbols from '../common/BackgroundSymbols';
+import { PROJECT_SYMBOLS } from '../common/BackgroundSymbolsConfig';
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -152,7 +154,14 @@ const ProjectsPage = () => {
   }, [advancedFilters]);
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30 relative overflow-hidden">
+      {/* Dynamic Background Decoration */}
+      <div className="absolute inset-0 z-0">
+        <BackgroundSymbols 
+          symbols={PROJECT_SYMBOLS} 
+          count={30} 
+        />
+      </div>
       <FilterModal 
         isOpen={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}

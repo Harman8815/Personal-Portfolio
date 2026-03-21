@@ -13,6 +13,7 @@ import { twMerge } from 'tailwind-merge';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import CertificationSymbols from './CertificationSymbols';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -365,7 +366,10 @@ const CertificationsPage = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30">
+    <div ref={containerRef} className="min-h-screen bg-[#020617] text-white selection:bg-cyan-500/30 relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <CertificationSymbols count={25} />
+      </div>
       <main className="mx-auto max-w-7xl px-6 pt-32 pb-20">
         {isLoading ? (
           <>

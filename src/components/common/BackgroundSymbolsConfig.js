@@ -1,0 +1,101 @@
+import React from "react";
+import { 
+  Cloud, 
+  Shield, 
+  Award, 
+  Globe, 
+  Server, 
+  Database, 
+  Lock, 
+  Cpu, 
+  Zap, 
+  BadgeCheck,
+  FileCheck,
+  Globe2,
+  HardDrive,
+  Network,
+  Terminal,
+  ShieldCheck,
+  Layout,
+  Smartphone,
+  Layers,
+  Code2,
+  Box,
+  Cpu as ProjectCpu,
+  Monitor,
+  Component,
+  Command,
+  Braces,
+  Hash,
+  Share2,
+  Workflow
+} from "lucide-react";
+
+export const CODING_SYMBOLS = [
+  { symbol: "< />", color: "cyan" },
+  { symbol: "</>", color: "purple" },
+  { symbol: "{", color: "blue" },
+  { symbol: "}", color: "indigo" },
+  { symbol: "()", color: "cyan" },
+  { symbol: "[]", color: "purple" },
+  { symbol: "=>", color: "blue" },
+  { symbol: "&&", color: "indigo" },
+  { symbol: "||", color: "cyan" },
+  { symbol: "===", color: "purple" },
+  { symbol: "const", color: "indigo" },
+  { symbol: "async", color: "purple" },
+  { symbol: "await", color: "blue" },
+  { symbol: "return", color: "indigo" },
+  { symbol: "import", color: "blue" },
+  { symbol: "default", color: "purple" },
+  { symbol: "class", color: "indigo" },
+  { symbol: "props", color: "indigo" },
+  { symbol: "state", color: "cyan" },
+];
+
+export const CERTIFICATION_SYMBOLS = [
+  { symbol: <Cloud size={20} />, color: "blue" },
+  { symbol: <Server size={20} />, color: "purple" },
+  { symbol: <Database size={20} />, color: "indigo" },
+  { symbol: <Shield size={20} />, color: "emerald" },
+  { symbol: <Lock size={20} />, color: "orange" },
+  { symbol: <Award size={20} />, color: "amber" },
+  { symbol: <BadgeCheck size={20} />, color: "rose" },
+  { symbol: <Cpu size={20} />, color: "purple" },
+  { symbol: <Terminal size={20} />, color: "cyan" },
+  { symbol: <Globe size={20} />, color: "blue" },
+  { symbol: "AWS", color: "orange" },
+  { symbol: "GCP", color: "blue" },
+  { symbol: "AZURE", color: "cyan" },
+  { symbol: "CLOUD", color: "purple" },
+  { symbol: "CERT", color: "amber" },
+  { symbol: "SECURITY", color: "emerald" },
+];
+export const PROJECT_SYMBOLS = [
+  { symbol: <Layout size={20} />, color: "blue" },
+  { symbol: <Smartphone size={20} />, color: "purple" },
+  { symbol: <Layers size={20} />, color: "indigo" },
+  { symbol: <Code2 size={20} />, color: "cyan" },
+  { symbol: <Box size={20} />, color: "emerald" },
+  { symbol: <Monitor size={20} />, color: "orange" },
+  { symbol: <Component size={20} />, color: "amber" },
+  { symbol: <Command size={20} />, color: "rose" },
+  { symbol: <Braces size={20} />, color: "blue" },
+  { symbol: <Hash size={20} />, color: "purple" },
+  { symbol: <Share2 size={20} />, color: "indigo" },
+  { symbol: <Workflow size={20} />, color: "cyan" },
+  { symbol: "UI/UX", color: "orange" },
+  { symbol: "API", color: "blue" },
+  { symbol: "MERN", color: "cyan" },
+  { symbol: "MVP", color: "purple" },
+  { symbol: "DEV", color: "amber" },
+  { symbol: "PROD", color: "rose" },
+];
+
+export const getTechSymbols = (techStack = []) => {
+  const colors = ["blue", "purple", "indigo", "cyan", "emerald", "orange", "amber", "rose"];
+  return techStack.map((tech, i) => ({
+    symbol: tech,
+    color: colors[i % colors.length]
+  }));
+};
