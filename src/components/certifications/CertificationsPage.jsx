@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Filter, Search, GraduationCap, Trophy, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
+import { Sparkles, Filter, Search, GraduationCap, Trophy, Award, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { certificationsData } from '../../data/index.js';
 import CertificationCard from './CertificationCard';

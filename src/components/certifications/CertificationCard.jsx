@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Calendar, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Calendar, ShieldCheck, Award } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
