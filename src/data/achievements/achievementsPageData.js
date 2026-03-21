@@ -75,48 +75,66 @@ export const githubStats = [
 
 export const projectImpact = [
     {
-        name: "Lumina OS",
-        accomplishment: "Built a custom micro-kernel based operating system in Rust.",
-        challenge: "Managing memory safety without a garbage collector while implementing a custom scheduler.",
-        impact: "Achieved 20% faster context switching than standard educational kernels."
+        name: "Chaos Tracker",
+        accomplishment: "Built a productivity and analytics platform with timeline tracking, goals, and time analysis.",
+        challenge: "Designing a scalable state system with real-time updates using custom WebSockets and Redux.",
+        impact: "Improved personal productivity tracking with structured insights and modular analytics."
     },
     {
-        name: "Nexus Analytics",
-        accomplishment: "Developed a real-time data visualization engine handling 1M+ events/sec.",
-        challenge: "Optimizing WebGL shaders for low-end devices while maintaining 60FPS.",
-        impact: "Reduced data latency by 65% for enterprise clients."
+        name: "Intrusion Detection System (IDS)",
+        accomplishment: "Developed a network-based IDS using ML models and NSL-KDD dataset.",
+        challenge: "Handling feature extraction, anomaly detection, and integrating real-time monitoring.",
+        impact: "Enabled detection of malicious traffic patterns with data-driven analysis and visualization."
     },
     {
-        name: "Aether Cloud",
-        accomplishment: "Architected a serverless deployment platform with integrated edge caching.",
-        challenge: "Implementing a global state synchronization protocol with eventual consistency.",
-        impact: "Scaled to support 500+ concurrent deployments with 99.9% uptime."
+        name: "Agro Predictor",
+        accomplishment: "Created an ML-based crop prediction system using environmental and soil data.",
+        challenge: "Training accurate models with limited and noisy agricultural datasets.",
+        impact: "Provided farmers with better crop recommendations for improved yield decisions."
+    },
+    {
+        name: "Gmail Clone",
+        accomplishment: "Built a full-stack email application with authentication and real-time features.",
+        challenge: "Implementing scalable backend APIs and efficient state management.",
+        impact: "Simulated real-world email workflows with clean UI and responsive interactions."
+    },
+    {
+        name: "3D T-Shirt Designer",
+        accomplishment: "Developed an interactive 3D customization platform using Three.js and React Three Fiber.",
+        challenge: "Handling real-time rendering, texture updates, and smooth user interactions.",
+        impact: "Delivered an immersive product customization experience with real-time preview."
     }
 ];
 
 export const milestones = [
     {
-        title: "First Full Stack App",
-        date: "Jan 2023",
-        description: "Launched 'DevConnect', a social platform for developers using MERN stack.",
-        icon: 'Globe'
+        title: "First MERN Project",
+        date: "2023",
+        description: "Built and deployed full-stack applications using MongoDB, Express, React, and Node.js.",
+        icon: "Globe"
     },
     {
-        title: "Large Scale Deployment",
-        date: "Aug 2023",
-        description: "Successfully migrated a legacy system to Kubernetes, serving 50k+ users.",
-        icon: 'Rocket'
+        title: "Advanced Frontend Engineering",
+        date: "2024",
+        description: "Mastered animations and UI with GSAP, Three.js, and modern design systems.",
+        icon: "Layers"
     },
     {
-        title: "Complex System Implementation",
-        date: "Mar 2024",
-        description: "Built a distributed task queue from scratch using Go and Redis.",
-        icon: 'Cpu'
+        title: "Machine Learning Integration",
+        date: "2024",
+        description: "Implemented ML models in projects like IDS and Agro Predictor using Python.",
+        icon: "Cpu"
     },
     {
-        title: "Advanced UI Framework",
-        date: "Nov 2024",
-        description: "Created 'Prism UI', a high-performance design system with 3D integration.",
-        icon: 'Layers'
+        title: "Real-Time Systems",
+        date: "2025",
+        description: "Built WebSocket-based real-time applications including chat systems and live trackers.",
+        icon: "Zap"
+    },
+    {
+        title: "Full Stack Ecosystem Expansion",
+        date: "2025",
+        description: "Expanded into Electron, GraphQL, PostgreSQL, and scalable architecture patterns.",
+        icon: "Rocket"
     }
 ];

@@ -12,6 +12,7 @@ import {
   ExternalLink,
   Code2,
   Github,
+  GitPullRequest,
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -85,7 +86,8 @@ const AchievementsPage = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
+    // Shorter artificial delay for entrance animations rather than blocking content
+    const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
 
@@ -95,24 +97,8 @@ const AchievementsPage = () => {
     }
   }, [activeTab, isLoading, githubLoading]);
 
-  if (isLoading || githubLoading) {
-    return (
-      <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto space-y-20">
-          <div className="text-center space-y-6">
-            <Skeleton className="h-12 w-48 mx-auto rounded-full" />
-            <Skeleton className="h-24 w-full max-w-4xl mx-auto" />
-            <Skeleton className="h-6 w-full max-w-2xl mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Skeleton className="h-[500px] rounded-[3rem]" />
-            <Skeleton className="h-[500px] rounded-[3rem]" />
-            <Skeleton className="h-[500px] rounded-[3rem]" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // No longer blocking the entire page render
+  // Each section will handle its own loading state for better UX
 
   return (
     <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12 selection:bg-cyan-500/30 relative overflow-hidden">
@@ -248,38 +234,51 @@ const AchievementsPage = () => {
                     <div className="space-y-8 max-w-7xl mx-auto relative z-10">
                       {/* Row 1: LeetCode (2 columns width) */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <EnhancedCardWrapper 
-                          key="leetcode"
-                          variant="impact"
-                          delay={0}
-                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 lg:col-span-2"
-                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
-                        >
-                          <LeetCodeCard />
-                        </EnhancedCardWrapper>
+                        {isLoading ? (
+                          <Skeleton className="h-[500px] sm:h-[550px] rounded-[3rem] lg:col-span-2" />
+                        ) : (
+                          <EnhancedCardWrapper 
+                            key="leetcode"
+                            variant="impact"
+                            delay={0}
+                            className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500 lg:col-span-2"
+                            style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                          >
+                            <LeetCodeCard />
+                          </EnhancedCardWrapper>
+                        )}
                       </div>
 
                       {/* Row 2: GFG and InterviewBit (50:50 ratio) */}
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <EnhancedCardWrapper 
-                          key="gfg"
-                          variant="impact"
-                          delay={0.2}
-                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
-                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
-                        >
-                          <GFGCard />
-                        </EnhancedCardWrapper>
+                        {isLoading ? (
+                          <>
+                            <Skeleton className="h-[500px] sm:h-[550px] rounded-[3rem]" />
+                            <Skeleton className="h-[500px] sm:h-[550px] rounded-[3rem]" />
+                          </>
+                        ) : (
+                          <>
+                            <EnhancedCardWrapper 
+                              key="gfg"
+                              variant="impact"
+                              delay={0.2}
+                              className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                              style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                            >
+                              <GFGCard />
+                            </EnhancedCardWrapper>
 
-                        <EnhancedCardWrapper 
-                          key="interviewbit"
-                          variant="impact"
-                          delay={0.4}
-                          className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
-                          style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
-                        >
-                          <InterviewBitCard />
-                        </EnhancedCardWrapper>
+                            <EnhancedCardWrapper 
+                              key="interviewbit"
+                              variant="impact"
+                              delay={0.4}
+                              className="relative h-[500px] sm:h-[550px] p-6 sm:p-8 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                              style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
+                            >
+                              <InterviewBitCard />
+                            </EnhancedCardWrapper>
+                          </>
+                        )}
                       </div>
                     </div>
                   </section>
@@ -299,17 +298,23 @@ const AchievementsPage = () => {
                       <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
                     </div>
 
-                    <GitHubHeatmap githubData={githubData} />
+                        {isLoading ? (
+                          <Skeleton className="h-[400px] w-full rounded-[2rem]" />
+                        ) : githubLoading ? (
+                          <Skeleton className="h-[400px] w-full rounded-[2rem]" />
+                        ) : (
+                          <GitHubHeatmap githubData={githubData} />
+                        )}
                   </section>
 
                   <section>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                      {(githubData
+                      {(githubData && !githubLoading
                         ? [
                           {
                             label: "Total Contributions",
                             value: Number(githubData.stats.totalContributions) || 0,
-                            icon: <Github className="w-8 h-8" />,
+                            icon: <Activity className="w-8 h-8" />,
                             color: "text-cyan-400",
                           },
                           {
@@ -348,9 +353,15 @@ const AchievementsPage = () => {
                             icon: <Rocket className="w-8 h-8" />,
                             color: "text-indigo-400",
                           },
+                          {
+                            label: "Pull Requests",
+                            value: Number(githubData.stats.pullRequests) || 0,
+                            icon: <GitPullRequest className="w-8 h-8" />,
+                            color: "text-rose-400",
+                          },
                         ]
                         : Array(8).fill(null).map((_, i) => ({
-                          label: "Loading",
+                          label: "Syncing Data",
                           value: null,
                           icon: <div className="w-8 h-8 bg-white/10 rounded-lg animate-pulse" />,
                           color: "text-slate-400",
