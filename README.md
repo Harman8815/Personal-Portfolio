@@ -69,15 +69,19 @@ This portfolio transcends traditional static websites by delivering a cinematic,
 
 ## Demo
 
-**Live Site:** [https://your-portfolio-url.vercel.app](https://your-portfolio-url.vercel.app)
+**Live Site:** [https://harmandevexp.netlify.app/](https://harmandevexp.netlify.app/)
 
-### Screenshots
+## UI Preview
 
-| Hero Section | Projects | Achievements |
-|-------------|----------|--------------|
-| ![Hero](public/assets/images/MP1.png) | ![Projects](public/assets/images/MP2.png) | ![Achievements](public/assets/images/arrow-up.png) |
+### Hero Section
+<img src="https://github.com/user-attachments/assets/c73f7d36-a498-491b-b515-dc613de87036" />
 
----
+### Projects
+<img src="https://github.com/user-attachments/assets/5b105308-63dd-4a1e-8557-042c49f5f5d6" />
+
+### Achievements
+<img src="https://github.com/user-attachments/assets/24cc5024-3b56-4eab-abd8-676ce0ef5ef0" />
+
 
 ## Installation & Setup
 
@@ -218,11 +222,10 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Author
 
-**Your Name**
+**Your Name**## Connect With Me
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- Portfolio: [yourportfolio.com](https://harmandevexp.netlify.app/)
+- GitHub: [@harman88157](https://github.com/harman88157)
+- LinkedIn: [Harman Deep Singh](http://www.linkedin.com/in/harman88157)
 
 ---
 
