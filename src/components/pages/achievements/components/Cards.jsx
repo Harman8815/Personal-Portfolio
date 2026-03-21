@@ -151,7 +151,7 @@ export const LeetCodeCard = () => {
                 Guardian
               </span>
               <span className="text-[9px] sm:text-[10px] text-white/50">
-                Top 1.2% • <span className="hidden sm:inline">Rank: #12,450</span>
+                Top 1.2% • <span className="hidden sm:inline">Rank: #6,551</span>
               </span>
             </div>
           </div>
@@ -160,7 +160,7 @@ export const LeetCodeCard = () => {
           <div className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
             Contest Rating
           </div>
-          <div className="text-lg sm:text-lg font-bold text-[#ffa116]">2,245</div>
+          <div className="text-lg sm:text-lg font-bold text-[#ffa116]">1,596</div>
         </div>
       </div>
 
@@ -269,17 +269,17 @@ export const LeetCodeCard = () => {
                 {[
                   {
                     label: "Views",
-                    value: "12.4k",
+                    value: "888",
                     icon: <Eye className="w-3 h-3" />,
                   },
                   {
                     label: "Solutions",
-                    value: "142",
+                    value: "199",
                     icon: <Code2 className="w-3 h-3" />,
                   },
                   {
-                    label: "Discuss",
-                    value: "84",
+                    label: "Reputation",
+                    value: "2",
                     icon: <MessageSquare className="w-3 h-3" />,
                   },
                 ].map((stat, i) => (
@@ -304,7 +304,7 @@ export const LeetCodeCard = () => {
               { label: "Submissions", value: "4.2k" },
               { label: "Beats", value: "98.5%" },
               { label: "Points", value: "12.5k" },
-              { label: "Streak", value: "45" },
+              { label: "Streak", value: "656" },
             ].map((stat, i) => (
               <div
                 key={i}
@@ -356,7 +356,7 @@ export const GFGCard = () => {
           <div className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
             Institute Rank
           </div>
-          <div className="text-lg sm:text-lg font-bold text-white">#12</div>
+          <div className="text-lg sm:text-lg font-bold text-white">#1</div>
         </div>
       </div>
 
@@ -397,7 +397,7 @@ export const GFGCard = () => {
                 PotD Streak
               </div>
               <div className="flex items-end gap-2">
-                <div className="text-2xl sm:text-3xl font-bold text-[#2f8d46]">124</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#2f8d46]">548</div>
                 <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 mb-1" />
               </div>
               <div className="mt-3 sm:mt-4 flex gap-0.5">
@@ -472,7 +472,7 @@ export const InterviewBitCard = () => {
           <div className="text-[9px] font-mono text-white/50 uppercase tracking-widest">
             Global Rank
           </div>
-          <div className="text-lg sm:text-lg font-bold text-white">#1,840</div>
+          <div className="text-lg sm:text-lg font-bold text-white">#5,406</div>
         </div>
       </div>
 
@@ -507,7 +507,7 @@ export const InterviewBitCard = () => {
                 Streak
               </div>
               <div className="flex items-end gap-2">
-                <div className="text-2xl sm:text-3xl font-bold text-[#0170fe]">48</div>
+                <div className="text-2xl sm:text-3xl font-bold text-[#0170fe]">145</div>
                 <div className="text-xs sm:text-xs font-bold text-slate-400 mb-1">
                   Days
                 </div>
@@ -534,7 +534,7 @@ export const InterviewBitCard = () => {
                     Coins
                   </span>
                   <span className="text-sm sm:text-sm font-bold text-[#0170fe]">
-                    4,250
+                    44,250
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -542,7 +542,7 @@ export const InterviewBitCard = () => {
                     Points
                   </span>
                   <span className="text-sm sm:text-sm font-bold text-[#0170fe]">
-                    12,450
+                    62,450
                   </span>
                 </div>
               </div>
@@ -557,7 +557,7 @@ export const InterviewBitCard = () => {
               </div>
             </div>
             <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 text-center">
-              <div className="text-lg sm:text-lg font-bold text-[#0170fe]">156</div>
+              <div className="text-lg sm:text-lg font-bold text-[#0170fe]">344</div>
               <div className="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest">
                 Problems
               </div>
