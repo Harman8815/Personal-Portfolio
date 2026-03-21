@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, RotateCcw, Settings, X, FastForward, Square } from 'lucide-react';
+import { Play, Pause, Settings, X, FastForward, Square } from 'lucide-react';
 import { useAutoScroll } from '../autoScroll/AutoScrollContext.jsx';
 
 const CinematicController = () => {

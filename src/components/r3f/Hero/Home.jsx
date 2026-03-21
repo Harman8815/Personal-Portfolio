@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Stars, Float } from "@react-three/drei";
+import { OrbitControls, Float } from "@react-three/drei";
 import gsap from "gsap";
 import { Suspense, useRef, useEffect, useState } from "react";
 
@@ -11,12 +11,6 @@ import Laptop from "./Laptop";
 import ModelLoader from "./ModelLoader.jsx";
 import { useLoadingContext } from "../../../context/LoadingContext.jsx";
 import SSRSafeWrapper from "../../common/SSRSafeWrapper.jsx";
-
-const AmbientLight = 'ambientLight';
-const HemisphereLight = 'hemisphereLight';
-const SpotLight = 'spotLight';
-const PointLight = 'pointLight';
-const Group = 'group';
 
 gsap.registerPlugin(ScrollTrigger);
 

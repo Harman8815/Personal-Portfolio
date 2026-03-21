@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Maximize2, X, RotateCcw } from "lucide-react";
+import { Maximize2, X } from "lucide-react";
 import { CardContext } from "../context/Context";
 
 export const BadgeGrid = ({ badges, onBadgeClick }) => {
