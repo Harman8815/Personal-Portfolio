@@ -3,13 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
-import { 
-  Briefcase, 
-  Calendar, 
-  MapPin, 
-  ChevronRight, 
-  Cpu, 
-  Layers, 
+import {
+  Briefcase,
+  Calendar,
+  MapPin,
+  ChevronRight,
+  Cpu,
+  Layers,
   Zap,
   ExternalLink,
   ArrowLeft
@@ -17,51 +17,50 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-
 const experiences = [
   {
     id: 'exp-1',
-    role: "Senior Frontend Engineer",
-    company: "TechNova Systems",
-    period: "2023 - Present",
-    location: "San Francisco, CA",
-    description: "Leading the development of high-performance web applications using React, Three.js, and WebGPU. Optimized rendering pipelines for 60FPS immersive experiences.",
-    skills: ["React", "Three.js", "WebGPU", "GSAP", "TypeScript"],
-    color: "#00D4FF"
+    role: "Contributor",
+    company: "GirlScript Summer of Code",
+    period: "May 2024 - Aug 2024",
+    location: "Remote",
+    description: "Contributed to real-world open-source projects. Collaborated with diverse developers and enhanced skills in web development and version control.",
+    skills: ["Open Source", "Git", "JavaScript", "React", "Collaboration"],
+    color: "#16CC52"
   },
   {
     id: 'exp-2',
-    role: "Full Stack Architect",
-    company: "CloudScale Solutions",
-    period: "2021 - 2023",
+    role: "Research Intern",
+    company: "GWL (ABV-IIITM)",
+    period: "Aug 2024",
     location: "Remote",
-    description: "Architected scalable microservices using Node.js and Go. Implemented distributed caching strategies that reduced API latency by 45%.",
-    skills: ["Node.js", "Go", "Redis", "Docker", "Kubernetes"],
-    color: "#7A5CFF"
+    description: "Conducted research to improve machine learning applications in cybersecurity, analyzing datasets and implementing experimental models.",
+    skills: ["Machine Learning", "Cybersecurity", "Python", "Data Analysis"],
+    color: "#FFFFFF"
   },
   {
     id: 'exp-3',
-    role: "UI/UX Developer",
-    company: "CreativePulse Agency",
-    period: "2019 - 2021",
-    location: "New York, NY",
-    description: "Designed and implemented immersive user interfaces for luxury brands. Focused on motion design and interactive storytelling using GSAP and Canvas.",
-    skills: ["Figma", "GSAP", "Canvas API", "React", "Tailwind"],
-    color: "#FF00D4"
+    role: "Frontend & AWS Intern",
+    company: "WhatBytes",
+    period: "Sep 2023",
+    location: "Remote",
+    description: "Worked on frontend development, AWS cloud setup, backend APIs, and app development tasks. Enhanced full-stack development skills in a production environment.",
+    skills: ["React", "AWS", "Node.js", "Express", "Mobile App Dev"],
+    color: "#2196F3"
   },
   {
     id: 'exp-4',
-    role: "Software Engineer",
-    company: "StartUpHub",
-    period: "2018 - 2019",
-    location: "Austin, TX",
-    description: "Built responsive web applications and contributed to open-source projects. Spearheaded the migration from monolithic to component-based architecture.",
-    skills: ["JavaScript", "React", "Redux", "Sass", "Jest"],
-    color: "#00FFD4"
+    role: "Software Developer",
+    company: "Tata Consultancy Services (TCS)",
+    period: "2022 - 2023",
+    location: "India",
+    description: "Developed enterprise-level applications, focusing on scalable, maintainable, and robust software solutions. Participated in team collaboration and agile processes.",
+    skills: ["Java", "Spring Boot", "Microservices", "Agile", "SQL"],
+    color: "#FFB400"
   }
 ];
 
-const Experience= () => {
+const Experience = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
   const timelineRef = useRef(null);
@@ -84,7 +83,7 @@ const Experience= () => {
       });
 
       // Environment Init
-      masterTl.fromTo(containerRef.current, 
+      masterTl.fromTo(containerRef.current,
         { scale: 0.97, opacity: 0.5 },
         { scale: 1, opacity: 1, duration: 0.5, ease: "expo.out" }
       );
@@ -100,28 +99,28 @@ const Experience= () => {
       experiences.forEach((exp, index) => {
         const node = nodesRef.current[index];
         if (!node) return;
-        
+
         const line = linesRef.current[index];
         const contentElements = node.querySelectorAll('.reveal-item');
-        
+
         const nodeTl = gsap.timeline();
 
         // 2. NODE FORMATION
         nodeTl.fromTo(node,
-          { 
-            scale: 0.8, 
-            opacity: 0, 
-            filter: 'blur(10px)', 
+          {
+            scale: 0.8,
+            opacity: 0,
+            filter: 'blur(10px)',
             pointerEvents: 'none',
             xPercent: index % 2 === 0 ? -60 : -40,
             yPercent: -50
           },
-          { 
-            scale: 1, 
-            opacity: 1, 
-            filter: 'blur(0px)', 
-            pointerEvents: 'auto', 
-            duration: 0.7, 
+          {
+            scale: 1,
+            opacity: 1,
+            filter: 'blur(0px)',
+            pointerEvents: 'auto',
+            duration: 0.7,
             ease: "back.out(1.7)",
             xPercent: index % 2 === 0 ? -60 : -40,
             yPercent: -50
@@ -132,11 +131,11 @@ const Experience= () => {
         if (contentElements) {
           nodeTl.fromTo(contentElements,
             { y: 20, opacity: 0 },
-            { 
-              y: 0, 
-              opacity: 1, 
-              stagger: 0.1, 
-              duration: 0.8, 
+            {
+              y: 0,
+              opacity: 1,
+              stagger: 0.1,
+              duration: 0.8,
               ease: "expo.out",
               onStart: () => {
                 // Chromatic aberration flicker
@@ -179,7 +178,7 @@ const Experience= () => {
 
       // 6. FINAL GRID FORMATION
       masterTl.addLabel("grid-formation", "+=0.5");
-      
+
       // Fade out the timeline line
       masterTl.to(".timeline-line", { opacity: 0, duration: 0.5 }, "grid-formation");
 
@@ -192,7 +191,7 @@ const Experience= () => {
 
         const col = index % cols;
         const row = Math.floor(index / cols);
-        
+
         // Calculate offsets to center the grid
         const xOffset = (col - (cols - 1) / 2) * 90;
         const yOffset = (row - (rows - 1) / 2) * 95;
@@ -245,8 +244,8 @@ const Experience= () => {
   }, []);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <section
+      ref={sectionRef}
       className="relative w-full h-screen bg-[#050505] overflow-hidden flex items-center justify-center"
       id="experience"
     >
@@ -259,7 +258,7 @@ const Experience= () => {
 
         {/* Animated Grid */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
-        
+
         {/* Scanning Line */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent absolute top-0 animate-scan shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
@@ -291,7 +290,7 @@ const Experience= () => {
       </div>
 
       <div ref={containerRef} className="relative w-full max-w-5xl h-full flex items-center justify-center px-6">
-        
+
         {/* Intro Scene Placeholder (Visible initially) */}
         <div className="absolute inset-0 flex flex-col items-center justify-center z-20 pointer-events-none intro-scene">
           <div className="mb-4 inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">
@@ -320,7 +319,7 @@ const Experience= () => {
             >
               {/* Left Side: Icon & Period */}
               <div className="flex flex-col items-center md:items-start gap-4">
-                <div 
+                <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center border border-white/10 bg-white/5 text-white shadow-inner reveal-item"
                   style={{ color: exp.color }}
                 >
@@ -369,7 +368,7 @@ const Experience= () => {
                 {/* Tech Stack */}
                 <div className="flex flex-wrap gap-2 reveal-item">
                   {exp.skills.map(skill => (
-                    <span 
+                    <span
                       key={skill}
                       className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] font-mono text-white/60 uppercase tracking-wider"
                     >
@@ -450,7 +449,7 @@ const Experience= () => {
       {/* Floating Particles (Minimal) */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {Array.from({ length: 20 }).map((_, i) => (
-          <div 
+          <div
             key={i}
             className="absolute w-1 h-1 bg-cyan-500/20 rounded-full animate-float"
             style={{
