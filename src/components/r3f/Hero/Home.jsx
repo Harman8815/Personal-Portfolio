@@ -116,7 +116,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04] pointer-events-none" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 relative z-10">
+      <div className="max-w-7xl pointer-event-none mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 relative z-10">
         {/* Primary Text Area */}
         <div ref={textRef} className="flex flex-col gap-8 max-w-2xl">
           <div className="flex items-center gap-4">
@@ -147,15 +147,15 @@ const Home = ({ onLoad, onLoaderExit }) => {
         </div>
 
         {/* 3D Visualizer - Off-center Laptop */}
-        <div className="h-[500px] lg:h-[800px] w-full relative group">
+        <div className="h-[500px] lg:h-[800px] w-full relative group hidden md:flex min-w-[800px]">
           <div className="absolute inset-0 bg-radial-glow opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
           <SSRSafeWrapper fallback={<div className="w-full h-full bg-[#020617] flex items-center justify-center text-white">Loading 3D Scene...</div>}>
             <Canvas
               shadows
               gl={{ antialias: true, alpha: true }}
-              camera={{ position: [0, 0, 5], fov: 35 }}
+              camera={{ position: [0, 0, 6], fov: 35 }}
             >
-              <Stars radius={100} depth={50} count={1500} factor={6} saturation={0} fade speed={1.5} />
+              {/* <Stars radius={100} depth={50} count={1500} factor={6} saturation={0} fade speed={1.5} /> */}
 
               <ambientLight intensity={0.6} />
               <spotLight position={[10, 10, 10]} intensity={2} angle={0.15} penumbra={1} color="#ffffff" />
@@ -177,7 +177,7 @@ const Home = ({ onLoad, onLoaderExit }) => {
                     LaptopRef={LaptopRef}
                     shouldAnimate={shouldAnimateLaptop}
                     onLoadComplete={() => setLaptopFullyLoaded(true)}
-                    position={[0, -0.5, 0]}
+                    position={[0, 0.8, 0]}
                     rotation={[0, -0.2, 0]}
                     mousePos={mousePos}
                   />
