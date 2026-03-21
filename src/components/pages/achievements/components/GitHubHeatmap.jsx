@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Github, TrendingUp, ChevronDown } from "lucide-react";
@@ -115,7 +116,7 @@ export const GitHubHeatmap = ({ githubData }) => {
 
   // Calculate current streak from contributions (optimized reverse read)
  const currentStreak = useMemo(() => {
-  const allContributions = githubData?.contributions || contributions;
+  const allContributions = githubData?.contributions || [];
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);

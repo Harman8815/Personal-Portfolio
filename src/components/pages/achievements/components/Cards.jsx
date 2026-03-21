@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -20,13 +21,18 @@ import {
   Area,
   XAxis,
   YAxis,
+  Tooltip,
 } from "recharts";
 import { DraggableCard } from "./UIComponents";
-import { getCustomIcon } from "../../../../data/achievements/iconMappings.js";
+import { 
+  getCustomIcon, 
+  leetcodeCardData, 
+  gfgCardData, 
+  interviewBitCardData 
+} from "../../../../data/achievements/index.js";
 
 export const JackrankCard = () => {
   const domains = [
-    { name: "Problem Solving", rank: 120, stars: 5, score: 92 },
     { name: "React.js", rank: 42, stars: 5, score: 98 },
     { name: "Node.js", rank: 88, stars: 4, score: 85 },
     { name: "Python", rank: 210, stars: 4, score: 82 },
@@ -127,20 +133,7 @@ export const JackrankCard = () => {
 };
 
 export const LeetCodeCard = () => {
-  const solvedData = [
-    { name: "Easy", value: 450, total: 600, color: "#00B8A3" },
-    { name: "Medium", value: 820, total: 1200, color: "#FFC01E" },
-    { name: "Hard", value: 180, total: 400, color: "#EF4743" },
-  ];
-
-  const ratingData = [
-    { month: "Jan", rating: 1850 },
-    { month: "Feb", rating: 1920 },
-    { month: "Mar", rating: 1880 },
-    { month: "Apr", rating: 2050 },
-    { month: "May", rating: 2180 },
-    { month: "Jun", rating: 2245 },
-  ];
+  const { solvedData, ratingData } = leetcodeCardData;
 
   const totalSolved = solvedData.reduce((acc, curr) => acc + curr.value, 0);
 
@@ -331,13 +324,7 @@ export const LeetCodeCard = () => {
 };
 
 export const GFGCard = () => {
-  const gfgData = [
-    { name: "School", value: 45, color: "#2f8d46" },
-    { name: "Basic", value: 120, color: "#5cb85c" },
-    { name: "Easy", value: 340, color: "#8bc34a" },
-    { name: "Medium", value: 180, color: "#ffc107" },
-    { name: "Hard", value: 42, color: "#f44336" },
-  ];
+  const { gfgData } = gfgCardData;
 
   const totalSolved = gfgData.reduce((acc, curr) => acc + curr.value, 0);
 
@@ -460,13 +447,7 @@ export const GFGCard = () => {
 };
 
 export const InterviewBitCard = () => {
-  const topics = [
-    { name: "Arrays", progress: 95 },
-    { name: "Strings", progress: 88 },
-    { name: "Hashing", progress: 75 },
-    { name: "Linked Lists", progress: 92 },
-    { name: "Stacks & Queues", progress: 80 },
-  ];
+  const { topics } = interviewBitCardData;
 
   return (
     <div className="flex flex-col gap-4 h-full">

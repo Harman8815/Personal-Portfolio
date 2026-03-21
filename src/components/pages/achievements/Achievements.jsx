@@ -4,16 +4,13 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Trophy,
-  BookOpen,
   Rocket,
   Activity,
   Zap,
   Award,
   Calendar,
-  Clock,
   ExternalLink,
   Code2,
-  Brain,
   Github,
 } from "lucide-react";
 import gsap from "gsap";
@@ -23,30 +20,13 @@ import { CardProvider } from "./context/Context";
 import {
   Skeleton,
   BackgroundLayer,
-  DraggableCard,
-  Counter,
-  LogoWithLoading,
   BadgeGrid,
 } from "./components/UIComponents";
 import { LeetCodeCard, GFGCard, InterviewBitCard } from "./components/Cards";
 import { GitHubHeatmap } from "./components/GitHubHeatmap";
 import { UnifiedModal } from "./components/UnifiedModal";
 import { EnhancedCardWrapper } from "./components/EnhancedCardStyles";
-import {
-  CodeBracketOpen,
-  CodeBracketClose,
-  CodeSlash,
-  CodeBrackets,
-  CodeCurly,
-  CodeSquare,
-  CodeFunction,
-  CodeConst,
-  CodeLet,
-  CodeReturn,
-  CodeExport,
-  CodeAsync,
-  CodeAwait
-} from "./components/CodingSymbols";
+import { DynamicCodingSymbols } from "./components/DynamicCodingSymbols";
 import { useGitHubData } from "../../../hooks/useGitHubData";
 import {
   leetCodeBadges,
@@ -60,6 +40,12 @@ import {
 import "./components/AchievementsBackground.css";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Constants
+const tabs = achievementsTabs.map(tab => ({
+  ...tab,
+  icon: getIcon(tab.icon, "w-4 h-4")
+}));
 
 const AchievementsPage = () => {
   const [activeTab, setActiveTab] = useState("mastery");
@@ -109,11 +95,6 @@ const AchievementsPage = () => {
     }
   }, [activeTab, isLoading, githubLoading]);
 
-  const tabs = achievementsTabs.map(tab => ({
-    ...tab,
-    icon: getIcon(tab.icon, "w-4 h-4")
-  }));
-
   if (isLoading || githubLoading) {
     return (
       <div className="min-h-screen bg-[#020617] pt-32 pb-20 px-6 md:px-12">
@@ -161,6 +142,9 @@ const AchievementsPage = () => {
         {/* Orbital Rings */}
         <div className="absolute top-1/3 left-1/2 w-64 h-64 border border-cyan-400/10 rounded-full animate-spin-slow"></div>
         <div className="absolute bottom-1/3 right-1/2 w-48 h-48 border border-purple-400/10 rounded-full animate-spin-slow-reverse"></div>
+
+        {/* Dynamic Coding Symbols */}
+        <DynamicCodingSymbols count={20} />
       </div>
 
       <BackgroundLayer type="mesh" />
@@ -376,7 +360,7 @@ const AchievementsPage = () => {
                             key={i}
                             variant="stat"
                             delay={i * 0.1}
-                            className="relative p-6 rounded-[3rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
+                            className="relative p-6 p-y-12 rounded-[1.5rem] bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-500"
                             style={{ '--card-bg': 'rgba(255,255,255,0.05)' }}
                           >
                             <div className="flex items-center gap-4">
