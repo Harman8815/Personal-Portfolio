@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutContent from "./AboutContent";
 import MajorProjectsContent from "./MajorProjectsContent";
-import ExperienceBloom from "../pages/experience/ExperienceBloom";
 import Education from "../pages/education/Education";
 import Contact_me from "../contact/Contact_me";
 import EndSequence from "../pages/landing/EndSequence";
@@ -35,24 +34,6 @@ const PortfolioScroll = () => {
     scrollIndicatorRef: useRef(null),
   };
 
-  // Experience Bloom section refs
-  const experienceRefs = {
-    containerRef: useRef(null),
-    wheelRef: useRef(null),
-    headerRef: useRef(null),
-    centerRef: useRef(null),
-    linesContainerRef: useRef(null),
-    clockHandRef: useRef(null),
-    line45Ref: useRef(null),
-    line135Ref: useRef(null),
-    line225Ref: useRef(null),
-    line315Ref: useRef(null),
-    card45Ref: useRef(null),
-    card135Ref: useRef(null),
-    card225Ref: useRef(null),
-    card315Ref: useRef(null),
-  };
-
   // Education section refs
   const educationRefs = {
     containerRef: useRef(null),
@@ -75,7 +56,6 @@ const PortfolioScroll = () => {
 
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [projectsVisible, setProjectsVisible] = useState(false);
-  const [experienceVisible, setExperienceVisible] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
   const [contactVisible, setContactVisible] = useState(false);
   const [endSequenceVisible, setEndSequenceVisible] = useState(false);
@@ -83,7 +63,6 @@ const PortfolioScroll = () => {
   // Use a ref to track the last index we set, to avoid redundant state updates in onUpdate
   const lastIndexRef = useRef(0);
   const projectsVisibleRef = useRef(false);
-  const experienceVisibleRef = useRef(false);
   const educationVisibleRef = useRef(false);
   const contactVisibleRef = useRef(false);
   const endSequenceVisibleRef = useRef(false);
@@ -119,19 +98,8 @@ const PortfolioScroll = () => {
               setActiveProjectIndex(0);
             }
 
-            // Experience bloom visibility - updated to match synchronized transition
-            if (progress > 0.45) {
-              if (!experienceVisibleRef.current) {
-                experienceVisibleRef.current = true;
-                setExperienceVisible(true);
-              }
-            } else if (experienceVisibleRef.current) {
-              experienceVisibleRef.current = false;
-              setExperienceVisible(false);
-            }
-
             // Education section visibility
-            if (progress > 0.65) {
+            if (progress > 0.55) {
               if (!educationVisibleRef.current) {
                 educationVisibleRef.current = true;
                 setEducationVisible(true);
@@ -260,52 +228,6 @@ const PortfolioScroll = () => {
         opacity: 0,
         x: "-50vw",
         scale: 0.8,
-      });
-
-      // Experience Bloom initial states
-      gsap.set(experienceRefs.containerRef.current, {
-        opacity: 0,
-        position: "absolute",
-        inset: 0,
-        zIndex: 80, // Higher than Education for proper layering during exit
-      });
-
-      gsap.set(experienceRefs.headerRef.current, {
-        opacity: 0,
-        scale: 0.8,
-        y: 0,
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        xPercent: -50,
-        yPercent: -50,
-      });
-
-      gsap.set(experienceRefs.wheelRef.current, {
-        opacity: 0,
-        scale: 0.3,
-        rotate: 0,
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        xPercent: -50,
-        yPercent: -50,
-      });
-
-      gsap.set(experienceRefs.centerRef.current, {
-        opacity: 0,
-        scale: 0,
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        xPercent: -50,
-        yPercent: -50,
-      });
-
-      gsap.set(".experience-petal", {
-        opacity: 0,
-        scale: 0.2,
-        rotate: 0,
       });
 
       // Education section initial states
@@ -731,95 +653,22 @@ const PortfolioScroll = () => {
           "projects-rotation",
         )
 
-        .to({}, { duration: 5 }) // Final buffer before transition
+        .to({}, { duration: 0.5 }) // Final buffer before transition
 
-        // 6. SYNCHRONIZED WHEEL TRANSITION - MAJOR PROJECTS EXIT + EXPERIENCE ENTRY OVERLAP
-        .addLabel("wheel-transition")
+        // 6. SYNCHRONIZED TRANSITION - MAJOR PROJECTS EXIT + EDUCATION ENTRY
+        .addLabel("projects-transition")
 
-        // Background transition: keep full opacity for visibility during transition
+        // === MAJOR PROJECTS CLEANUP ===
         .to(
-          sectionRef.current,
+          projectsRefs.containerRef.current,
           {
-            opacity: 1, // Keep full opacity to maintain visibility
+            opacity: 0,
             duration: 3,
             ease: "power2.inOut",
           },
-          "wheel-transition",
+          "projects-transition",
         )
 
-        // === MAJOR PROJECTS WHEEL MOVE TO CENTER (NO FADE YET) ===
-        // Wheel moves to center first, maintaining full opacity
-        .to(
-          projectsRefs.wheelRef.current,
-          {
-            x: () => (window.innerWidth >= 768 ? "-28vw" : "0"), // Responsive centering
-            duration: 2.5,
-            ease: "power3.inOut",
-          },
-          "wheel-transition",
-        )
-
-        // === SYNCHRONIZED CROSS-FADE (CENTER POSITION) ===
-        .addLabel("cross-fade", "wheel-transition+=2.5")
-
-        // Major Projects wheel fades out from center
-        .to(
-          projectsRefs.wheelRef.current,
-          {
-            rotate: "-=45", // Subtle rotation during fade
-            opacity: 0,
-            duration: 2.5,
-            ease: "power3.inOut",
-          },
-          "cross-fade",
-        )
-
-        // Experience wheel fades in at center (perfect cross-fade)
-        .fromTo(
-          experienceRefs.wheelRef.current,
-          {
-            opacity: 0,
-            scale: 0.3,
-            rotate: 45, // Mirror entry rotation
-            x: 0,
-            y: 0,
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            rotate: 0, // Neutral position
-            x: 0,
-            y: 0,
-            duration: 2.5, // Same duration as Major Projects fade
-            ease: "power3.inOut", // Same easing as Major Projects fade
-          },
-          "cross-fade", // Same start time for perfect cross-fade
-        )
-
-        // Experience container becomes visible
-        .to(
-          experienceRefs.containerRef.current,
-          {
-            opacity: 1,
-            filter: "blur(0px)",
-            duration: 1,
-          },
-          "wheel-transition+=0.5",
-        )
-
-        // === MAJOR PROJECTS CLEANUP ===
-        // Cards fade out
-        .to(
-          projectsRefs.cardContainerRef.current,
-          {
-            opacity: 0,
-            duration: 2,
-            ease: "power2.in",
-          },
-          "wheel-transition+=0.5",
-        )
-
-        // Header fades out upward
         .to(
           projectsRefs.headerRef.current,
           {
@@ -829,644 +678,39 @@ const PortfolioScroll = () => {
             duration: 3,
             ease: "power2.in",
           },
-          "wheel-transition+=0.5",
+          "projects-transition",
         )
 
-        // Container cleanup
         .to(
-          projectsRefs.containerRef.current,
+          projectsRefs.wheelRef.current,
+          {
+            opacity: 0,
+            scale: 0.5,
+            duration: 2,
+            ease: "power2.in",
+          },
+          "projects-transition",
+        )
+
+        .to(
+          projectsRefs.cardContainerRef.current,
           {
             opacity: 0,
             duration: 2,
             ease: "power2.in",
           },
-          "wheel-transition+=1.5",
+          "projects-transition",
         )
 
-        // 7. EXPERIENCE WHEEL EXPANSION PHASE
-        .addLabel("experience-expansion", "wheel-transition+=2")
-
-        // Center decorative element appears
-        .to(
-          experienceRefs.centerRef.current,
-          {
-            opacity: 0.8,
-            scale: 1,
-            duration: 3,
-            y: 10,
-            ease: "back.out(1.3)",
-          },
-          "experience-expansion+=0.5",
-        )
-
-        // Header emerges from center (same pattern as previous sections)
-        .fromTo(
-          experienceRefs.headerRef.current,
-          {
-            opacity: 0,
-            scale: 0.2, // Same entry scale as Major Projects header
-            y: 0,
-            yPercent: -50,
-          },
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 3,
-            ease: "back.out(1.6)", // Same easing as Major Projects header
-          },
-          "experience-expansion+=0.5",
-        )
-
-        // 8. HEADER LIFT ANIMATION (CENTER → TOP)
-        .addLabel("header-lift", "experience-expansion+=3.5")
-
-        // Header moves to top position (mirroring Major Projects header animation)
-        .to(
-          experienceRefs.headerRef.current,
-          {
-            y: "-38vh", // Same translateY as Major Projects header
-            duration: 3, // Same duration as Major Projects header
-            ease: "power3.inOut", // Same easing as Major Projects header
-          },
-          "header-lift",
-        )
-
-        // 9. CLOCK-HAND FORMATION ANIMATION (after header moves up)
-        .addLabel("clock-hand-formation", "header-lift+=0.5")
-
-        // Part 1: Initial Line Spawn
-        .to(
-          experienceRefs.clockHandRef.current,
-          {
-            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
-            duration: 0.8, // Short, sharp grow
-            ease: "power2.out", // Same micro-ease as line/petal animations
-          },
-          "clock-hand-formation",
-        )
-
-        // Part 2: Clock-Hand Rotation + Line Duplication
-        .addLabel("clock-hand-rotation", "clock-hand-formation+=0.5")
-
-        // Rotate 45° → 135°
-        .to(
-          experienceRefs.clockHandRef.current,
-          {
-            rotation: 135,
-            duration: 1.5,
-            ease: "power1.inOut", // Smooth scrub-based rotation
-          },
-          "clock-hand-rotation",
-        )
-
-        // Clone at 45° and freeze
-        .to(
-          experienceRefs.line45Ref.current,
-          {
-            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
-            opacity: 1,
-            rotation: 45,
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          "clock-hand-rotation+=0.1", // Clone immediately after rotation starts
-        )
-
-        // Show card for 45° line
-        .to(
-          experienceRefs.card45Ref.current,
-          {
-            opacity: 1,
-            pointerEvents: "auto",
-            duration: 0.5,
-            ease: "back.out(1.2)",
-          },
-          "clock-hand-rotation+=0.2",
-        )
-
-        // Rotate 135° → 225°
-        .to(
-          experienceRefs.clockHandRef.current,
-          {
-            rotation: 225,
-            duration: 1.5,
-            ease: "power1.inOut",
-          },
-          "clock-hand-rotation+=1.5",
-        )
-
-        // Clone at 135° and freeze
-        .to(
-          experienceRefs.line135Ref.current,
-          {
-            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
-            opacity: 1,
-            rotation: 135,
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          "clock-hand-rotation+=1.6",
-        )
-
-        // Show card for 135° line
-        .to(
-          experienceRefs.card135Ref.current,
-          {
-            opacity: 1,
-            pointerEvents: "auto",
-            duration: 0.5,
-            ease: "back.out(1.2)",
-          },
-          "clock-hand-rotation+=1.7",
-        )
-
-        // Rotate 225° → 315°
-        .to(
-          experienceRefs.clockHandRef.current,
-          {
-            rotation: 315,
-            duration: 1.5,
-            ease: "power1.inOut",
-          },
-          "clock-hand-rotation+=3.0",
-        )
-
-        // Clone at 225° and freeze
-        .to(
-          experienceRefs.line225Ref.current,
-          {
-            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
-            opacity: 1,
-            rotation: 225,
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          "clock-hand-rotation+=3.1",
-        )
-
-        // Show card for 225° line
-        .to(
-          experienceRefs.card225Ref.current,
-          {
-            opacity: 1,
-            pointerEvents: "auto",
-            duration: 0.5,
-            ease: "back.out(1.2)",
-          },
-          "clock-hand-rotation+=3.2",
-        )
-
-        // Clone at 315° and freeze (final line)
-        .to(
-          experienceRefs.line315Ref.current,
-          {
-            height: window.innerWidth >= 768 ? "19.25vw" : "15.4vw", // Increased by 10%
-            opacity: 1,
-            rotation: 315,
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          "clock-hand-rotation+=4.6",
-        )
-
-        // Show card for 315° line
-        .to(
-          experienceRefs.card315Ref.current,
-          {
-            opacity: 1,
-            pointerEvents: "auto",
-            duration: 0.5,
-            ease: "back.out(1.2)",
-          },
-          "clock-hand-rotation+=4.7",
-        )
-
-        // Part 3: Kill rotation and hide clock hand immediately after 4th line
-        .to(
-          experienceRefs.clockHandRef.current,
-          {
-            opacity: 0, // Hide the rotating clock hand
-            duration: 0.5,
-            ease: "power2.in",
-          },
-          "clock-hand-rotation+=5.2", // Vanish after final card appears
-        )
-
-        .to({}, { duration: 5 }) // Hold for viewing
-
-        // 10. SECONDARY BLOOM EXPANSION PHASE
-        .addLabel("secondary-bloom-start")
-        .call(
-          () => console.log("Secondary bloom phase reached"),
-          [],
-          "secondary-bloom-start",
-        )
-
-        // Phase 1 — Cards expand and reveal detailed content
-        .addLabel("card-expansion", "secondary-bloom-start")
-
-        // Card 45° expansion and content reveal
-        .to(
-          experienceRefs.card45Ref.current,
-          {
-            scale: 1.2, // Reduced scale for compact cards
-            width: "18rem", // Compact width
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          experienceRefs.card45Ref.current,
-          {
-            transform:
-              "rotate(45deg) translateY(-18vw) translateY(-2rem) rotate(-45deg) translateX(-2rem) translateY(-1rem)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card45Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 1,
-            maxHeight: "150px", // Compact height for 2 lines
-            padding: "0 0.5rem 0.5rem 0.5rem",
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "card-expansion+=0.5",
-        )
-
-        // Card 135° expansion and content reveal
-        .to(
-          experienceRefs.card135Ref.current,
-          {
-            scale: 1.2,
-            width: "18rem",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          experienceRefs.card135Ref.current,
-          {
-            transform:
-              "rotate(135deg) translateY(-18vw) translateY(-2rem) rotate(-135deg) translateX(-2rem) translateY(-2rem)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card135Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 1,
-            maxHeight: "150px",
-            padding: "0 0.5rem 0.5rem 0.5rem",
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "card-expansion+=0.7",
-        )
-
-        // Card 225° expansion and content reveal
-        .to(
-          experienceRefs.card225Ref.current,
-          {
-            scale: 1.2,
-            width: "18rem",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          experienceRefs.card225Ref.current,
-          {
-            transform:
-              "rotate(225deg) translateY(-18vw) translateY(-2rem) rotate(-225deg) translateX(-14rem) translateY(-2rem)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card225Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 1,
-            maxHeight: "150px",
-            padding: "0 0.5rem 0.5rem 0.5rem",
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "card-expansion+=0.9",
-        )
-
-        // Card 315° expansion and content reveal
-        .to(
-          experienceRefs.card315Ref.current,
-          {
-            scale: 1.2,
-            width: "18rem",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          experienceRefs.card315Ref.current,
-          {
-            transform:
-              "rotate(315deg) translateY(-18vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "card-expansion",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card315Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 1,
-            maxHeight: "150px",
-            padding: "0 0.5rem 0.5rem 0.5rem",
-            duration: 1.5,
-            ease: "power2.inOut",
-          },
-          "card-expansion+=1.1",
-        )
-
-        // Phase 2 — Hold expanded state for viewing
-        .to({}, { duration: 10 }) // Extended hold for reading detailed content
-
-        // Phase 3 — Pre-Exit Content Hide and Card Recompression
-        .addLabel("recompression-start")
-
-        // Hide content first
-        .to(
-          gsap.utils.selector(experienceRefs.card45Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 0,
-            maxHeight: "0",
-            padding: "0 0.5rem 0 0.5rem",
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "recompression-start",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card135Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 0,
-            maxHeight: "0",
-            padding: "0 0.5rem 0 0.5rem",
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "recompression-start+=0.2",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card225Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 0,
-            maxHeight: "0",
-            padding: "0 0.5rem 0 0.5rem",
-            duration: 1,
-            ease: "power2.inOut",
-          },
-          "recompression-start+=0.4",
-        )
-        .to(
-          gsap.utils.selector(experienceRefs.card315Ref.current)(
-            ".expanded-content",
-          ),
-          {
-            opacity: 0,
-            maxHeight: "0",
-            padding: "0 0.5rem 0 0.5rem",
-            duration: 1,
-            width: "16rem",
-            transform:
-              "rotate(315deg) translateY(-19.25vw) translateY(-2rem) rotate(-315deg) translateX(-16rem) translateX(2rem) translateY(-1rem)",
-            duration: 2,
-            ease: "power2.inOut",
-          },
-          "recompression-start",
-        )
-
-        .to({}, { duration: 2 }) // Brief pause before collapse
-
-        // 12. SYNCHRONIZED EXPERIENCE COLLAPSE + EDUCATION ENTRANCE
-        .addLabel("experience-collapse-start")
-
-        // === SYNCHRONIZED PHASE 1: Experience Wheel Contracts + Education Header Zooms In ===
-        .addLabel("synchronized-transition", "experience-collapse-start")
-
-        // Education container becomes visible ONLY when header starts (after Experience is gone)
+        // No hold, transition immediately
         .set(
           educationRefs.containerRef.current,
           { opacity: 1 },
-          "education-header-entrance",
+          "projects-transition+=2.0",
         )
-
-        // Experience wheel begins shrinking/contracting with blur effect
-        .to(
-          experienceRefs.wheelRef.current,
-          {
-            scale: 0.1, // Shrink dramatically
-            opacity: 0.3, // Fade partially
-            filter: "blur(2px)", // Add subtle blur during exit
-            duration: 3,
-            ease: "power3.in",
-          },
-          "synchronized-transition",
-        )
-
-        // Experience petals collapse with wheel and blur
-        .to(
-          ".experience-petal",
-          {
-            scale: 0.1,
-            opacity: 0,
-            filter: "blur(1.5px)", // Add blur to petals
-            duration: 2.5,
-            ease: "power2.in",
-          },
-          "synchronized-transition+=0.5",
-        )
-
-        // Pre-Collapse Heart Beat (Inner Circle Pulse) - happens simultaneously with header zoom
-        .addLabel("heartbeat-phase", "synchronized-transition")
-        .to(
-          experienceRefs.centerRef.current,
-          {
-            scale: 1.15,
-            filter: "blur(0.5px)", // Slight blur during pulse
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          "heartbeat-phase",
-        )
-        .to(
-          experienceRefs.centerRef.current,
-          {
-            scale: 0.95,
-            filter: "blur(1px)", // Increase blur
-            duration: 0.2,
-            ease: "power2.in",
-          },
-          "heartbeat-phase+=0.3",
-        )
-        .to(
-          experienceRefs.centerRef.current,
-          {
-            scale: 1,
-            filter: "blur(0px)", // Clear blur briefly
-            duration: 0.2,
-            ease: "power2.inOut",
-          },
-          "heartbeat-phase+=0.5",
-        )
-
-        // Card Collapse to Center with blur (starts during header movement)
-        .addLabel("card-collapse", "header-lift-phase")
-        .to(
-          experienceRefs.card45Ref.current,
-          {
-            x: 0,
-            y: 0,
-            scale: 0.6,
-            opacity: 0,
-            filter: "blur(3px)", // Add blur during collapse
-            duration: 2,
-            ease: "power2.in",
-          },
-          "card-collapse",
-        )
-        .to(
-          experienceRefs.card135Ref.current,
-          {
-            x: 0,
-            y: 0,
-            scale: 0.6,
-            opacity: 0,
-            filter: "blur(3px)", // Add blur during collapse
-            duration: 2,
-            ease: "power2.in",
-          },
-          "card-collapse",
-        )
-        .to(
-          experienceRefs.card225Ref.current,
-          {
-            x: 0,
-            y: 0,
-            scale: 0.6,
-            opacity: 0,
-            filter: "blur(3px)", // Add blur during collapse
-            duration: 2,
-            ease: "power2.in",
-          },
-          "card-collapse",
-        )
-        .to(
-          experienceRefs.card315Ref.current,
-          {
-            x: 0,
-            y: 0,
-            scale: 0.6,
-            opacity: 0,
-            filter: "blur(3px)", // Add blur during collapse
-            duration: 2,
-            ease: "power2.in",
-          },
-          "card-collapse",
-        )
-
-        // Radial Line Retraction (starts after cards begin collapsing)
-        .addLabel("line-retraction", "card-collapse+0.5")
-        .to(
-          experienceRefs.line45Ref.current,
-          {
-            scaleY: 0,
-            duration: 1.5,
-            ease: "power2.in",
-          },
-          "line-retraction",
-        )
-        .to(
-          experienceRefs.line135Ref.current,
-          {
-            scaleY: 0,
-            duration: 1.5,
-            ease: "power2.in",
-          },
-          "line-retraction",
-        )
-        .to(
-          experienceRefs.line225Ref.current,
-          {
-            scaleY: 0,
-            duration: 1.5,
-            ease: "power2.in",
-          },
-          "line-retraction",
-        )
-        .to(
-          experienceRefs.line315Ref.current,
-          {
-            scaleY: 0,
-            duration: 1.5,
-            ease: "power2.in",
-          },
-          "line-retraction",
-        )
-
-        // Final Core Collapse with increased blur (after heartbeat completes and cards nearly reach center)
-        .addLabel("final-collapse", "header-lift-phase+2") // Sync with header reaching top
-        .to(
-          experienceRefs.centerRef.current,
-          {
-            scale: 0,
-            opacity: 0,
-            filter: "blur(4px)", // Strong blur for final collapse
-            duration: 1.5,
-            ease: "power3.in",
-          },
-          "final-collapse",
-        )
-
-        // Experience header fade out with blur
-        .to(
-          experienceRefs.headerRef.current,
-          {
-            opacity: 0,
-            y: "-60vh",
-            filter: "blur(2px)", // Add blur to header
-            duration: 2,
-            ease: "power2.in",
-          },
-          "final-collapse",
-        )
-        // Education header appears ONLY AFTER Experience header is completely gone + buffer
-        .addLabel("education-header-entrance", "final-collapse+5") // Start after Experience header finishes its 2s fade + 0.5s buffer
 
         // Education header zooms in from center with blur that sharpens
+        .addLabel("education-header-entrance", "projects-transition+=2.0") 
         .fromTo(
           educationRefs.headerRef.current,
           {
@@ -1491,7 +735,7 @@ const PortfolioScroll = () => {
         )
 
         // === SYNCHRONIZED PHASE 2: Cards Collapse + Header Moves Up ===
-        .addLabel("header-lift-phase", "synchronized-transition+2") // Header starts moving as it finishes zooming
+        .addLabel("header-lift-phase", "education-header-entrance+2") // Header starts moving as it finishes zooming
 
         // Education header moves to top position (same time as cards collapse)
         .to(
@@ -1505,17 +749,6 @@ const PortfolioScroll = () => {
           "header-lift-phase",
         )
 
-        // Experience container cleanup
-        .to(
-          experienceRefs.containerRef.current,
-          {
-            opacity: 0,
-            duration: 1,
-            ease: "power2.in",
-          },
-          "final-collapse+=1",
-        )
-
         // Background return to normal
         .to(
           sectionRef.current,
@@ -1524,7 +757,7 @@ const PortfolioScroll = () => {
             duration: 2,
             ease: "power2.inOut",
           },
-          "final-collapse",
+          "+=0.5",
         )
 
         // === EDUCATION CARDS ENTRANCE (AFTER HEADER SETTLES + CLEAR SEPARATION) ===
@@ -1854,9 +1087,6 @@ const PortfolioScroll = () => {
           setActiveIndex={setActiveProjectIndex}
         />
       </div>
-
-      {/* Experience Bloom Content */}
-      <ExperienceBloom refs={experienceRefs} visible={experienceVisible} />
 
       {/* Education Section Content */}
       <div

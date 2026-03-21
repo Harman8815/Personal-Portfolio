@@ -1269,3 +1269,34 @@ export const certificationsData = [
     skills: ['Java', 'Collections', 'Data Structures', 'Algorithms']
   }
 ];
+
+export const slugs = [
+  "javascript",
+  "python",
+  "java",
+  "typescript",
+  "html5",
+  "css3",
+  "react",
+  "redux",
+  "nodedotjs",
+  "express",
+  "flask",
+  "socketdotio",
+  "threedotjs",
+  "mui",
+  "mongodb",
+  "mysql",
+  "bootstrap",
+  "tailwindcss",
+  "sass",
+  "docker",
+  "netlify",
+  "github",
+  "postman",
+  "vercel",
+  "tensorflow",
+  "pytorch",
+  "pandas",
+  "numpy",
+];
