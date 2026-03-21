@@ -2,88 +2,80 @@
 
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import Laptop from "./Laptop";
+import { OrbitControls, Stars, Float } from "@react-three/drei";
 import gsap from "gsap";
 import { Suspense, useRef, useEffect, useState } from "react";
 
-import { Stars } from "@react-three/drei";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Laptop from "./Laptop";
 import ModelLoader from "./ModelLoader.jsx";
 import { useLoadingContext } from "../../../context/LoadingContext.jsx";
 import SSRSafeWrapper from "../../common/SSRSafeWrapper.jsx";
 
+const AmbientLight = 'ambientLight';
+const HemisphereLight = 'hemisphereLight';
+const SpotLight = 'spotLight';
+const PointLight = 'pointLight';
+const Group = 'group';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = ({ onLoad, onLoaderExit }) => {
-  const videoContainer = useRef(null);
   const LaptopRef = useRef();
   const contentLoadedRef = useRef(false);
   const [shouldAnimateLaptop, setShouldAnimateLaptop] = useState(false);
   const [_laptopFullyLoaded, setLaptopFullyLoaded] = useState(false);
   const { markContentReady } = useLoadingContext();
-  const videoRef = useRef(null);
+  const textRef = useRef(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (videoRef.current) {
-      gsap.fromTo(
-        videoRef.current,
-        { opacity: 0, scale: 1.1 },
-        { opacity: 0.6, scale: 1, duration: 3, ease: "power2.out" },
-      );
-    }
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const x = (clientX / window.innerWidth - 0.5) * 2;
+      const y = (clientY / window.innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
 
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+  useEffect(() => {
     if (onLoaderExit) {
       const timer = setTimeout(() => {
         setShouldAnimateLaptop(true);
         onLoad?.();
       }, 800);
+
+      if (textRef.current) {
+        gsap.fromTo(textRef.current.children,
+          { y: 40, opacity: 0, filter: 'blur(10px)' },
+          {
+            y: 0,
+            opacity: 1,
+            filter: 'blur(0px)',
+            duration: 1.2,
+            stagger: 0.15,
+            ease: "expo.out",
+            delay: 1
+          }
+        );
+      }
+
       return () => clearTimeout(timer);
     }
   }, [onLoaderExit, onLoad]);
-  useEffect(() => {
-    const video = videoContainer.current;
-    // Initial entrance animation on first load
-    gsap.fromTo(
-      video,
-      { y: -200, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "power2.out",
-      },
-    );
-  }, []);
-
-  // Trigger laptop animation when loader exits
-  useEffect(() => {
-    if (onLoaderExit) {
-      console.log("[HomeHero] Loader exited, triggering laptop animation");
-      setShouldAnimateLaptop(true);
-    }
-  }, [onLoaderExit]);
 
   useEffect(() => {
-    console.log(
-      "[HomeHero] useEffect mounting - setting up readiness callback",
-    );
-    // Mark content as ready when component mounts and all resources have time to load
     const timer = setTimeout(() => {
-      console.log(
-        "[HomeHero] 800ms timeout reached - calling markContentReady",
-      );
       if (!contentLoadedRef.current) {
         contentLoadedRef.current = true;
-        console.log("[HomeHero] Calling markContentReady()");
         markContentReady();
-        console.log("[HomeHero] Called onLoad callback");
         onLoad?.();
       }
-    }, 800); // Wait for Canvas and models to initialize
+    }, 800);
 
     return () => {
-      console.log("[HomeHero] useEffect cleanup - clearing timeout");
       clearTimeout(timer);
     };
   }, [markContentReady, onLoad]);
@@ -91,135 +83,115 @@ const Home = ({ onLoad, onLoaderExit }) => {
   return (
     <section
       id="home"
-      className="bg-home min-h-screen w-full overflow-hidden flex flex-col items-center justify-center relative"
+      className="relative w-full h-screen flex items-center overflow-hidden bg-[#020617] pt-40 md:pt-56"
     >
-      {/* <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="rotate-180 z-1 w-full h-auto absolute -top-[285px]
-        laptop:-top-[425px] desktop:-top-[495px]  left-0"
-        ref={videoContainer}
-      >
-        <source src="/assets/blackhole.webm" type="video/webm" />
-        Your browser does not support the video tag.
-      </video>
-      <div
-        className={`image z-3 max-h-screen overflow-hidden absolute -top-40 left-0 w-[100%] mix-blend-exclusion transition-opacity duration-1000 ${laptopFullyLoaded ? "block" : "hidden"}`}
-      >
-        <img
-          src="/assets/starsky1.webp"
-          alt=""
-          className="object-cover w-[100%]"
+      {/* Background Atmosphere & Depth */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Parallax Blobs */}
+        <div
+          className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan-500/10 rounded-full blur-[120px] transition-transform duration-1000 ease-out"
+          style={{ transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)` }}
         />
-      </div>
-      <div className="z-6 info text-left mb-10 desktop:mx-10 absolute top-[30%] left-10">
-        <h1 className="desktop:text-6xl laptop:text-5xl font-extrabold text-white leading-tight tracking-wide">
-          Hi, I'm Harman
-        </h1>
-        <p className="desktop:text-xl laptop:text-lg text-gray-200 mt-4">
-          Full Stack Developer crafting seamless web experiences
-        </p>
-        <a
-          href="#about"
-          className="mt-6 inline-block bg-white text-gray-900 px-8 py-3 rounded-full shadow-lg hover:bg-gray-200 transition-all duration-300"
-        >
-          Discover More
-        </a>
-      </div> */}
-      <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover mix-blend-screen opacity-40"
-        >
-          <source src="/assets/video.mp4" type="video/mp4" />
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-nebula-in-space-background-2724-large.mp4"
-            type="video/mp4"
-          />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-primary)] via-transparent to-[var(--color-primary)] opacity-80" />
+        <div
+          className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] transition-transform duration-1000 ease-out"
+          style={{ transform: `translate(${mousePos.x * -40}px, ${mousePos.y * -40}px)` }}
+        />
+
+        {/* Floating Particles Simulation */}
+        <div className="absolute inset-0 pointer-events-none">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-white/10 rounded-full animate-pulse"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                transform: `translate(${mousePos.x * (Math.random() * 50)}px, ${mousePos.y * (Math.random() * 50)}px)`
+              }}
+            />
+          ))}
+        </div>
+
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04] pointer-events-none" />
       </div>
 
-      <div className="z-6 laptopmodel w-full h-screen max-w-screen overflow-hidden">
-        <SSRSafeWrapper fallback={<div className="w-full h-screen bg-primary flex items-center justify-center text-white">Loading 3D Scene...</div>}>
-          <Canvas
-            shadows
-            gl={{ 
-              antialias: true, 
-              alpha: true, 
-              stencil: false, 
-              depth: true,
-              preserveDrawingBuffer: true,
-              powerPreference: "high-performance"
-            }}
-            camera={{ position: [0, 2, -12], fov: 32 }}
-            onError={(error) => {
-              console.error("[Canvas] WebGL Error:", error);
-            }}
-            onContextLost={(event) => {
-              console.warn("[Canvas] WebGL Context Lost:", event);
-              event.preventDefault();
-            }}
-            onContextRestored={() => {
-              console.log("[Canvas] WebGL Context Restored");
-            }}
-          >
-            <Stars
-              radius={100}
-              depth={50}
-              count={5000}
-              factor={4}
-              saturation={0}
-              fade
-              speed={1}
-            />
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center gap-16 relative z-10">
+        {/* Primary Text Area */}
+        <div ref={textRef} className="flex flex-col gap-8 max-w-2xl">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-[1px] bg-cyan-500/50" />
+            <span className="font-mono text-[10px] tracking-[0.5em] text-cyan-400 uppercase font-black">Creative_Developer_v4</span>
+          </div>
 
-            <ambientLight intensity={0.5} />
-            <hemisphereLight
-              color="#22d3ee"
-              groundColor="#000000"
-              intensity={0.8}
-            />
+          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[0.85]">
+            Building <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500 drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+              Digital_Worlds
+            </span>
+          </h1>
 
-            <spotLight
-              position={[5, 15, 5]}
-              intensity={2.5}
-              angle={0.3}
-              penumbra={1}
-              color="#22d3ee"
-              castShadow
-            />
-            <pointLight position={[-5, 5, -5]} intensity={1.5} color="#6366f1" />
+          <p className="text-slate-400 text-lg md:text-xl font-light leading-relaxed max-w-lg border-l border-white/10 pl-6">
+            Architecting high-performance web experiences, immersive 3D interfaces, and resilient technical systems for the next generation.
+          </p>
 
-            <OrbitControls
-              enableZoom={false}
-              // minPolarAngle={Math.PI / 4}
-              // maxPolarAngle={Math.PI / 1.8}
-              // minAzimuthAngle={-Math.PI / 4}
-              // maxAzimuthAngle={Math.PI / 4}
-              enablePan={false}
-              makeDefault
-            />
+          <div className="flex flex-wrap gap-8 mt-6">
+            <button className="group relative px-12 py-5 overflow-hidden rounded-full bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] active:scale-95">
+              <span className="relative z-10">View_Projects</span>
+              <div className="absolute inset-0 bg-cyan-400 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-expo" />
+            </button>
+            <button className="group px-12 py-5 rounded-full border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-white/5 hover:border-white/30 transition-all active:scale-95">
+              Contact_Me
+            </button>
+          </div>
+        </div>
 
-            <Suspense fallback={<ModelLoader />}>
-              <group position={[0, 0, 0]} rotation={[0, Math.PI, 0]}>
-                {/* <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}> */}
-                <Laptop
-                  LaptopRef={LaptopRef}
-                  shouldAnimate={shouldAnimateLaptop}
-                  onLoadComplete={() => setLaptopFullyLoaded(true)}
-                />
-                {/* </Float> */}
-              </group>
-            </Suspense>
-          </Canvas>
-        </SSRSafeWrapper>
+        {/* 3D Visualizer - Off-center Laptop */}
+        <div className="h-[500px] lg:h-[800px] w-full relative group">
+          <div className="absolute inset-0 bg-radial-glow opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+          <SSRSafeWrapper fallback={<div className="w-full h-full bg-[#020617] flex items-center justify-center text-white">Loading 3D Scene...</div>}>
+            <Canvas
+              shadows
+              gl={{ antialias: true, alpha: true }}
+              camera={{ position: [0, 0, 5], fov: 35 }}
+            >
+              <Stars radius={100} depth={50} count={1500} factor={6} saturation={0} fade speed={1.5} />
+
+              <ambientLight intensity={0.6} />
+              <spotLight position={[10, 10, 10]} intensity={2} angle={0.15} penumbra={1} color="#ffffff" />
+              <pointLight position={[-10, -10, -10]} intensity={1.5} color="#22d3ee" />
+              <pointLight position={[5, 5, 5]} intensity={1} color="#6366f1" />
+
+              <OrbitControls
+                enableZoom={false}
+                enablePan={false}
+                minPolarAngle={Math.PI / 2.5}
+                maxPolarAngle={Math.PI / 1.5}
+                minAzimuthAngle={-Math.PI / 6}
+                maxAzimuthAngle={Math.PI / 6}
+              />
+
+              <Suspense fallback={<ModelLoader />}>
+                <Float speed={2} rotationIntensity={0.3} floatIntensity={0.8}>
+                  <Laptop
+                    LaptopRef={LaptopRef}
+                    shouldAnimate={shouldAnimateLaptop}
+                    onLoadComplete={() => setLaptopFullyLoaded(true)}
+                    position={[0, -0.5, 0]}
+                    rotation={[0, -0.2, 0]}
+                    mousePos={mousePos}
+                  />
+                </Float>
+              </Suspense>
+            </Canvas>
+          </SSRSafeWrapper>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-6 opacity-30">
+        <span className="font-mono text-[8px] tracking-[0.8em] text-cyan-500/50 uppercase">Scroll_To_Explore</span>
+        <div className="w-[1px] h-16 bg-gradient-to-b from-cyan-500 to-transparent animate-bounce"></div>
       </div>
     </section>
   );
