@@ -4,7 +4,7 @@ import { useAutoScrollController } from './useAutoScrollController.js';
 const AutoScrollContext = createContext(undefined);
 
 export const AutoScrollProvider = ({ children }) => {
-  const controller = useAutoScrollController({ speed: 10 });
+  const controller = useAutoScrollController({ speed: 20 });
 
   return (
     <AutoScrollContext.Provider value={controller}>

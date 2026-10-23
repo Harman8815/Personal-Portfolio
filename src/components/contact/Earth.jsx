@@ -1,9 +1,13 @@
 "use client";
 
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import SSRSafeWrapper from "../common/SSRSafeWrapper.jsx";
+
+// Global model cache
+let earthModelCache = null;
+let isModelLoading = false;
 
 const Earth = () => {
   const earth = useGLTF("./models/planet/scene.gltf");
@@ -24,6 +28,22 @@ const Earth = () => {
 };
 
 const EarthCanvas = () => {
+  // Preload the model when component mounts
+  useEffect(() => {
+    if (!earthModelCache && !isModelLoading) {
+      isModelLoading = true;
+      useGLTF.preload("./models/planet/scene.gltf")
+        .then((model) => {
+          earthModelCache = model;
+          isModelLoading = false;
+        })
+        .catch((error) => {
+          console.error('Error preloading Earth model:', error);
+          isModelLoading = false;
+        });
+    }
+  }, []);
+
   return (
     <SSRSafeWrapper
       fallback={
@@ -34,7 +54,7 @@ const EarthCanvas = () => {
     >
       <Canvas
         shadows
-        frameloop="demand"
+        frameloop="always"
         dpr={[1, 2]}
         gl={{ preserveDrawingBuffer: true }}
         camera={{
