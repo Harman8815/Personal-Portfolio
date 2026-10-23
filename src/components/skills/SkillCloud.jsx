@@ -3,40 +3,33 @@
 import React, { useState, useEffect } from "react";
 import { Cloud, renderSimpleIcon, fetchSimpleIcons } from "react-icon-cloud";
 
-// Global cache for icons
-let iconCache = null;
-let isFetching = false;
+// Global cache to share preloaded icons
+let globalIconCache = null;
 
-const SkillCloud = ({ slugs }) => {
-  const [icons, setIcons] = useState(iconCache);
-  const [isLoading, setIsLoading] = useState(!iconCache);
+const SkillCloud = React.memo(({ slugs }) => {
+  const [icons, setIcons] = useState(globalIconCache);
+  const [isLoading, setIsLoading] = useState(!globalIconCache);
 
   useEffect(() => {
-    if (iconCache) {
-      setIcons(iconCache);
+    // If icons are already preloaded globally, use them
+    if (globalIconCache) {
+      setIcons(globalIconCache);
       setIsLoading(false);
       return;
     }
 
-    if (isFetching) {
-      return;
-    }
-
-    isFetching = true;
+    // Otherwise fetch them
     setIsLoading(true);
-
     fetchSimpleIcons({ slugs })
       .then((fetchedIcons) => {
-        iconCache = fetchedIcons;
+        console.log('Icons fetched:', fetchedIcons);
+        globalIconCache = fetchedIcons; // Cache globally
         setIcons(fetchedIcons);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching icons:', error);
         setIsLoading(false);
-      })
-      .finally(() => {
-        isFetching = false;
       });
   }, [slugs]);
 
@@ -84,6 +77,6 @@ const SkillCloud = ({ slugs }) => {
       <div className="text-cyan-500/20 font-mono text-xs">No icons loaded</div>
     </div>
   );
-};
+});
 
 export default SkillCloud;

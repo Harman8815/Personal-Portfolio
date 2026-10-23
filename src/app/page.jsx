@@ -8,6 +8,8 @@ import dynamicImport from "next/dynamic";
 import { LoadingProvider, useLoadingContext } from "../context/LoadingContext.jsx";
 import { AutoScrollProvider, useAutoScroll } from "../components/autoScroll/AutoScrollContext.jsx";
 import { Play, Pause, RotateCcw, X, Sparkles } from "lucide-react";
+import { fetchSimpleIcons } from "react-icon-cloud";
+import { slugs } from "../data";
 
 const HomeHero = dynamicImport(() => import("../components/r3f/Hero/Home.jsx"), {
   ssr: false,
@@ -118,6 +120,7 @@ const AutoScrollButton = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => {
+    console.log('Toggle clicked - isPlaying:', isPlaying);
     if (isPlaying) {
       pause();
     } else {
@@ -132,14 +135,6 @@ const AutoScrollButton = () => {
   const handleRestart = () => {
     stop();
     play();
-  };
-
-  const handleMainButtonClick = () => {
-    if (isExpanded) {
-      setIsExpanded(false);
-    } else {
-      handleToggle();
-    }
   };
 
   const handleExpandClick = (e) => {
@@ -209,10 +204,10 @@ const AutoScrollButton = () => {
       {/* Minimalist floating button */}
       <div className="relative">
         <button
-          onClick={handleMainButtonClick}
+          onClick={handleToggle}
           className="w-14 h-14 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 flex items-center justify-center text-white shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-110"
-          title={isExpanded ? "Collapse controls" : (isPlaying ? "Pause" : "Play")}
-          aria-label={isExpanded ? "Collapse playback controls" : (isPlaying ? "Pause animation" : "Play animation")}
+          title={isPlaying ? "Pause" : "Play"}
+          aria-label={isPlaying ? "Pause animation" : "Play animation"}
         >
           {isPlaying ? <Pause size={24} /> : <Play size={24} />}
         </button>
@@ -228,6 +223,18 @@ const AutoScrollButton = () => {
             <span className="text-[10px]">+</span>
           </button>
         )}
+
+        {/* Collapse button when expanded */}
+        {isExpanded && (
+          <button
+            onClick={handleExpandClick}
+            className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
+            title="Collapse controls"
+            aria-label="Collapse playback controls"
+          >
+            <span className="text-[10px]">−</span>
+          </button>
+        )}
       </div>
     </div>
   );
@@ -239,6 +246,7 @@ function HomePageContent() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [holdProgress, setHoldProgress] = useState(false);
   const [showAutoScrollPrompt, setShowAutoScrollPrompt] = useState(false);
+  const [iconsPreloaded, setIconsPreloaded] = useState(false);
 
   const intervalRef = useRef(null);
   const startTimeRef = useRef(null);
@@ -286,6 +294,25 @@ function HomePageContent() {
       setShowAutoScrollPrompt(true);
     }
   }, [isMainLoading, contentReady, prefersReducedMotion]);
+
+  // Preload skill icons during loading screen
+  useEffect(() => {
+    if (!contentReady || iconsPreloaded) return;
+
+    const preloadIcons = async () => {
+      try {
+        console.log('Preloading skill icons...');
+        await fetchSimpleIcons({ slugs });
+        console.log('Skill icons preloaded successfully');
+        setIconsPreloaded(true);
+      } catch (error) {
+        console.error('Error preloading icons:', error);
+        setIconsPreloaded(true); // Still mark as preloaded to not block
+      }
+    };
+
+    preloadIcons();
+  }, [contentReady, iconsPreloaded]);
 
   const handleAutoScrollAccept = () => {
     sessionStorage.setItem('hasSeenAutoScrollPrompt', 'true');

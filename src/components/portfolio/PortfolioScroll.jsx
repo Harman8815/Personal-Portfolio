@@ -156,8 +156,8 @@ const PortfolioScroll = () => {
 
       // Skills initial states - Absolute positioning to avoid layout shifts
       gsap.set(aboutRefs.skillsContainerRef.current, {
-        visibility: "hidden",
-        opacity: 0,
+        visibility: "visible",
+        opacity: 1,
         position: "absolute",
         inset: 0,
         zIndex: 40,
@@ -381,7 +381,7 @@ const PortfolioScroll = () => {
         )
         .set(
           aboutRefs.skillsContainerRef.current,
-          { visibility: "visible", opacity: 1 },
+          { opacity: 1 },
           "skills-entrance+=2.5",
         )
 
