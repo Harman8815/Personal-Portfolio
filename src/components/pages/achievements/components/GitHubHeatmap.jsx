@@ -143,8 +143,7 @@ export const GitHubHeatmap = ({ githubData }) => {
     const key = currentDate.toISOString().split("T")[0];
     const count = contribMap.get(key) || 0;
 
-    console.log("Checking:", key, "Count:", count);
-
+    
     if (count > 0) {
       streak++;
     } else {
@@ -155,8 +154,7 @@ export const GitHubHeatmap = ({ githubData }) => {
     currentDate.setDate(currentDate.getDate() - 1);
   }
 
-  console.log("Final streak:", streak);
-  return streak;
+    return streak;
 }, [githubData, selectedYear]);
 
   const stats = githubData ? [
@@ -337,8 +335,7 @@ export const GitHubHeatmap = ({ githubData }) => {
                             }}
                             onMouseEnter={(e) => {
                               // Debug log
-                              console.log('Hover enter:', { contrib, hasDate: !!contrib?.date, hasCount: !!contrib?.count });
-                              
+                                                            
                               // More permissive hover condition - allow hover on any non-null contrib
                               if (contrib && (contrib.date || contrib.count === 0)) {
                                 const rect = e.target.getBoundingClientRect();

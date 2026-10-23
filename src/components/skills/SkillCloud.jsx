@@ -22,7 +22,6 @@ const SkillCloud = React.memo(({ slugs }) => {
     setIsLoading(true);
     fetchSimpleIcons({ slugs })
       .then((fetchedIcons) => {
-        console.log('Icons fetched:', fetchedIcons);
         globalIconCache = fetchedIcons; // Cache globally
         setIcons(fetchedIcons);
         setIsLoading(false);

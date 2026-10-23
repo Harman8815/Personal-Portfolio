@@ -11,9 +11,9 @@ const fetchGitHubData = async () => {
     
     const data = await response.json();
     
-    if (data.error) {
-      console.warn('GitHub API warning:', data.error);
-    }
+      if (data.error) {
+        // GitHub API warning
+      }
     
     // Ensure stats object exists with default values
     if (!data.stats) {

@@ -6,7 +6,6 @@ export const LoadingProvider = ({ children }) => {
   const [contentReady, setContentReady] = useState(false);
 
   const markContentReady = useCallback(() => {
-    console.log("[LoadingContext] markContentReady called - setting contentReady to true");
     setContentReady(true);
   }, []);
 

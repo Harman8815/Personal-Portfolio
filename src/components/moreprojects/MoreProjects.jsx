@@ -18,9 +18,7 @@ const MoreProjects = () => {
   const allTags = ["all", ...Object.keys(skillTags).map((t) => t.toLowerCase())];
 
   const handleTagClick = (tag) => {
-    console.log(tag)
-    const normalizedTag = tag.toLowerCase().replace(/\./g, "");
-    if (normalizedTag === "all") {
+        if (normalizedTag === "all") {
       setActiveTags(["all"]);
     } else {
       setActiveTags((prev) => {

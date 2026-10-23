@@ -62,8 +62,7 @@ const AchievementsPage = () => {
   }
 
   if (githubData) {
-    console.log('GitHub data loaded:', githubData.stats);
-  }
+      }
 
   const openBadgeModal = (badge) => {
     setModalType("badge");

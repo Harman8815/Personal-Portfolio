@@ -120,7 +120,6 @@ const AutoScrollButton = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => {
-    console.log('Toggle clicked - isPlaying:', isPlaying);
     if (isPlaying) {
       pause();
     } else {
@@ -301,9 +300,7 @@ function HomePageContent() {
 
     const preloadIcons = async () => {
       try {
-        console.log('Preloading skill icons...');
         await fetchSimpleIcons({ slugs });
-        console.log('Skill icons preloaded successfully');
         setIconsPreloaded(true);
       } catch (error) {
         console.error('Error preloading icons:', error);
@@ -327,7 +324,6 @@ function HomePageContent() {
   useEffect(() => {
     if (!contentReady || !holdProgress) return;
 
-    console.log("[HomePage] Content ready, advancing from 90% to 100%");
     finalProgressStartRef.current = Date.now();
     const FINAL_DURATION = 1500; // 1.5 seconds to go from 90 to 100
 
@@ -353,7 +349,6 @@ function HomePageContent() {
   useEffect(() => {
     if (isTransitioning || holdProgress) return;
 
-    console.log("[HomePage] Starting progress animation to 90%");
     startTimeRef.current = Date.now();
     const DURATION = 3600; // 3.6 seconds to reach 90%
 
@@ -368,7 +363,6 @@ function HomePageContent() {
 
       if (newProgress >= 90) {
         clearInterval(intervalRef.current);
-        console.log("[HomePage] Reached 90%, holding progress until content loads");
         setHoldProgress(true); // Hold at 90%, wait for content
       }
     }, 50);
