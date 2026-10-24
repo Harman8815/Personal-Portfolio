@@ -123,7 +123,7 @@ const educationCSS = `
   }
 `;
 
-const EducationCard = ({ edu, index, totalCards, cardRef }) => {
+const EducationCard = ({ edu, index, _totalCards, cardRef }) => {
   const internalRef = useRef(null);
   const ref = cardRef || internalRef;
 
@@ -185,7 +185,7 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
       el.removeEventListener("mouseenter", handleMouseEnter);
       el.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [index, cardRef]);
+  }, [index, cardRef, ref]);
 
   return (
     <div
@@ -290,12 +290,14 @@ const EducationCard = ({ edu, index, totalCards, cardRef }) => {
   );
 };
 
-const Education = ({ refs, visible }) => {
-  const sectionRef = refs?.containerRef || useRef(null);
-  const headerRef = refs?.headerRef || useRef(null);
+const Education = ({ refs, visible: _visible }) => {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const resolvedSectionRef = refs?.containerRef || sectionRef;
+  const resolvedHeaderRef = refs?.headerRef || headerRef;
 
   useLayoutEffect(() => {
-    const header = headerRef.current;
+    const header = resolvedHeaderRef.current;
 
     // Only run header animation if not controlled by PortfolioScroll
     if (!refs) {
@@ -312,7 +314,7 @@ const Education = ({ refs, visible }) => {
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: sectionRef.current,
+            trigger: resolvedSectionRef.current,
             start: "top 85%",
             end: "top 30%",
             toggleActions: "play none none reverse",
@@ -322,7 +324,7 @@ const Education = ({ refs, visible }) => {
 
       // Exit animation for entire section
       ScrollTrigger.create({
-        trigger: sectionRef.current,
+        trigger: resolvedSectionRef.current,
         start: "top bottom",
         end: "bottom top",
         onLeave: () => {
@@ -343,13 +345,13 @@ const Education = ({ refs, visible }) => {
         },
       });
     }
-  }, [refs]);
+  }, [refs, headerRef, sectionRef]);
 
   return (
     <>
       <style>{educationCSS}</style>
       <section
-        ref={sectionRef}
+        ref={resolvedSectionRef}
         id="education"
         className="min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden"
       >
@@ -368,9 +370,7 @@ const Education = ({ refs, visible }) => {
           {/* Education Cards Grid - 1x3 Layout */}
           <div className="relative" style={{ minHeight: "400px" }}>
             {/* Standard grid layout for standalone use */}
-            <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 px-4 ${refs ? "opacity-0 pointer-events-none" : ""}`}
-            >
+            <div className={`grid grid-cols-3 gap-12 px-4 ${refs ? "opacity-0 pointer-events-none" : ""}`}>
               {educationData.map((edu, index) => (
                 <EducationCard
                   key={edu.id}
@@ -386,13 +386,13 @@ const Education = ({ refs, visible }) => {
             {refs && (
               <>
                 <EducationCard
-                  edu={educationData[1]} // Intermediate (center card)
+                  edu={educationData[0]} // Bachelors (left card)
                   index={0}
                   totalCards={educationData.length}
                   cardRef={refs.card1Ref}
                 />
                 <EducationCard
-                  edu={educationData[0]} // Bachelors (left card)
+                  edu={educationData[1]} // Intermediate (center card)
                   index={1}
                   totalCards={educationData.length}
                   cardRef={refs.card2Ref}
