@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink, ChevronRight, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import gsap from 'gsap';
 import Magnetic from '../../ui/Magnetic.jsx';
 
 const ProjectCTA = ({ githubUrl, demoUrl }) => {

@@ -259,7 +259,7 @@ const ProjectsPage = () => {
               <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-500 mr-2">
                 Active_Parameters:
               </div>
-              {activeFilterTags.map((tag, idx) => (
+              {activeFilterTags.map((tag) => (
                 <motion.button
                   key={`${tag.category}-${tag.value}`}
                   initial={{ scale: 0.8, opacity: 0 }}

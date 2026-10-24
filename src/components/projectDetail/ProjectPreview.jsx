@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { Cpu, Terminal, Maximize2, Zap } from 'lucide-react';
+import { Cpu, Terminal } from 'lucide-react';
 
 const ProjectPreview = ({ image, name, status }) => {
   const containerRef = useRef(null);

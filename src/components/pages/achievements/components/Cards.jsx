@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
   ShieldCheck,
   Star,
-  Award,
   CheckCircle2,
   Eye,
   Code2,
@@ -21,9 +20,7 @@ import {
   Area,
   XAxis,
   YAxis,
-  Tooltip,
 } from "recharts";
-import { DraggableCard } from "./UIComponents";
 import { 
   getCustomIcon, 
   leetcodeCardData, 

@@ -1,11 +1,10 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
 import {
   Briefcase,
-  Calendar,
   MapPin,
   ChevronRight,
   Cpu,
@@ -63,7 +62,6 @@ const experiences = [
 const Experience = () => {
   const sectionRef = useRef(null);
   const containerRef = useRef(null);
-  const timelineRef = useRef(null);
   const nodesRef = useRef([]);
   const linesRef = useRef([]);
 

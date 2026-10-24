@@ -3,12 +3,6 @@
 import React, { useEffect, useState, Suspense, lazy } from "react";
 import PortfolioScroll from "../../portfolio/PortfolioScroll";
 
-// Lazy imports for other sections
-const Contact_me = lazy(() => import("../../contact/Contact_me"));
-const Education = lazy(() => import("../education/Education"));
-const Links = lazy(() => import("../links/Links"));
-const Certificates = lazy(() => import("../certifications/Certifications"));
-const EndSequence = lazy(() => import("./EndSequence"));
 const LandingSections = () => {
   const [loadRest, setLoadRest] = useState(false);
 

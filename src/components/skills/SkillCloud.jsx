@@ -78,4 +78,6 @@ const SkillCloud = React.memo(({ slugs }) => {
   );
 });
 
+SkillCloud.displayName = "SkillCloud";
+
 export default SkillCloud;

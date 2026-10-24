@@ -55,7 +55,7 @@ export const GitHubHeatmap = ({ githubData }) => {
         date: new Date(selectedYear, 0, 1).getTime() + (i * 24 * 60 * 60 * 1000),
         count: Math.floor(Math.random() * 10),
         level: Math.floor(Math.random() * 5)
-      })).map((contrib, i) => ({
+      })).map((contrib) => ({
         ...contrib,
         date: new Date(contrib.date).toISOString().split('T')[0]
       }));
@@ -112,7 +112,7 @@ export const GitHubHeatmap = ({ githubData }) => {
     }
 
     return weeks;
-  }, [githubData, selectedYear]);
+  }, [githubData]);
 
   // Calculate current streak from contributions (optimized reverse read)
  const currentStreak = useMemo(() => {

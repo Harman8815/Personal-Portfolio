@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 
 // Add CSS for scroll-triggered line animations and advanced effects
 const rotatingLinesCSS = `

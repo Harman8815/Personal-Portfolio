@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
 
 const ProjectArtifacts = ({ artifacts }) => {
   const containerRef = useRef(null);

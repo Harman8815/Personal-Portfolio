@@ -19,7 +19,7 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
 
   // Forward the ref if provided
   useImperativeHandle(LaptopRef, () => laptopRef.current);
-  //   const [targetRotation, setTargetRotation] = useState(Math.PI / 2); // Start closed
+  const [targetRotation, setTargetRotation] = useState(Math.PI / 2); // Start closed
   const [currentRotation, setCurrentRotation] = useState(Math.PI / 2);
 
   const coretexture = useLoader(

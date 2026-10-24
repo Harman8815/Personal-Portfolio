@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 import { LeetCodeCard, GFGCard, InterviewBitCard } from "./Cards";
 import { EnhancedCardWrapper } from "./EnhancedCardStyles";
 

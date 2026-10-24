@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Filter, Search, GraduationCap, Trophy, Award, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
+import { Sparkles, Search, GraduationCap, Trophy, Award, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { certificationsData } from '../../data/index.js';
 import CertificationCard from './CertificationCard';
@@ -126,7 +126,7 @@ const CertificationsPage = () => {
         setCurrentPage(targetPage);
       }
     }
-  }, [searchParams]);
+  }, [searchParams, filteredCertifications, itemsPerPage]);
 
   // Update URL when state changes
   useEffect(() => {
@@ -141,7 +141,7 @@ const CertificationsPage = () => {
 
     const newUrl = `${pathname}${params.toString() ? '?' + params.toString() : ''}`;
     router.replace(newUrl, { scroll: false });
-  }, [currentPage, activeCategory, activeIssuer, searchQuery, selectedCertIndex]);
+  }, [currentPage, activeCategory, activeIssuer, searchQuery, selectedCertIndex, filteredCertifications, pathname, router]);
 
   // GSAP refs
   const heroRef = useRef(null);
@@ -331,8 +331,6 @@ const CertificationsPage = () => {
       }
 
       // Grid Animation - Removed card animations for static display
-      const gridItems = gridRef.current?.querySelectorAll('[data-cert-card]') || [];
-      // No GSAP animations applied to cards
 
       // Parallax effect on hero
       if (heroRef.current) {

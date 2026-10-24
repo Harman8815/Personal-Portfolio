@@ -17,7 +17,6 @@ import {
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { CardProvider } from "./context/Context";
 import {
   Skeleton,
   BackgroundLayer,
@@ -33,7 +32,6 @@ import {
   leetCodeBadges,
   interviewBitBadges,
   achievementsTabs,
-  careerMilestones,
   impactData,
   getIcon,
   getCustomIcon,
@@ -60,9 +58,6 @@ const AchievementsPage = () => {
   if (githubError) {
     console.error('GitHub data fetch error:', githubError);
   }
-
-  if (githubData) {
-      }
 
   const openBadgeModal = (badge) => {
     setModalType("badge");
@@ -359,7 +354,7 @@ const AchievementsPage = () => {
                             color: "text-rose-400",
                           },
                         ]
-                        : Array(8).fill(null).map((_, i) => ({
+                        : Array(8).fill(null).map((_) => ({
                           label: "Syncing Data",
                           value: null,
                           icon: <div className="w-8 h-8 bg-white/10 rounded-lg animate-pulse" />,

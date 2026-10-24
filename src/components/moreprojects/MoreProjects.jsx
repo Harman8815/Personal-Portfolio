@@ -18,13 +18,13 @@ const MoreProjects = () => {
   const allTags = ["all", ...Object.keys(skillTags).map((t) => t.toLowerCase())];
 
   const handleTagClick = (tag) => {
-        if (normalizedTag === "all") {
+    if (tag === "all") {
       setActiveTags(["all"]);
     } else {
       setActiveTags((prev) => {
-        const newTags = prev.includes(normalizedTag)
-          ? prev.filter((t) => t !== normalizedTag)
-          : [...prev.filter((t) => t !== "all"), normalizedTag];
+        const newTags = prev.includes(tag)
+          ? prev.filter((t) => t !== tag)
+          : [...prev.filter((t) => t !== "all"), tag];
         return newTags.length === 0 ? ["all"] : newTags;
       });
     }
