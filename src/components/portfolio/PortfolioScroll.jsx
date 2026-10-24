@@ -66,6 +66,8 @@ const PortfolioScroll = () => {
   const educationVisibleRef = useRef(false);
   const contactVisibleRef = useRef(false);
   const endSequenceVisibleRef = useRef(false);
+  const contactStartProgressRef = useRef(0);
+  const endSequenceStartProgressRef = useRef(1);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -109,8 +111,11 @@ const PortfolioScroll = () => {
               setEducationVisible(false);
             }
 
-            // Contact section visibility (mutually exclusive with EndSequence to prevent overlap)
-            if (progress > 0.8 && progress < 0.9) {
+            // Keep visibility in sync with the actual timeline segments.
+            if (
+              progress >= contactStartProgressRef.current &&
+              progress < endSequenceStartProgressRef.current
+            ) {
               if (!contactVisibleRef.current) {
                 contactVisibleRef.current = true;
                 setContactVisible(true);
@@ -121,7 +126,7 @@ const PortfolioScroll = () => {
             }
 
             // EndSequence visibility (only after Contact has hidden)
-            if (progress >= 0.9) {
+            if (progress >= endSequenceStartProgressRef.current) {
               if (!endSequenceVisibleRef.current) {
                 endSequenceVisibleRef.current = true;
                 setEndSequenceVisible(true);
@@ -1049,6 +1054,12 @@ const PortfolioScroll = () => {
           },
           "endsequence-start",
         );
+
+      const timelineDuration = tl.duration();
+      contactStartProgressRef.current =
+        tl.labels["contact-start"] / timelineDuration;
+      endSequenceStartProgressRef.current =
+        tl.labels["endsequence-start"] / timelineDuration;
     }, sectionRef);
 
     return () => ctx.revert();
