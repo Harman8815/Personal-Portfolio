@@ -33,25 +33,18 @@ const SocialHub = () => {
   const nodesRef = useRef(null);
   const pathsRef = useRef([]);
   const [hoveredId, setHoveredId] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  const [isMobile, setIsMobile] = useState(false);
+  const mousePosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
     const handleMouseMove = (e) => {
       const { clientX, clientY } = e;
       const x = (clientX / window.innerWidth - 0.5) * 2;
       const y = (clientY / window.innerHeight - 0.5) * 2;
-      setMousePos({ x, y });
+      mousePosRef.current = { x, y };
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => {
-      window.removeEventListener('resize', checkMobile);
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
@@ -62,15 +55,15 @@ const SocialHub = () => {
     const ctx = gsap.context(() => {
       // Parallax for background and traces
       gsap.to('.bg-parallax', {
-        x: () => mousePos.x * 20,
-        y: () => mousePos.y * 20,
+        x: () => mousePosRef.current.x * 20,
+        y: () => mousePosRef.current.y * 20,
         duration: 2,
         ease: "power2.out"
       });
 
       gsap.to('.traces-parallax', {
-        x: () => mousePos.x * 10,
-        y: () => mousePos.y * 10,
+        x: () => mousePosRef.current.x * 10,
+        y: () => mousePosRef.current.y * 10,
         duration: 1.5,
         ease: "power2.out"
       });
@@ -360,8 +353,8 @@ const SocialHub = () => {
           const angle = (i / SOCIAL_LINKS.length) * Math.PI * 2 - Math.PI / 2;
           const radius = 260;
           const isHovered = hoveredId === link.id;
-          const magneticX = isHovered ? mousePos.x * 15 : 0;
-          const magneticY = isHovered ? mousePos.y * 15 : 0;
+          const magneticX = isHovered ? mousePosRef.current.x * 15 : 0;
+          const magneticY = isHovered ? mousePosRef.current.y * 15 : 0;
 
           // Determine card position based on quadrant
           const isRight = Math.cos(angle) > 0;
