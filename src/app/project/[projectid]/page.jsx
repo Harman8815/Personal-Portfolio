@@ -7,6 +7,7 @@ import ErrorBoundary from "../../../components/ErrorBoundary.jsx";
 import { AutoScrollProvider } from "../../../components/autoScroll/AutoScrollContext.jsx";
 import BackgroundSymbols from "../../../components/common/BackgroundSymbols";
 import { getTechSymbols } from "../../../components/common/BackgroundSymbolsConfig";
+import { myProjects } from '../../../data/projects';
 
 // Dynamically import all project detail components
 const ProjectHero = dynamic(() => import("../../../components/projectDetail/ProjectHero.jsx"), { ssr: false });
@@ -21,9 +22,6 @@ const ProjectLearnings = dynamic(() => import("../../../components/projectDetail
 const ProjectArtifacts = dynamic(() => import("../../../components/projectDetail/ProjectArtifacts.jsx"), { ssr: false });
 const ProjectCTA = dynamic(() => import("../../../components/projectDetail/ProjectCTA.jsx"), { ssr: false });
 const CinematicController = dynamic(() => import("../../../components/projectDetail/CinematicController.jsx"), { ssr: false });
-
-// Import actual project data
-import { myProjects } from '../../../data/index.js';
 
 // Create project data object with proper IDs
 const projectData = {};

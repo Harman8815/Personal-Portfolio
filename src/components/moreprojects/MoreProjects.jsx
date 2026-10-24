@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import ProductCard from "./ProductCard.jsx";
-import { myProjects, skillTags } from "../../data/index.js";
+import { myProjects } from "../../data/projects";
+import { skillTags } from "../../data/skills";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 

@@ -6,7 +6,7 @@ import { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Center, OrbitControls } from "@react-three/drei";
 
-import { myProjects } from "../../../data/index.js";
+import { myProjects } from "../../../data/projects";
 import CanvasLoader from "../../../components/shared/Loading.jsx";
 import DemoComputer from "./DemoComputer.jsx";
 import SSRSafeWrapper from "../../common/SSRSafeWrapper.jsx";

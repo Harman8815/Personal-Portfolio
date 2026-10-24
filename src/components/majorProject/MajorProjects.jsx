@@ -1,71 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-// Project data
-const projects = [
-  {
-    id: 1,
-    title: "Neural Canvas",
-    category: "AI Creative Suite",
-    description:
-      "Advanced ML-powered design platform with real-time collaboration and generative art capabilities.",
-    tech: ["React", "TensorFlow.js", "WebGL", "Node.js"],
-    color: "from-cyan-500 to-blue-600",
-    link: "#",
-    github: "#",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Quantum Ledger",
-    category: "Blockchain Infrastructure",
-    description:
-      "Next-gen distributed ledger system with quantum-resistant cryptography and sub-second consensus.",
-    tech: ["Rust", "WebAssembly", "IPFS", "PostgreSQL"],
-    color: "from-purple-500 to-pink-600",
-    link: "#",
-    github: "#",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Synthetic Dreams",
-    category: "3D Web Experience",
-    description:
-      "Immersive WebGL-powered virtual environment with physics simulation and real-time rendering.",
-    tech: ["Three.js", "React", "GLSL", "WebSocket"],
-    color: "from-emerald-500 to-teal-600",
-    link: "#",
-    github: "#",
-    featured: true,
-  },
-  {
-    id: 4,
-    title: "Echo Chamber",
-    category: "Audio Platform",
-    description:
-      "Spatial audio streaming service with AI-driven personalization and 3D sound positioning.",
-    tech: ["Next.js", "Web Audio API", "Python", "Redis"],
-    color: "from-orange-500 to-red-600",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-  {
-    id: 5,
-    title: "Data Weave",
-    category: "Analytics Dashboard",
-    description:
-      "Real-time data visualization platform with advanced ML insights and predictive analytics.",
-    tech: ["Vue.js", "D3.js", "Python", "MongoDB"],
-    color: "from-indigo-500 to-purple-600",
-    link: "#",
-    github: "#",
-    featured: false,
-  },
-];
-
+import { projects } from "../../data/majorProject";
 const ProjectCard = ({
   project,
   _index,

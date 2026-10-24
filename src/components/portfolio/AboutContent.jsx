@@ -1,7 +1,7 @@
 import React from "react";
 import SkillCloud from "../skills/SkillCloud";
 import SkillTiers from "../skills/SkillTiers";
-import { slugs } from "../../data";
+import { slugs } from "../../data/slugs";
 
 const steps = [
   {

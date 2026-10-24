@@ -1,7 +1,7 @@
 import React from "react";
 import SkillCloud from "./SkillCloud";
 import SkillTiers from "./SkillTiers";
-import { slugs } from "../../data";
+import { slugs } from "../../data/slugs";
 import { useRef, useEffect } from "react";
 import gsap, { ScrollTrigger } from "gsap/all";
 const Skills = () => {

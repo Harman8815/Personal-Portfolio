@@ -3,7 +3,7 @@
 import React, { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { socialData } from "../../../data/index";
+import { socialData } from "../../../data/social";
 
 gsap.registerPlugin(ScrollTrigger);
 

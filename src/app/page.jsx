@@ -9,7 +9,7 @@ import { LoadingProvider, useLoadingContext } from "../context/LoadingContext.js
 import { AutoScrollProvider, useAutoScroll } from "../components/autoScroll/AutoScrollContext.jsx";
 import { Play, Pause, RotateCcw, X, Sparkles } from "lucide-react";
 import { fetchSimpleIcons } from "react-icon-cloud";
-import { slugs } from "../data";
+import { slugs } from "../data/slugs";
 
 const HomeHero = dynamicImport(() => import("../components/r3f/Hero/Home.jsx"), {
   ssr: false,

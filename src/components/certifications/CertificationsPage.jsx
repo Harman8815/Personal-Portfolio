@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Search, GraduationCap, Trophy, Award, X, ChevronLeft, ChevronRight, Image as ImageIcon, FileText, ExternalLink, Loader2 } from 'lucide-react';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { certificationsData } from '../../data/index.js';
+import { certificationsData } from '../../data/certificationsData';
 import CertificationCard from './CertificationCard';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';

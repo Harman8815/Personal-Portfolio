@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SkillCloud from "../skills/SkillCloud";
 import SkillTiers from "../skills/SkillTiers";
-import { slugs } from "../../data";
+import { slugs } from "../../data/slugs";
 
 const steps = [
   {

@@ -3,7 +3,7 @@
 import React, { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { educationData } from "../../../data/index.js";
+import { educationData } from "../../../data/education";
 
 gsap.registerPlugin(ScrollTrigger);
 

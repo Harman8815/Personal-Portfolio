@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Loader2, X, SlidersHorizontal } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { myProjects } from '../../data/index.js';
+import { myProjects } from '../../data/projects';
 import ProjectCard from './ProjectCard';
 import FilterModal from './FilterModal';
 import BackgroundSymbols from '../common/BackgroundSymbols';
