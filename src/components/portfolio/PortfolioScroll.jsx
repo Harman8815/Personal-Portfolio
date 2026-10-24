@@ -109,8 +109,8 @@ const PortfolioScroll = () => {
               setEducationVisible(false);
             }
 
-            // Contact section visibility
-            if (progress > 0.8) {
+            // Contact section visibility (mutually exclusive with EndSequence to prevent overlap)
+            if (progress > 0.8 && progress < 0.9) {
               if (!contactVisibleRef.current) {
                 contactVisibleRef.current = true;
                 setContactVisible(true);
@@ -120,8 +120,8 @@ const PortfolioScroll = () => {
               setContactVisible(false);
             }
 
-            // EndSequence visibility
-            if (progress > 0.9) {
+            // EndSequence visibility (only after Contact has hidden)
+            if (progress >= 0.9) {
               if (!endSequenceVisibleRef.current) {
                 endSequenceVisibleRef.current = true;
                 setEndSequenceVisible(true);
