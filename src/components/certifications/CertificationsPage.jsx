@@ -98,10 +98,27 @@ const CertificationsPage = () => {
   const [itemsPerPage] = useState(9);
   const [isPageChanging, setIsPageChanging] = useState(false);
 
-  // Handle URL params
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Filter certifications
+  const filteredCertifications = useMemo(() => {
+    return certificationsData.filter((cert) => {
+      const matchesCategory = activeCategory === 'All' || cert.category === activeCategory;
+      const matchesIssuer = activeIssuer === 'All' || cert.issuer.includes(activeIssuer);
+      const matchesSearch = cert.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          cert.issuer.toLowerCase().includes(searchQuery.toLowerCase());
+
+      return matchesCategory && matchesIssuer && matchesSearch;
+    });
+  }, [activeCategory, activeIssuer, searchQuery]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCertifications.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentCertifications = filteredCertifications.slice(startIndex, endIndex);
 
   // Initialize from URL params
   useEffect(() => {
@@ -149,24 +166,6 @@ const CertificationsPage = () => {
   const controlBarRef = useRef(null);
   const gridRef = useRef(null);
   const containerRef = useRef(null);
-
-  // Filter certifications
-  const filteredCertifications = useMemo(() => {
-    return certificationsData.filter((cert) => {
-      const matchesCategory = activeCategory === 'All' || cert.category === activeCategory;
-      const matchesIssuer = activeIssuer === 'All' || cert.issuer.includes(activeIssuer);
-      const matchesSearch = cert.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          cert.issuer.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      return matchesCategory && matchesIssuer && matchesSearch;
-    });
-  }, [activeCategory, activeIssuer, searchQuery]);
-
-  // Pagination logic
-  const totalPages = Math.ceil(filteredCertifications.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentCertifications = filteredCertifications.slice(startIndex, endIndex);
 
   // Reset page when filters change
   useEffect(() => {
