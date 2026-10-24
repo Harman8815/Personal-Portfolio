@@ -7,8 +7,8 @@ import { TypeAnimation } from "react-type-animation";
  * Features a circular desync indicator and cinematic typography.
  * Increased duration and absolute persistence to prevent disappearing.
  */
-const EndSequence = ({ refs, visible }) => {
-  const containerRef = refs?.containerRef || useRef(null);
+const EndSequence = ({ refs, visible: _visible }) => {
+  const containerRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [hasStarted, setHasStarted] = useState(false);
   const isComplete = progress >= 100;
@@ -51,7 +51,7 @@ const EndSequence = ({ refs, visible }) => {
     if (containerRef.current) observer.observe(containerRef.current);
 
     return () => observer.disconnect();
-  }, [hasStarted]);
+  }, [hasStarted, containerRef]);
 
   useEffect(() => {
     if (!hasStarted) return;

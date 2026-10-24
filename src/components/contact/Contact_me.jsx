@@ -1,15 +1,17 @@
 import React, { useRef } from "react";
 import Earth from "./Earth.jsx";
 
-const Contact_me = ({ refs, visible }) => {
-  const containerRef = refs?.containerRef || useRef(null);
-  const headerRef = refs?.headerRef || useRef(null);
+const Contact_me = ({ refs, visible: _visible }) => {
+  const containerRef = useRef(null);
+  const headerRef = useRef(null);
+  const resolvedContainerRef = refs?.containerRef || containerRef;
+  const resolvedHeaderRef = refs?.headerRef || headerRef;
 
   return (
     <>
       {/* Header Block - Same design as Education and Social */}
       <div
-        ref={headerRef}
+        ref={resolvedHeaderRef}
         className="flex flex-col items-center text-center z-50 pointer-events-none absolute"
       >
         <span className="font-mono text-[10px] md:text-[12px] tracking-[0.8em] uppercase text-cyan-500 mb-2">
@@ -23,7 +25,7 @@ const Contact_me = ({ refs, visible }) => {
 
       {/* Contact Container */}
       <section
-        ref={containerRef}
+        ref={resolvedContainerRef}
         id="contactus"
         className=" flex justify-center items-center px-4 sm:px-6 md:px-10 py-12 min-h-screen"
       >

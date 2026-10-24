@@ -99,15 +99,13 @@ const orbitalCSS = `
   }
 `;
 
-const SocialHub = ({ refs, visible }) => {
-  const containerRef = refs?.containerRef || useRef(null);
-  const headerRef = refs?.headerRef || useRef(null);
-  const timelineLineRef = refs?.timelineLineRef || useRef(null);
-  const socialCoreRef = refs?.socialCoreRef || useRef(null);
+const SocialHub = ({ refs, visible: _visible }) => {
+  const containerRef = useRef(null);
+  const headerRef = useRef(null);
   const socialIconsContainerRef = useRef(null);
   const planetRef = useRef(null);
   const [animationStarted, setAnimationStarted] = useState(false);
-  const [hoveredRing, setHoveredRing] = useState(null);
+  const [_hoveredRing, setHoveredRing] = useState(null);
 
   // Timeline for social animations
   const socialTimelineRef = useRef(null);
@@ -241,7 +239,7 @@ const SocialHub = ({ refs, visible }) => {
         socialTimelineRef.current.kill();
       }
     };
-  }, []);
+  }, [containerRef, headerRef]);
 
   // Start orbital rotation after animations complete
   const startOrbitalRotation = () => {

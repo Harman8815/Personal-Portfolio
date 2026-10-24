@@ -145,7 +145,7 @@ const socialCSS = `
   }
 `;
 
-const SocialCard = ({ social, index, totalCards, cardRef }) => {
+const SocialCard = ({ social, index, _totalCards, cardRef }) => {
   const internalRef = useRef(null);
   const ref = cardRef || internalRef;
 
@@ -205,7 +205,7 @@ const SocialCard = ({ social, index, totalCards, cardRef }) => {
       el.removeEventListener('mouseenter', handleMouseEnter);
       el.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [index, cardRef]);
+  }, [index, cardRef, ref]);
 
   const handleClick = () => {
     window.open(social.url, '_blank', 'noopener,noreferrer');
@@ -243,12 +243,14 @@ const SocialCard = ({ social, index, totalCards, cardRef }) => {
   );
 };
 
-const SocialPresence = ({ refs, visible }) => {
-  const sectionRef = refs?.containerRef || useRef(null);
-  const headerRef = refs?.headerRef || useRef(null);
+const SocialPresence = ({ refs, visible: _visible }) => {
+  const sectionRef = useRef(null);
+  const headerRef = useRef(null);
+  const resolvedSectionRef = refs?.containerRef || sectionRef;
+  const resolvedHeaderRef = refs?.headerRef || headerRef;
 
   useLayoutEffect(() => {
-    const header = headerRef.current;
+    const header = resolvedHeaderRef.current;
     
     // Only run header animation if not controlled by PortfolioScroll
     if (!refs) {
@@ -264,7 +266,7 @@ const SocialPresence = ({ refs, visible }) => {
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: sectionRef.current,
+            trigger: resolvedSectionRef.current,
             start: "top 85%",
             end: "top 30%",
             toggleActions: "play none none reverse"
@@ -274,7 +276,7 @@ const SocialPresence = ({ refs, visible }) => {
 
       // Exit animation for entire section
       ScrollTrigger.create({
-        trigger: sectionRef.current,
+        trigger: resolvedSectionRef.current,
         start: "top bottom",
         end: "bottom top",
         onLeave: () => {
@@ -295,13 +297,13 @@ const SocialPresence = ({ refs, visible }) => {
         }
       });
     }
-  }, [refs]);
+  }, [refs, headerRef, sectionRef]);
 
   return (
     <>
       <style>{socialCSS}</style>
       <section
-        ref={sectionRef}
+        ref={resolvedSectionRef}
         id="social"
         className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-4 py-16 overflow-hidden"
       >
@@ -324,7 +326,7 @@ const SocialPresence = ({ refs, visible }) => {
                 social={social}
                 index={index}
                 totalCards={socialData.length}
-                cardRef={refs ? [refs.card1Ref, refs.card2Ref, refs.card3Ref, refs.card4Ref][index] : null}
+                cardRef={resolvedSectionRef}
               />
             ))}
           </div>
