@@ -349,7 +349,7 @@ const Education = ({ refs, visible: _visible }) => {
 
   return (
     <>
-      <style>{educationCSS}</style>
+      <style dangerouslySetInnerHTML={{ __html: educationCSS }} />
       <section
         ref={resolvedSectionRef}
         id="education"
