@@ -39,7 +39,8 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
 
   const screenRef = useRef();
   const backpanelRef = useRef();
-  const [showScreen, setShowScreen] = useState(false);
+  const hingePosition = [1.25290799, 0.40563738, -0.55241054];
+  const screenOffset = [0.25348985, 0.94682884, 0.01847505];
 
   useFrame(() => {
     const rotationSpeed = 0.01;
@@ -59,11 +60,10 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
     // }
 
     if (currentRotation === targetRotation) {
-      setShowScreen(true);
-            onLoadComplete?.();
+      onLoadComplete?.();
     }
 
-    if (screenRef.current && showScreen) {
+    if (screenRef.current) {
       screenRef.current.rotation.z = currentRotation;
     }
   });
@@ -110,7 +110,7 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
       </group>
       <group
         ref={backpanelRef}
-        position={[1.25290799, 0.40563738, -0.55241054]}
+        position={hingePosition}
       >
         <group
           position={[0, 0.01, 0]} // adjust this value depending on the model height
@@ -1950,8 +1950,8 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
         rotation={[0, 0, 3.12194068]}
         scale={[0.03697229, 0.00346681, 0.04197053]}
       />
-      {showScreen && (
-        <group ref={screenRef} position={[1.50639784, 1.35246623, -0.53393549]}>
+      <group ref={screenRef} position={hingePosition}>
+        <group position={screenOffset}>
           <group position={[0, 0.01, 0]}>
             <mesh
               castShadow
@@ -1963,7 +1963,7 @@ function Laptop({ LaptopRef, shouldAnimate, onLoadComplete, ...props }) {
             />
           </group>
         </group>
-      )}
+      </group>
       <mesh
         castShadow
         receiveShadow
