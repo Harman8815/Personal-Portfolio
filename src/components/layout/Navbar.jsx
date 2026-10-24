@@ -73,7 +73,7 @@ const Navbar = () => {
         {/* Branding */}
         <div
           className="relative group cursor-pointer"
-          onClick={() => isHomePage ? scroll.scrollToTop() : navigate('/')}
+          onClick={() => isHomePage ? scroll.scrollToTop() : router.push('/')}
         >
           <span className="text-2xl font-black tracking-tighter bg-gradient-to-r from-white via-cyan-400 to-white bg-clip-text text-transparent group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.8)] transition-all duration-300">
             HARMAN

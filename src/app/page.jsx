@@ -116,7 +116,7 @@ const AutoScrollPrompt = ({ onAccept, onDismiss }) => {
 };
 
 const AutoScrollButton = () => {
-  const { play, pause, stop, state, speed, setSpeed, isPlaying, isPaused, isCompleted } = useAutoScroll();
+  const { play, pause, stop, state, speed, setSpeed, isPlaying } = useAutoScroll();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleToggle = () => {
@@ -252,7 +252,7 @@ function HomePageContent() {
   const finalProgressStartRef = useRef(null);
 
   const { contentReady, markContentReady } = useLoadingContext();
-  const { play, pause, isPlaying, isPaused, isCompleted } = useAutoScroll();
+  const { play } = useAutoScroll();
 
   const handleAutoEnter = useCallback(() => {
     setIsTransitioning(true);

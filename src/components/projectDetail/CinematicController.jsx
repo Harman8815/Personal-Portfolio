@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, Settings, X, FastForward, Square } from 'lucide-react';
+import { Play, Pause, Settings, X, FastForward, Square, RotateCcw } from 'lucide-react';
 import { useAutoScroll } from '../autoScroll/AutoScrollContext.jsx';
 
 const CinematicController = () => {
@@ -9,13 +9,11 @@ const CinematicController = () => {
     pause,
     resume,
     stop,
-    state,
     progress,
     speed,
     setSpeed,
     isPlaying,
-    isPaused,
-    isCompleted
+    isPaused
   } = useAutoScroll();
 
   const [isOpen, setIsOpen] = useState(false);
