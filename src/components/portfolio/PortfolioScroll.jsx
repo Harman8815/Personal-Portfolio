@@ -1018,8 +1018,8 @@ const PortfolioScroll = () => {
           contactRefs.containerRef.current,
           {
             opacity: 0,
-            duration: 2,
-            ease: "power2.in",
+            duration: 1.5,
+            ease: "power2.inOut",
           },
           "contact-exit",
         )
@@ -1030,27 +1030,27 @@ const PortfolioScroll = () => {
             top: "5vh",
             transform: "translate(-50%, -50%)",
             filter: "blur(4px)",
-            duration: 2,
-            ease: "power2.in",
+            duration: 1.5,
+            ease: "power2.inOut",
           },
           "contact-exit",
         )
 
-        // 17. ENDSEQUENCE ENTRANCE
-        .addLabel("endsequence-start", "contact-exit+1")
+        // 17. ENDSEQUENCE ENTRANCE (overlapped with contact exit for smooth crossfade)
+        .addLabel("endsequence-start", "contact-exit")
 
         // EndSequence scale and opacity animation
         .fromTo(
           endSequenceRefs.containerRef.current,
           {
             opacity: 0,
-            scale: 0,
+            scale: 0.9,
           },
           {
             opacity: 1,
             scale: 1,
-            duration: 2,
-            ease: "back.out(1.6)",
+            duration: 1.2,
+            ease: "power2.inOut",
           },
           "endsequence-start",
         );
